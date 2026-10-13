@@ -1,11 +1,10 @@
 import { mulberry32 } from '../core/rng'
 import { clamp } from '../core/util'
-import { CX, CY, G, H, RAIL_Y, W, has, idx } from '../game/state'
-import { canvas, roundRect } from './draw'
+import { Biome, G, H, W, idx } from '../game/state'
+import { canvas } from './draw'
 
-export const TP = 16 // terrain pixels per tile
+export const TP = 12 // terrain pixels per tile
 
-let baseTerrain: HTMLCanvasElement | null = null
 export let terrain: HTMLCanvasElement | null = null
 
 /** Smooth blobby tile masks: paint 1px per tile, blur a little, upscale with smoothing, threshold with a soft edge */
@@ -37,34 +36,61 @@ function maskLayer(test: (i: number) => boolean | number, rgb: [number, number, 
 	return c
 }
 
+/** Ground colour per biome; s = 0..1 variation */
+function groundColor(b: number, s: number): [number, number, number] {
+	switch (b) {
+		case Biome.Tundra: return [214 + s * 22, 222 + s * 20, 226 + s * 18]
+		case Biome.Desert: return [206 + s * 24, 178 + s * 22, 118 + s * 18]
+		case Biome.Swamp: return [78 + s * 26, 92 + s * 26, 52 + s * 14]
+		case Biome.Mountain: return [124 + s * 30, 118 + s * 26, 106 + s * 22]
+		default: return [70 + s * 40, 112 + s * 46, 46 + s * 18]
+	}
+}
+
 export function renderBaseTerrain() {
 	const w = G.world
 	const [c, g] = canvas(W * TP, H * TP)
 	const [small, sg] = canvas(W, H)
 	const img = sg.createImageData(W, H)
 	for (let i = 0; i < W * H; i++) {
-		const s = w.shade[i]
-		img.data[i * 4] = 70 + s * 40
-		img.data[i * 4 + 1] = 112 + s * 46
-		img.data[i * 4 + 2] = 46 + s * 18
+		const [r, gg, b] = groundColor(w.biome[i], w.shade[i])
+		img.data[i * 4] = r
+		img.data[i * 4 + 1] = gg
+		img.data[i * 4 + 2] = b
 		img.data[i * 4 + 3] = 255
 	}
 	sg.putImageData(img, 0, 0)
 	g.imageSmoothingEnabled = true
 	g.drawImage(small, 0, 0, W * TP, H * TP)
 	const r = mulberry32(w.seed ^ 0x5eed)
-	for (let k = 0; k < W * H * 3; k++) {
+	for (let k = 0; k < W * H * 2.5; k++) {
 		const x = r() * W, y = r() * H
-		g.fillStyle = r() < 0.55 ? 'rgba(25,60,12,0.22)' : 'rgba(225,250,170,0.13)'
-		g.fillRect(x * TP, y * TP, 2, 4)
+		const b = w.biome[idx(x | 0, y | 0)]
+		if (b === Biome.Tundra) g.fillStyle = r() < 0.5 ? 'rgba(160,180,200,0.25)' : 'rgba(255,255,255,0.35)'
+		else if (b === Biome.Desert) g.fillStyle = r() < 0.5 ? 'rgba(150,110,60,0.22)' : 'rgba(255,240,200,0.2)'
+		else if (b === Biome.Mountain) g.fillStyle = r() < 0.5 ? 'rgba(60,55,50,0.3)' : 'rgba(220,215,205,0.2)'
+		else if (b === Biome.Swamp) g.fillStyle = r() < 0.5 ? 'rgba(30,50,20,0.3)' : 'rgba(150,170,90,0.18)'
+		else g.fillStyle = r() < 0.55 ? 'rgba(25,60,12,0.22)' : 'rgba(225,250,170,0.13)'
+		g.fillRect(x * TP, y * TP, 1.6, 3)
 	}
+	// flowers in the meadows, reeds in the swamps
 	const flowers = ['#f4f1e6', '#f2d24b', '#e98bb0', '#b9a3f0']
-	for (let k = 0; k < 500; k++) {
+	for (let k = 0; k < 1600; k++) {
 		const x = r() * W, y = r() * H
-		g.fillStyle = flowers[Math.floor(r() * flowers.length)]
-		g.beginPath()
-		g.arc(x * TP, y * TP, 1.6, 0, 7)
-		g.fill()
+		const b = w.biome[idx(x | 0, y | 0)]
+		if (b === Biome.Grass) {
+			g.fillStyle = flowers[Math.floor(r() * flowers.length)]
+			g.beginPath()
+			g.arc(x * TP, y * TP, 1.3, 0, 7)
+			g.fill()
+		} else if (b === Biome.Swamp) {
+			g.strokeStyle = 'rgba(60,80,30,0.8)'
+			g.lineWidth = 1
+			g.beginPath()
+			g.moveTo(x * TP, y * TP)
+			g.lineTo(x * TP + 1, y * TP - 5)
+			g.stroke()
+		}
 	}
 	const deep = (x: number, y: number) => {
 		for (let dy = -1; dy <= 1; dy++)
@@ -74,115 +100,5 @@ export function renderBaseTerrain() {
 	g.drawImage(maskLayer((i) => w.water[i] || w.sand[i], [207, 189, 134]), 0, 0)
 	g.drawImage(maskLayer((i) => w.water[i], [61, 122, 161]), 0, 0)
 	g.drawImage(maskLayer((i) => deep(i % W, (i / W) | 0), [52, 109, 147]), 0, 0)
-	// rival village grounds
-	for (const site of Object.values(w.rivalSites)) {
-		g.fillStyle = 'rgba(150,120,80,0.55)'
-		g.beginPath()
-		g.ellipse(site.x * TP, site.y * TP, 5 * TP, 4 * TP, 0, 0, 7)
-		g.fill()
-		g.strokeStyle = 'rgba(160,130,90,0.6)'
-		g.lineWidth = TP * 0.5
-		for (const rr of [7.5, 11]) {
-			g.beginPath()
-			g.ellipse(site.x * TP, site.y * TP, rr * 1.15 * TP, rr * 0.85 * TP, 0, 0, 7)
-			g.stroke()
-		}
-	}
-	baseTerrain = c
-	terrain = canvas(c.width, c.height)[0]
-	G.terrainDirty = true
-}
-
-export function renderTerrain() {
-	if (!terrain || !baseTerrain) return
-	const g = terrain.getContext('2d')!
-	g.drawImage(baseTerrain, 0, 0)
-	// 0 dirt · 1 cobble · 2 asphalt · 3 glowing light-lanes
-	const style = has('hovercars') ? 3 : has('asphalt') ? 2 : has('pavedRoads') ? 1 : 0
-	const paved = style === 1
-	const r = mulberry32(7)
-	g.lineCap = 'round'
-	g.lineJoin = 'round'
-	const layers: [string, number][] = [
-		[['#a08460', 0.62], ['#bc9d70', 0.4]],
-		[['#8d8476', 0.66], ['#b3aa98', 0.48]],
-		[['#33363a', 0.74], ['#45484d', 0.6]],
-		[['#1e222b', 0.74], ['#2a2f3a', 0.6]],
-	][style] as [string, number][]
-	for (const [col, wd] of layers) {
-		g.strokeStyle = col
-		g.lineWidth = TP * wd
-		g.beginPath()
-		for (const i of G.roads) {
-			const x = i % W, y = (i / W) | 0, X = (x + 0.5) * TP, Y = (y + 0.5) * TP
-			g.moveTo(X, Y)
-			g.lineTo(X + 0.01, Y)
-			if (G.roads.has(i + 1) && x < W - 1) {
-				g.moveTo(X, Y)
-				g.lineTo(X + TP, Y)
-			}
-			if (G.roads.has(i + W)) {
-				g.moveTo(X, Y)
-				g.lineTo(X, Y + TP)
-			}
-		}
-		g.stroke()
-	}
-	if (style >= 2) {
-		// lane markings
-		g.strokeStyle = style === 3 ? 'rgba(127,246,255,0.55)' : 'rgba(240,240,230,0.6)'
-		g.lineWidth = style === 3 ? 1.6 : 1.2
-		g.lineCap = 'butt'
-		g.beginPath()
-		for (const i of G.roads) {
-			const x = i % W, y = (i / W) | 0, X = (x + 0.5) * TP, Y = (y + 0.5) * TP
-			const hz = G.roads.has(i + 1) && G.roads.has(i - 1), vt = G.roads.has(i + W) && G.roads.has(i - W)
-			if (hz && !vt) {
-				g.moveTo(X - TP * 0.25, Y)
-				g.lineTo(X + TP * 0.25, Y)
-			} else if (vt && !hz) {
-				g.moveTo(X, Y - TP * 0.25)
-				g.lineTo(X, Y + TP * 0.25)
-			}
-		}
-		g.stroke()
-	}
-	for (const i of G.roads) {
-		const x = i % W, y = (i / W) | 0
-		if (style >= 2) continue
-		if (paved) {
-			g.fillStyle = 'rgba(90,82,70,0.45)'
-			for (let k = 0; k < 4; k++) {
-				g.beginPath()
-				g.arc((x + 0.2 + r() * 0.6) * TP, (y + 0.2 + r() * 0.6) * TP, 2.2, 0, 7)
-				g.fill()
-			}
-		} else {
-			g.fillStyle = 'rgba(80,60,35,0.35)'
-			for (let k = 0; k < 3; k++) g.fillRect((x + r()) * TP, (y + r()) * TP, 2, 2)
-		}
-	}
-	// railway along the top of the map
-	if (has('railway')) {
-		const ry = RAIL_Y * TP
-		g.fillStyle = 'rgba(120,100,80,0.7)'
-		g.fillRect(0, ry - TP * 0.45, W * TP, TP * 0.9)
-		g.fillStyle = has('hovercars') ? '#3a4250' : '#5a3b22'
-		for (let x = 0; x < W * TP; x += TP * 0.5) g.fillRect(x, ry - TP * 0.36, TP * 0.18, TP * 0.72)
-		g.fillStyle = has('hovercars') ? '#7ff6ff' : '#9aa0a6'
-		g.fillRect(0, ry - TP * 0.24, W * TP, 2)
-		g.fillRect(0, ry + TP * 0.2, W * TP, 2)
-	}
-	// town square
-	const px = (CX - 2) * TP, py = (CY - 2) * TP
-	g.fillStyle = '#a99a80'
-	roundRect(g, px - 4, py - 4, 4 * TP + 8, 4 * TP + 8, 14)
-	g.fill()
-	for (let y = 0; y < 8; y++)
-		for (let x = 0; x < 8; x++) {
-			g.fillStyle = (x + y) % 2 ? '#bcae93' : '#b3a487'
-			roundRect(g, px + x * TP * 0.5 + 1, py + y * TP * 0.5 + 1, TP * 0.5 - 2, TP * 0.5 - 2, 3)
-			g.fill()
-		}
-	G.terrainDirty = false
+	terrain = c
 }

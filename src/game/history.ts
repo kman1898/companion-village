@@ -1,77 +1,89 @@
-import { settings } from '../core/settings'
 import { weightedPick } from '../core/util'
 import { B, SPECIAL_ORDER } from '../data/buildings'
-import { ERAS, INVENTIONS, type Invention } from '../data/inventions'
+import { ERAS, INVENTIONS, INV_BY_ID, type Invention } from '../data/inventions'
+import { TRIBES } from '../data/tribes'
 import { banner, ticker } from '../ui/notify'
+import { isPlayer, news } from './buildings'
+import { yearlyDiplomacy } from './diplomacy'
 import { maybeEvent } from './events'
-import { maybeRaid } from './rivals'
-import { G, has } from './state'
+import { G, has, type Tribe } from './state'
+import { inventionPace } from './tribes'
 import { addSheep } from './villagers'
+import { maybeWar } from './war'
 
-const countInEra = (era: number) => G.S.inventions.filter((id) => INVENTIONS.find((i) => i.id === id)?.era === era).length
+const countInEra = (T: Tribe, era: number) => T.inventions.filter((id) => INV_BY_ID.get(id)?.era === era && !INV_BY_ID.get(id)?.tribe).length
 
 /** Can inventions of this era appear yet? */
-export function eraOpen(era: number): boolean {
+export function eraOpen(T: Tribe, era: number): boolean {
 	if (era === 0) return true
-	return eraOpen(era - 1) && countInEra(era - 1) >= ERAS[era].gate
+	return eraOpen(T, era - 1) && countInEra(T, era - 1) >= ERAS[era].gate
 }
 
-/** The latest era the village has reached (has at least one invention of) */
-export function currentEra(): number {
+/** The latest era the tribe has reached */
+export function eraOf(T: Tribe): number {
 	let e = 0
-	for (const id of G.S.inventions) {
-		const inv = INVENTIONS.find((i) => i.id === id)
+	for (const id of T.inventions) {
+		const inv = INV_BY_ID.get(id)
 		if (inv && inv.era > e) e = inv.era
 	}
 	return e
 }
 
-export function eraName(): string {
-	if (G.S.inventions.length >= INVENTIONS.length) return 'Golden Age'
-	return ERAS[currentEra()].name
+const totalFor = (T: Tribe) => INVENTIONS.filter((i) => !i.tribe || i.tribe === T.id).length
+
+export function eraName(T: Tribe): string {
+	if (T.inventions.length >= totalFor(T)) return 'Golden Age'
+	return ERAS[eraOf(T)].name
 }
 
-export function availableInventions(): Invention[] {
-	return INVENTIONS.filter((i) => !has(i.id) && eraOpen(i.era) && (i.req || []).every(has))
+export const inventionsFor = (T: Tribe) => INVENTIONS.filter((i) => !i.tribe || i.tribe === T.id)
+
+export function availableInventions(T: Tribe): Invention[] {
+	return inventionsFor(T).filter((i) => !has(T, i.id) && eraOpen(T, i.era) && (i.req || []).every((r) => has(T, r)))
 }
 
-export function invent(silent = false) {
-	const S = G.S
-	const pool = availableInventions()
-	const era = currentEra()
+/** Learn a specific invention (from a friend, a spy, a time traveller…) */
+export function learn(T: Tribe, inv: Invention, how: string) {
+	if (has(T, inv.id)) return
+	const before = eraOf(T)
+	T.inventions.push(inv.id)
+	G.S.history.push({ year: T.year, icon: inv.icon, text: `${TRIBES[T.id].name} ${how} ${inv.name}`, tribe: T.id })
+	if (inv.id === 'husbandry') addSheep(T, 6)
+	if (eraOf(T) > before) {
+		const e = ERAS[eraOf(T)]
+		G.S.history.push({ year: T.year, icon: '⏳', text: `${TRIBES[T.id].name} enter the ${e.name}`, tribe: T.id })
+		if (isPlayer(T)) banner(`⏳ The ${e.name} begins`, e.banner, 'invention')
+		else news(T, `entered the ${e.name}`, '⏳', '#9fd3ff')
+	}
+}
+
+export function invent(T: Tribe, silent = false) {
+	const pool = availableInventions(T)
+	const era = eraOf(T)
 	const inv = weightedPick(pool, (i) => {
 		let w = SPECIAL_ORDER.some((t) => B[t].inv === i.id) ? 1.5 : 1
-		// lean towards the newest era so the village keeps moving forward
 		if (i.era > era) w *= 2.5
 		else if (i.era === era && era > 0) w *= 2
+		if (i.tribe) w *= 2.5
 		return w
 	})
-	if (!inv) return
-	const newEra = inv.era > era
-	S.inventions.push(inv.id)
-	S.lastInventionYear = S.year
-	S.history.push({ year: S.year, icon: inv.icon, text: `Invented ${inv.name}` })
-	if (inv.id === 'husbandry') addSheep(6)
-	if (['pavedRoads', 'asphalt', 'hovercars', 'railway', 'gasLighting', 'electricity'].includes(inv.id)) G.terrainDirty = true
-	if (silent) return
-	if (newEra) {
-		const e = ERAS[inv.era]
-		S.history.push({ year: S.year, icon: '⏳', text: `The ${e.name} begins` })
-		banner(`⏳ The ${e.name} begins`, e.banner, 'invention')
-	}
-	banner(`${inv.icon} ${inv.name}`, `Invented in year ${S.year} — ${inv.desc}`, 'invention')
-	ticker(`Year ${S.year}: villagers invented ${inv.name}`, inv.icon, '#9fd3ff')
-	if (pool.length === 1) {
-		S.history.push({ year: S.year, icon: '🏆', text: 'Every invention discovered — the Golden Age' })
-		banner('🏆 The Golden Age', 'Every invention has been discovered')
-	}
+	if (!inv) return null
+	T.lastInventionYear = T.year
+	learn(T, inv, 'invented')
+	if (silent) return inv
+	if (isPlayer(T)) {
+		banner(`${inv.icon} ${inv.name}`, `Invented in year ${T.year} — ${inv.desc}`, 'invention')
+		ticker(`Year ${T.year}: villagers invented ${inv.name}`, inv.icon, '#9fd3ff')
+	} else news(T, `invented ${inv.name}`, inv.icon)
+	if (pool.length === 1 && isPlayer(T)) banner('🏆 The Golden Age', 'Every invention has been discovered')
+	return inv
 }
 
-/** One year passes with every button press. Every few years brings an invention. */
-export function advanceYear(catchingUp: boolean) {
-	const S = G.S
-	S.year++
-	if (S.year - S.lastInventionYear >= settings.inventionYears) invent()
+/** One year passes for a tribe with every press. Inventions, events, diplomacy and war follow the calendar. */
+export function advanceYear(T: Tribe, catchingUp: boolean) {
+	T.year++
+	if (T.year - T.lastInventionYear >= inventionPace(T)) invent(T)
 	if (catchingUp) return
-	if (!maybeRaid()) maybeEvent()
+	yearlyDiplomacy(T)
+	if (!maybeWar(T)) maybeEvent(T)
 }

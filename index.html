@@ -4,7 +4,7 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>Companion Village</title>
-	<meta name="description" content="A Settlers-style village that grows with every Bitfocus Companion button press." />
+	<meta name="description" content="Three rival tribes — Pixels, Noises and Lampys — grow with every Bitfocus Companion button press." />
 	<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏘️</text></svg>" />
 </head>
 <body>
@@ -12,9 +12,9 @@
 	<div id="vignette"></div>
 
 	<div id="hud" class="panel">
-		<h1>⚑ Companion Village</h1>
+		<h1 id="tribe-name">Companion Village</h1>
 		<div class="yearline"><span id="year">Year 0</span><span id="era"></span></div>
-		<div class="subline"><span id="clock"></span><span id="rivals"></span></div>
+		<div class="subline"><span id="clock"></span><span id="warline"></span></div>
 		<div class="popline"><span class="big" id="pop">0</span><span class="lbl" id="poplbl">villagers</span></div>
 		<div class="res">
 			<span title="Wood">🪵 <b id="r-wood">0</b></span>
@@ -25,36 +25,82 @@
 		<div class="roles" id="roles"></div>
 		<div id="event-line"></div>
 		<div id="now"></div>
-		<button id="inv-btn" class="linkish" title="Inventions & history (I)">💡 <span id="inv-count">0</span> inventions · next in <span id="inv-next">10</span> years</button>
+		<div class="hudbtns">
+			<button id="inv-btn" class="linkish" title="Inventions & chronicle (I)">💡 <span id="inv-count">0</span> inventions · next in <span id="inv-next">10</span> yrs</button>
+			<button id="dip-btn" class="linkish" title="Diplomacy (D)">🤝 Diplomacy</button>
+		</div>
 	</div>
 
-	<div id="status" class="panel"><span class="dot"></span><span id="status-text">Connecting…</span><button id="status-help" class="linkish" hidden>Why?</button></div>
+	<div id="status" class="panel"><span id="status-text">Connecting…</span><button id="status-help" class="linkish" hidden>Why?</button></div>
+	<div id="tribes" class="panel"></div>
 	<button id="gear" class="panel" title="Settings (S)">⚙ Settings</button>
 	<div id="ticker" class="panel"></div>
-	<div id="hint" class="panel">Drag to pan · scroll to zoom · M map · 0 follow · H hide · S settings · I inventions · Space +1 year</div>
+	<div id="hint" class="panel">Drag · scroll to zoom · 1 2 3 tribes · M map · 0 follow · D diplomacy · I inventions · S settings · H hide</div>
 	<div id="campill" class="panel" hidden>🎥 Free camera · auto-follow in <b id="cam-secs">60</b>s <button id="cam-follow">Follow now</button></div>
 	<div id="banner" class="panel"><div class="t"></div><div class="s"></div></div>
 	<div id="wait"><div class="t">Waiting for the first settler…</div><div class="s" id="wait-s"></div></div>
 	<div id="tooltip"></div>
 
-	<div id="inventions" class="panel modal" hidden>
-		<h2>Inventions <span id="inv-sum"></span></h2>
-		<div id="inv-list"></div>
-		<h2>Chronicle</h2>
-		<div id="history"></div>
+	<div id="choose" class="panel modal wide" hidden>
+		<h2>Choose your tribe</h2>
+		<p class="small">Three crews share this land. Your Stream Deck drives your tribe — every press brings a settler and another year.
+			The other two grow on their own (or on their own Companion — see Settings → Tribes).</p>
+		<div id="choose-cards" class="cards"></div>
+	</div>
+
+	<div id="diplomacy" class="panel modal wide" hidden>
+		<h2>Diplomacy</h2>
+		<div id="dip-tribes" class="cards"></div>
+		<div id="dip-rel"></div>
+		<h2>Recent dealings</h2>
+		<div id="dip-history" class="history"></div>
 		<div class="btns"><button data-close>Close</button></div>
 	</div>
 
-	<div id="settings" class="panel modal" hidden>
-		<h2>Village settings</h2>
-		<div class="grid2">
-			<label>Companion address (host:port)<input id="s-host" spellcheck="false" /></label>
-			<label>Counter variable (custom:…)<input id="s-var" spellcheck="false" /></label>
+	<div id="inventions" class="panel modal wide" hidden>
+		<h2>Inventions <span id="inv-sum"></span></h2>
+		<div id="inv-list"></div>
+		<h2>Chronicle</h2>
+		<div id="history" class="history"></div>
+		<div class="btns"><button data-close>Close</button></div>
+	</div>
+
+	<div id="settings" class="panel modal wide" hidden>
+		<h2>Settings</h2>
+		<div class="grid3">
+			<label>Your tribe <select id="s-player"></select></label>
 			<label>Random events
 				<select id="s-events">
 					<option value="full">On — disasters can destroy &amp; kill</option>
 					<option value="gentle">Gentle — damage only, nobody dies</option>
 					<option value="off">Off</option>
+				</select>
+			</label>
+			<label>War between tribes
+				<select id="s-war">
+					<option value="on">Anyone may go to war</option>
+					<option value="feud">Only the other two fight</option>
+					<option value="off">Peaceful</option>
+				</select>
+			</label>
+			<label>AI tribes grow
+				<select id="s-ai">
+					<option value="match">In step with the Companion tribes</option>
+					<option value="steady">Steadily on their own</option>
+					<option value="fast">Fast</option>
+					<option value="slow">Slowly</option>
+					<option value="frozen">Not at all</option>
+				</select>
+			</label>
+			<label>New invention every
+				<select id="s-pace"><option value="5">5 years</option><option value="10">10 years</option><option value="20">20 years</option></select>
+			</label>
+			<label>Day &amp; night
+				<select id="s-day">
+					<option value="normal">Normal (4-minute days)</option>
+					<option value="short">Short (2-minute days)</option>
+					<option value="long">Long (10-minute days)</option>
+					<option value="off">Always daytime</option>
 				</select>
 			</label>
 			<label>Graphics quality
@@ -67,38 +113,25 @@
 			<label>Game speed
 				<select id="s-speed"><option value="1">1×</option><option value="2">2×</option><option value="4">4×</option><option value="8">8×</option></select>
 			</label>
-			<label>Day &amp; night
-				<select id="s-day">
-					<option value="normal">Normal (4-minute days)</option>
-					<option value="short">Short (2-minute days)</option>
-					<option value="long">Long (10-minute days)</option>
-					<option value="off">Always daytime</option>
-				</select>
-			</label>
-			<label>New invention every
-				<select id="s-pace"><option value="5">5 years</option><option value="10">10 years</option><option value="20">20 years</option></select>
-			</label>
-			<label>Rival villages
-				<select id="s-rivals">
-					<option value="on">Raid each other and you</option>
-					<option value="feud">Only raid each other</option>
-					<option value="off">Peaceful</option>
-				</select>
-			</label>
-			<label>Make something happen
-				<span class="row"><select id="s-event"></select><button id="s-trigger">Go</button></span>
-			</label>
+			<label class="check"><input type="checkbox" id="s-follow" /> Camera follows the action in every tribe</label>
 		</div>
+
+		<h2>Tribes &amp; Companion</h2>
+		<p class="small">Each tribe can follow its own Companion counter — the same Companion with different variables, or different Companion
+			machines. The optional <b>command variable</b> lets buttons give orders: set it to <code>attack:noises</code>, <code>gift:lampys</code>,
+			<code>trade:pixels</code>, <code>peace:noises</code>, <code>ally:lampys</code> or <code>festival</code>.</p>
+		<div id="s-tribes"></div>
+
+		<h2>Make something happen</h2>
+		<div class="row"><select id="s-event"></select><select id="s-event-tribe"></select><button id="s-trigger">Go</button></div>
+
 		<div class="btns">
 			<button id="s-save" class="primary">Save</button>
-			<button id="s-add">+1 year &amp; settler</button>
+			<button id="s-add">+1 year for my tribe</button>
 			<a id="s-download" class="button" download="companion-village.html">⬇ Offline copy</a>
-			<button id="s-reset" class="danger">Reset village</button>
+			<button id="s-reset" class="danger">New world</button>
 			<button data-close>Close</button>
 		</div>
-		<p class="small">Each Companion button press increments <b>$(custom:village_presses)</b>: one more settler and one more year.
-			Inventions carry the village from the Middle Ages to a sci-fi future. Soundhaven (🔊) and Lumenfort (💡) are the rival crews.<br />
-			Keys: drag/scroll to move the view · M whole map · 0 follow · H hide overlay · S settings · I inventions · Space +1 year · F fullscreen · P performance</p>
 	</div>
 
 	<div id="help" class="panel modal" hidden>
@@ -112,7 +145,7 @@
 			<li><b>Safari, Firefox to another machine, OBS browser source</b>: usually blocked.</li>
 		</ul>
 		<p><b>Always works:</b> download the <b>offline copy</b> (Settings → ⬇ Offline copy) and open that file directly, or use it as an
-			OBS <i>Local file</i> browser source. It is the same app in a single file.</p>
+			OBS <i>Local file</i> browser source.</p>
 		<div class="btns"><button data-close>Close</button></div>
 	</div>
 

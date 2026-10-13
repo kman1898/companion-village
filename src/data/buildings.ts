@@ -16,6 +16,7 @@ export type BType =
 	| 'farm' | 'woodhut' | 'quarry' | 'well' | 'storehouse' | 'bakery' | 'sawmill' | 'market'
 	| 'tavern' | 'windmill' | 'church' | 'tower' | 'fountain' | 'keep' | 'library' | 'clocktower' | 'graveyard'
 	| 'factory' | 'skyscraper' | 'windfarm' | 'launchpad' | 'fusion' | 'arcology' | 'teleporter' | 'starship'
+	| 'barracks' | 'landmark'
 
 export interface BDef {
 	name: string
@@ -66,6 +67,8 @@ export const B: Record<BType, BDef> = {
 	fountain: { name: 'Fountain', cost: { stone: 10 }, work: 6, h: 1.15, inv: 'plumbing', u: 30, want: (p) => Math.max(1, Math.floor(p / 80)) },
 	keep: { name: 'Castle Keep', cost: { wood: 16, stone: 30, food: 10 }, work: 20, h: 3.05, inv: 'castleBuilding', u: 50, want: () => 1, light: '#ffb347' },
 	graveyard: { name: 'Graveyard', cost: {}, work: 1, h: 0.8 },
+	barracks: { name: 'Barracks', cost: { wood: 6, stone: 5 }, work: 6, h: 2.0, u: 12, want: (p) => 1 + Math.floor(p / 45), light: '#ffb347' },
+	landmark: { name: 'Landmark', cost: {}, work: 1, h: 4.6, light: '#ffffff' },
 	// ---- industrial & later ----
 	factory: { name: 'Factory', cost: { wood: 6, stone: 10 }, work: 9, h: 2.9, drop: ['wood', 'stone'], inv: 'steamEngine', u: 20, want: (p) => 1 + Math.floor(p / 60), light: '#ffa04a', era: 1 },
 	skyscraper: { name: 'Skyscraper', cost: { wood: 4, stone: 18 }, work: 14, h: 6.2, cap: 30, inv: 'skyscrapers', u: 40, want: (p) => Math.floor(p / 40), light: '#fff1c9', era: 2 },
@@ -81,7 +84,7 @@ export const B: Record<BType, BDef> = {
 export const HOUSE_LINE: BType[] = ['house', 'stonehouse', 'townhouse', 'modernhouse', 'habdome', 'skypod']
 
 /** Planner order for buildings other than houses */
-export const SPECIAL_ORDER: BType[] = ['farm', 'woodhut', 'quarry', 'well', 'storehouse', 'bakery', 'sawmill', 'market', 'tavern',
+export const SPECIAL_ORDER: BType[] = ['farm', 'woodhut', 'quarry', 'barracks', 'well', 'storehouse', 'bakery', 'sawmill', 'market', 'tavern',
 	'windmill', 'church', 'library', 'clocktower', 'tower', 'fountain', 'keep',
 	'factory', 'windfarm', 'skyscraper', 'launchpad', 'fusion', 'teleporter', 'arcology', 'starship']
 

@@ -1,9 +1,9 @@
 import { rand } from '../core/util'
-import type { RivalId } from './state'
+import type { TribeId } from './state'
 
-/** Temporary characters that are not villagers: rival crews, wolves, bandits, robots, wedding couple… (not saved) */
-export type AgentKind = 'crew' | 'militia' | 'wolf' | 'bandit' | 'robot' | 'bride' | 'groom' | 'traveler'
-export type Team = RivalId | 'us' | 'none'
+/** Temporary characters that are not villagers: soldiers, siege engines, caravans, wolves, bandits… (not saved) */
+export type AgentKind = 'soldier' | 'siege' | 'caravan' | 'decoy' | 'wolf' | 'bandit' | 'robot' | 'bride' | 'groom' | 'traveler' | 'performer'
+export type Team = TribeId | 'none'
 
 export interface Agent {
 	k: 9
@@ -20,19 +20,24 @@ export interface Agent {
 	down: number
 	fireT: number
 	carry?: boolean
-	/** idle wandering for rival residents */
-	home?: { x: number; y: number }
-	idleT: number
-	/** remove when the path is finished */
+	/** era style the agent is drawn in */
+	style: number
+	/** soldier: the villager who went to war */
+	vid?: number
+	/** siege engine level 0..4 */
+	level?: number
 	vanish?: boolean
 	dead?: boolean
+	/** wandering anchor (performers at a contest) */
+	home?: { x: number; y: number }
+	idleT: number
 }
 
 let nextId = 1
 export const agents: Agent[] = []
 
-export function spawnAgent(kind: AgentKind, team: Team, x: number, y: number, spd = 2): Agent {
-	const a: Agent = { k: 9, id: nextId++, kind, team, x, y, path: [], spd, face: 1, ph: Math.random() * 6, hp: 3, down: 0, fireT: rand(0.3, 1.2), idleT: rand(0, 3) }
+export function spawnAgent(kind: AgentKind, team: Team, x: number, y: number, spd = 2, style = 0): Agent {
+	const a: Agent = { k: 9, id: nextId++, kind, team, x, y, path: [], spd, face: 1, ph: Math.random() * 6, hp: 3, down: 0, fireT: rand(0.3, 1.2), style, idleT: rand(0, 3) }
 	agents.push(a)
 	return a
 }
@@ -40,8 +45,6 @@ export function spawnAgent(kind: AgentKind, team: Team, x: number, y: number, sp
 export function removeAgents(pred: (a: Agent) => boolean) {
 	for (let i = agents.length - 1; i >= 0; i--) if (pred(agents[i])) agents.splice(i, 1)
 }
-
-export const walking = (a: Agent) => a.path.length > 0 && a.down <= 0
 
 export function updateAgents(dt: number) {
 	for (let i = agents.length - 1; i >= 0; i--) {
@@ -58,8 +61,8 @@ export function updateAgents(dt: number) {
 			if (a.home) {
 				a.idleT -= dt
 				if (a.idleT <= 0) {
-					a.idleT = rand(2, 7)
-					a.path.push([a.home.x + rand(-6, 6), a.home.y + rand(-4.5, 4.5)])
+					a.idleT = rand(1, 3)
+					a.path.push([a.home.x + rand(-1.2, 1.2), a.home.y + rand(-0.8, 0.8)])
 				}
 			}
 			continue
@@ -80,9 +83,10 @@ export function updateAgents(dt: number) {
 	}
 }
 
-/** Things flying between fighters (drawn by the renderer) */
+/** Things flying through the air (drawn by the renderer) */
+export type ShotKind = 'ring' | 'beam' | 'pixel' | 'arrow' | 'bullet' | 'laser' | 'boulder' | 'shell' | 'missile' | 'plasma'
 export interface Shot {
-	kind: 'ring' | 'beam' | 'button' | 'arrow'
+	kind: ShotKind
 	x: number; y: number; tx: number; ty: number
 	t: number
 	dur: number
@@ -91,9 +95,9 @@ export interface Shot {
 }
 export const shots: Shot[] = []
 
-export function fire(kind: Shot['kind'], from: Agent, to: Agent, col: string, onHit: () => void) {
-	const dur = kind === 'beam' ? 0.25 : kind === 'ring' ? 0.7 : 0.55
-	shots.push({ kind, x: from.x, y: from.y - 0.35, tx: to.x, ty: to.y - 0.3, t: 0, dur, col, hit: onHit })
+const DUR: Partial<Record<ShotKind, number>> = { beam: 0.25, laser: 0.2, ring: 0.7, bullet: 0.3, boulder: 1.2, shell: 0.9, missile: 1.0, plasma: 0.7 }
+export function fireAt(kind: ShotKind, x: number, y: number, tx: number, ty: number, col: string, onHit?: () => void) {
+	shots.push({ kind, x, y, tx, ty, t: 0, dur: DUR[kind] ?? 0.55, col, hit: onHit })
 }
 
 export function updateShots(dt: number) {

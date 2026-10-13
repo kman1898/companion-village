@@ -1,3 +1,5 @@
+import type { TribeId } from './tribes'
+
 export interface Invention {
 	id: string
 	name: string
@@ -5,6 +7,8 @@ export interface Invention {
 	desc: string
 	era: number
 	req?: string[]
+	/** signature invention only this tribe can make */
+	tribe?: TribeId
 }
 
 export interface Era {
@@ -53,6 +57,26 @@ export const INVENTIONS: Invention[] = [
 	{ era: 0, id: 'fireBrigade', name: 'Bucket Brigade', icon: '🪣', desc: 'Fires burn out twice as fast and never spread.', req: ['masonry'] },
 	{ era: 0, id: 'husbandry', name: 'Animal Husbandry', icon: '🐑', desc: 'Sheep graze around the farms and add food.' },
 	{ era: 0, id: 'festivals', name: 'Folk Festivals', icon: '🎉', desc: 'Festivals happen far more often.' },
+	{ era: 0, id: 'siegecraft', name: 'Siegecraft', icon: '🪨', desc: 'Catapults join the army.', req: ['carpentry'] },
+	{ era: 0, id: 'tradeRoutes', name: 'Trade Routes', icon: '🐫', desc: 'Caravans travel more often and carry more.' },
+	{ era: 1, id: 'diplomats', name: 'Embassies', icon: '🕊️', desc: 'Relations with the other tribes slowly improve.' },
+	{ era: 1, id: 'artillery', name: 'Artillery', icon: '💣', desc: 'Cannons join the army.', req: ['steamEngine'] },
+	// ---------------- signature inventions (one per era for each tribe) ----------------
+	{ era: 0, tribe: 'pixels', id: 'mosaics', name: 'Mosaics', icon: '🟦', desc: 'Pixel art everywhere. Pixel fighters hit harder.' },
+	{ era: 1, tribe: 'pixels', id: 'photography', name: 'Photography', icon: '📷', desc: 'Flash bombs! Pixel fighters hit harder.' },
+	{ era: 2, tribe: 'pixels', id: 'television', name: 'Television', icon: '📺', desc: 'Everyone watches the Pixels — relations improve.' },
+	{ era: 3, tribe: 'pixels', id: 'ledWalls', name: 'LED Walls', icon: '🟩', desc: 'Giant screens; Pixel fighters hit harder.' },
+	{ era: 4, tribe: 'pixels', id: 'holograms', name: 'Holograms', icon: '👤', desc: 'Hologram decoys confuse every attacker.' },
+	{ era: 0, tribe: 'noises', id: 'warDrums', name: 'War Drums', icon: '🥁', desc: 'Noise fighters march faster and hit harder.' },
+	{ era: 1, tribe: 'noises', id: 'phonograph', name: 'Phonograph', icon: '📯', desc: 'Recorded music — festivals more often.' },
+	{ era: 2, tribe: 'noises', id: 'loudspeakers', name: 'Loudspeakers', icon: '📢', desc: 'Sonic blasts reach further.' },
+	{ era: 3, tribe: 'noises', id: 'subwoofers', name: 'Subwoofers', icon: '🔈', desc: 'Bass so deep it cracks enemy walls.' },
+	{ era: 4, tribe: 'noises', id: 'sonicCannon', name: 'Sonic Cannon', icon: '💥', desc: 'The loudest weapon ever built.' },
+	{ era: 0, tribe: 'lampys', id: 'lanterns', name: 'Lanterns', icon: '🏮', desc: 'Street lanterns light the village at night.' },
+	{ era: 1, tribe: 'lampys', id: 'limelight', name: 'Limelight', icon: '🔦', desc: 'Blinding beams — Lampy fighters hit harder.' },
+	{ era: 2, tribe: 'lampys', id: 'movingHeads', name: 'Moving Heads', icon: '🎇', desc: 'Light shows that impress everyone — relations improve.' },
+	{ era: 3, tribe: 'lampys', id: 'lasers', name: 'Lasers', icon: '🔴', desc: 'Lampy fighters hit much harder.' },
+	{ era: 4, tribe: 'lampys', id: 'photonLances', name: 'Photon Lances', icon: '✴️', desc: 'Pure light weaponry.' },
 	// ---------------- Industrial ----------------
 	{ era: 1, id: 'brickworks', name: 'Brickworks', icon: '🏭', desc: 'Brick townhouses — builders start modernising old homes.' },
 	{ era: 1, id: 'steamEngine', name: 'Steam Engine', icon: '♨️', desc: 'Unlocks the Factory. Gatherers work 25% faster.' },

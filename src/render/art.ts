@@ -2,6 +2,12 @@ import { shade } from '../core/util'
 import type { BType } from '../data/buildings'
 import { El, Ln, OUT, Pl, Rc, type Ctx } from './draw'
 import { arcology, factory, fusion, habdome, launchpad, modernhouse, skypod, skyscraper, starship, teleporter, townhouse, windfarm } from './art-future'
+import { landmarkArt } from './landmarks'
+import { TRIBES, type TribeId } from '../data/tribes'
+
+/** Which tribe the art is being drawn for (roof colours, banners) */
+export const artCtx = { tribe: 'pixels' as TribeId }
+const roofs = () => TRIBES[artCtx.tribe].roofs
 
 /*
  * Building art. Local units: 1 = one tile, the 2×2 footprint spans (0,0)–(2,2),
@@ -142,8 +148,36 @@ const WALLS = ['#ecdab2', '#e5cfa0', '#f1e3c4', '#e8d2b8']
 
 export const ART: Record<BType, (c: Ctx, v: number) => [number, number] | null> = {
 	townhouse, modernhouse, habdome, skypod, factory, skyscraper, windfarm, launchpad, fusion, arcology, teleporter, starship,
-	house: (c, v) => gable(c, { wall: WALLS[v % 4], roof: ROOFS[v % 6], frame: '#7a5434', chim: v % 3 !== 0 }),
-	stonehouse: (c, v) => gable(c, { x: 0.1, w: 1.72, wh: 0.85, rh: 1.0, wall: '#bcb5a6', stone: true, roof: ['#56657a', '#5e4f6e', '#4d6b5f', '#6a5848'][v % 4], chim: true }),
+	house: (c, v) => gable(c, { wall: WALLS[v % 4], roof: v % 4 === 3 ? ROOFS[v % 6] : roofs()[v % 6], frame: '#7a5434', chim: v % 3 !== 0 }),
+	landmark(c, style) {
+		c.save()
+		c.translate(1, 1.9)
+		landmarkArt(c, artCtx.tribe, style)
+		c.restore()
+		return null
+	},
+	barracks(c, v) {
+		const col = TRIBES[artCtx.tribe].color
+		c.lineWidth = 0.035
+		Rc(c, 0.05, 0.4, 1.9, 1.5, 'rgba(150,120,80,0.45)')
+		// palisade
+		for (let x = 0.05; x <= 1.96; x += 0.13) {
+			Pl(c, [x - 0.05, 0.55, x + 0.05, 0.55, x + 0.05, 0.25, x, 0.15, x - 0.05, 0.25], '#8a5a2b', OUT)
+		}
+		// tents in the tribe colour
+		for (const [tx, ty] of [[0.5, 1.3], [1.4, 1.25]]) {
+			Pl(c, [tx - 0.38, ty + 0.4, tx + 0.38, ty + 0.4, tx, ty - 0.25], col, OUT)
+			Pl(c, [tx - 0.08, ty + 0.4, tx + 0.08, ty + 0.4, tx, ty + 0.05], '#2a1a10')
+		}
+		// training dummy and banner
+		Ln(c, 1.0, 1.9, 1.0, 1.55, '#6b4a2e', 0.04)
+		El(c, 1.0, 1.5, 0.08, 0.08, '#d8c79a', OUT)
+		Ln(c, 1.75, 1.85, 1.75, 0.6, '#5a3b22', 0.04)
+		Pl(c, [1.77, 0.62, 2.15, 0.72, 1.77, 0.86], col, OUT)
+		void v
+		return null
+	},
+	stonehouse: (c, v) => gable(c, { x: 0.1, w: 1.72, wh: 0.85, rh: 1.0, wall: '#bcb5a6', stone: true, roof: v % 2 ? roofs()[(v + 2) % 6] : ['#56657a', '#5e4f6e', '#4d6b5f', '#6a5848'][v % 4], chim: true }),
 	woodhut(c) {
 		const s = gable(c, { x: 0.12, w: 1.25, wh: 0.62, rh: 0.72, wall: '#8d5f33', logs: true, roof: '#5f7a3c', win: 1, ins: 0.25 })
 		logPile(c, 1.55, 1.92)

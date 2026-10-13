@@ -3,36 +3,42 @@ import { updateParticles } from '../render/particles'
 import { updateAgents, updateShots } from './agents'
 import { planner, updateFires } from './buildings'
 import { updateDay } from './daynight'
+import { updateDiplomacy } from './diplomacy'
 import { updateEvents } from './events'
 import { advanceYear } from './history'
-import { updateRivals } from './rivals'
 import { save } from './save'
-import { CX, CY, G, H, W, has, idx } from './state'
+import { G, H, W, has, idx, type Tribe } from './state'
+import { updateAI } from './tribes'
 import { updateTraffic } from './traffic'
 import { spawnVillager, updateSheep, updateVillager, growTime } from './villagers'
 import { addRockCluster } from './worldgen'
 
-let spawnTimer = 0, plannerTimer = 0, slowTimer = 0, saveTimer = 0, sheepFoodTimer = 0, replicatorTimer = 0
+const spawnTimer = new Map<string, number>()
+let plannerTimer = 0, slowTimer = 0, saveTimer = 0, sheepFoodTimer = 0, replicatorTimer = 0
 
 /** sdt = simulated seconds (scaled by game speed), rdt = real seconds */
-export function update(sdt: number, rdt: number, entryY: number) {
+export function update(sdt: number, rdt: number) {
 	const S = G.S
 	S.time += sdt
 	updateDay(sdt)
-	spawnTimer -= rdt
-	if (S.queue > 0 && spawnTimer <= 0) {
-		const catchingUp = S.queue > 20
-		S.queue--
-		spawnVillager(entryY)
-		advanceYear(catchingUp)
-		spawnTimer = S.queue > 30 ? 0.04 : S.queue > 5 ? 0.12 : 0.3
+	updateAI(sdt)
+	for (const T of S.tribes) {
+		const t = (spawnTimer.get(T.id) ?? 0) - rdt
+		spawnTimer.set(T.id, t)
+		if (T.queue > 0 && t <= 0) {
+			const catchingUp = T.queue > 20
+			T.queue--
+			spawnVillager(T)
+			advanceYear(T, catchingUp)
+			spawnTimer.set(T.id, T.queue > 30 ? 0.04 : T.queue > 5 ? 0.12 : 0.3)
+		}
+		if (T.boost > 0) T.boost -= sdt
 	}
 	plannerTimer -= sdt
 	if (plannerTimer <= 0) {
 		plannerTimer = 1.2
-		planner()
+		for (const T of S.tribes) planner(T)
 	}
-	if (S.boost > 0) S.boost -= sdt
 
 	slowTimer -= sdt
 	if (slowTimer <= 0) {
@@ -41,15 +47,17 @@ export function update(sdt: number, rdt: number, entryY: number) {
 		slowTick(st)
 	}
 
-	for (let i = S.villagers.length - 1; i >= 0; i--) {
-		const v = S.villagers[i]
-		if (v) updateVillager(v, sdt)
-	}
+	for (const T of S.tribes)
+		for (let i = T.villagers.length - 1; i >= 0; i--) {
+			const v = T.villagers[i]
+			if (v) updateVillager(T, v, sdt)
+		}
 	updateSheep(sdt)
 	updateAgents(sdt)
 	updateShots(sdt)
 	updateFires(sdt)
 	updateTraffic(sdt)
+	updateDiplomacy()
 	updateEvents(sdt, rdt)
 	updateParticles(sdt)
 
@@ -62,7 +70,6 @@ export function update(sdt: number, rdt: number, entryY: number) {
 
 function slowTick(st: number) {
 	const S = G.S, w = G.world
-	const regrowMul = has('cartography') ? 2 : 1
 	for (const t of w.trees) {
 		if (t.gone) continue
 		if (t.cut) {
@@ -71,60 +78,59 @@ function slowTick(st: number) {
 				t.cut = 0
 				t.g = 0.05
 			}
-		} else if (t.g < 1) t.g = Math.min(1, t.g + (st * regrowMul) / 45)
+		} else if (t.g < 1) t.g = Math.min(1, t.g + st / 45)
 	}
-	let liveRocks = 0
 	for (const k of w.rocks) {
-		if (k.gone) continue
-		if (k.amt <= 0) {
-			k.rt -= st
-			if (k.rt <= 0) k.amt = k.max
-		} else liveRocks++
+		if (k.gone || k.amt > 0) continue
+		k.rt -= st
+		if (k.rt <= 0) k.amt = k.max
 	}
-	if (liveRocks < 4 && w.rocks.filter((k) => !k.gone).length < 10) spawnRockCluster()
 	for (const b of w.bushes) if (!b.gone && !b.ber) {
 		b.rt -= st
 		if (b.rt <= 0) b.ber = 1
 	}
-	// fields stop growing in a blizzard and grow faster in the rain
-	const grow = growTime() / (S.event?.type === 'storm' ? 1.5 : 1)
-	if (S.chill <= 0)
-		for (const b of S.buildings)
-			if (b.field && b.done)
-				for (const p of b.field.patches)
-					if (p.s === 1) {
-						p.t += st * (35 / grow)
-						if (p.t >= 35) p.s = 2
-					}
-	S.craters = S.craters.filter((c) => c.until > S.year)
-	sheepFoodTimer += st
-	if (sheepFoodTimer >= 30) {
-		sheepFoodTimer = 0
-		S.stock.food += Math.floor(S.sheep.filter((s) => !s.gone).length / 2)
+	const storm = S.events.some((e) => e.type === 'storm')
+	for (const T of S.tribes) {
+		const grow = growTime(T) / (storm ? 1.5 : 1)
+		if (S.chill <= 0)
+			for (const b of T.buildings)
+				if (b.field && b.done)
+					for (const p of b.field.patches)
+						if (p.s === 1) {
+							p.t += st * (35 / grow)
+							if (p.t >= 35) p.s = 2
+						}
+		ensureRocks(T)
 	}
-	if (has('replicators')) {
-		replicatorTimer += st
-		if (replicatorTimer >= 5) {
-			replicatorTimer = 0
-			S.stock.wood++
-			S.stock.stone++
-			S.stock.food++
+	S.craters = S.craters.filter((c) => c.until > S.time)
+	sheepFoodTimer += st
+	replicatorTimer += st
+	for (const T of S.tribes) {
+		if (sheepFoodTimer >= 30) T.stock.food += Math.floor(T.sheep.filter((s) => !s.gone).length / 2)
+		if (replicatorTimer >= 5 && has(T, 'replicators')) {
+			T.stock.wood++
+			T.stock.stone++
+			T.stock.food++
 		}
 	}
-	updateRivals(st)
+	if (sheepFoodTimer >= 30) sheepFoodTimer = 0
+	if (replicatorTimer >= 5) replicatorTimer = 0
 }
 
-function spawnRockCluster() {
+/** Make sure every tribe has some stone within reach */
+function ensureRocks(T: Tribe) {
 	const w = G.world
+	let live = 0
+	for (const k of w.rocks) if (!k.gone && k.amt > 0 && dist2(k.x, k.y, T.cx, T.cy) < 40 * 40) live++
+	if (live >= 4) return
 	for (let tries = 0; tries < 40; tries++) {
-		const a = Math.random() * Math.PI * 2, d = rand(18, 34)
-		const x = CX + Math.cos(a) * d * 1.2, y = CY + Math.sin(a) * d * 0.85
+		const a = Math.random() * Math.PI * 2, d = rand(16, 30)
+		const x = T.cx + Math.cos(a) * d * 1.2, y = T.cy + Math.sin(a) * d * 0.85
 		if (x < 4 || y < 8 || x > W - 4 || y > H - 4 || w.water[idx(x | 0, y | 0)]) continue
-		if (G.S.buildings.some((b) => dist2(b.ox + 1, b.oy + 1, x, y) < 16)) continue
-		if (Object.values(w.rivalSites).some((r) => dist2(r.x, r.y, x, y) < 15 * 15)) continue
+		if (G.S.tribes.some((o) => o.buildings.some((b) => dist2(b.ox + 1, b.oy + 1, x, y) < 16))) continue
 		const before = w.rocks.length
 		addRockCluster(w.rocks, x, y, 7, Math.random, w.water)
-		for (const k of w.rocks.slice(before)) for (const t of w.trees) if (!t.gone && dist2(k.x, k.y, t.x, t.y) < 1.2) t.gone = 1
+		for (const k of w.rocks.slice(before)) for (const t of w.trees) if (!t.gone && t.sp !== 6 && dist2(k.x, k.y, t.x, t.y) < 1.2) t.gone = 1
 		return
 	}
 }

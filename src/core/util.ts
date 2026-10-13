@@ -57,3 +57,12 @@ export const store = {
 		}
 	},
 }
+
+/** 1234 -> "1.2k" */
+export function fmt(n: number): string {
+	n = Math.round(n)
+	if (Math.abs(n) >= 1e6) return (n / 1e6).toFixed(1).replace(/\.0$/, '') + 'M'
+	if (Math.abs(n) >= 1e4) return Math.round(n / 1e3) + 'k'
+	if (Math.abs(n) >= 1e3) return (n / 1e3).toFixed(1).replace(/\.0$/, '') + 'k'
+	return String(n)
+}

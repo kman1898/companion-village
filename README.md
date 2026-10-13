@@ -1,57 +1,62 @@
 # Companion Village
 
-A Settlers-style village that grows while you run a show with [Bitfocus Companion](https://bitfocus.io/companion).
+Three rival tribes build their villages while you run a show with [Bitfocus Companion](https://bitfocus.io/companion).
 
 **▶ Live: https://mko1989.github.io/companion-village/**
 
-Every button press on your Stream Deck (or any Companion surface) does two things:
-- A new settler arrives. Settlers become builders, woodcutters, stonemasons or farmers.
-- A year passes. **Every 10 years the villagers invent something.** 57 inventions carry the village through five eras:
-
-| Era | Examples | What changes |
+| Tribe | Department | Style |
 |---|---|---|
-| Medieval | Wheelbarrow, Masonry, Bell Casting, Astronomy | Timber and stone houses, mills, chapel, castle keep |
-| Industrial Age | Brickworks, Steam Engine, Gas Lighting, Railway | Brick townhouses, factories, gas street lamps, a steam train between the villages |
-| Modern Age | Electricity, Automobile, Asphalt, Skyscrapers, Aviation | Modern homes, cars on tarmac roads, glass towers, wind farms, aeroplanes |
-| Space Age | Rocketry, Satellites, Robotics, Fusion Power | Habitat domes, rocket launches, fusion reactor |
-| Sci-Fi Future | Hovercars, Antigravity, Force Fields, Teleporters, Androids | Sky pods, glowing light-lanes, arcologies, android villagers, and finally a colony starship launch |
+| 🎥 **Pixels** | Video | Mosaic steles, camera obscuras, TV masts and giant LED walls. They fight with blinding glitches. |
+| 🔊 **Noises** | Sound | War drums, gramophone towers and line arrays. They fight with sonic rings. |
+| 💡 **Lampys** | Lights | Beacon fires, searchlights and moving-head trusses. They fight with light beams. |
 
-When a new style of home is invented, builders gradually **renovate old houses** into the new style.
+Pick your tribe when you first open the page. Each tribe is driven by **its own Companion counter**: the same Companion with different
+variables, or completely different Companion machines (say video, sound and lighting each have their own). A tribe that isn't
+connected runs on **AI**, growing and inventing at its own random pace.
 
-**Day and night:** the sun rises and sets (a 4-minute day by default). At night windows, street lamps, cars and
-rival light shows glow in the dark. Most villagers go home to sleep, while night owls and androids keep working or
-head to the tavern.
+Every press for a tribe brings **one settler and one year**. Every ~10 years that tribe **invents something**. 57 shared inventions plus
+5 signature inventions per tribe carry it from the Middle Ages through the Industrial, Modern and Space ages into a **sci-fi future**:
+- brick townhouses, factories and steam trains
+- cars on tarmac, skyscrapers and aeroplanes
+- rockets, fusion reactors and robots
+- hovercars, sky pods, force fields, androids and a colony starship
 
-**Rival villages:** two rival crews live at the edges of the map. **🔊 Soundhaven** has a PA tower and drums its
-way to line arrays. **💡 Lumenfort** has beacon fires that turn into searchlights and moving-head trusses, with
-beams sweeping the sky at night. Every now and then they raid each other: sonic rings against light beams.
-Sometimes they raid **you**, and your militia answers by throwing glowing buttons. Watchtowers, the castle keep
-and the Telegraph help in defence; a Force Field makes raiders bounce right off. Once in a while the two crews
-put on a joint **Festival of Sound & Light** on your town square.
+Old houses get renovated into the new style as each tribe advances.
 
-**Random encounters:**
+### The world
+- **A big, varied map:** forests, snowy tundra, desert with palms and cacti, swamps, mountain ranges with snowy peaks, lakes and rivers.
+- **Highways** link the three villages, with bridges over the rivers.
+- **Day and night:** at night windows, street lamps, car headlights and each tribe's light show glow. Most villagers go to sleep.
 
-| Disasters & trouble | Good times & wonders |
-|---|---|
-| ⛈️ Thunderstorm · 🌪️ Tornado · ☄️ Meteor · 🌋 Earthquake · 🔥 Fire | 🎉 Festival · 💒 Wedding (+2 settlers) · 🌾 Bountiful harvest |
-| ☠️ Plague · 🦗 Locusts · 🌨️ Blizzard · 🌑 Eclipse | 🐴 Travelling merchant · 💰 Buried treasure |
-| 🐺 Wolf pack · 🐉 Dragon (medieval) · 🥷 Bandits | 🌠 Great comet (brings an invention) · 🌌 Northern lights |
-| 🔌 Blackout · ☀️ Solar flare · 🤖 Robot rampage | 🛸 UFO sighting · ⏱️ Time traveller (brings an invention) |
+### War & diplomacy
+- **Relations** between every pair of tribes drift with their personalities (hot-headed or peaceful, trader or self-reliant) and with
+  AV-department incidents, e.g. *“Noises unplugged Lampys’ amp to charge a phone”*.
+- **Trade caravans** travel the highways (ox carts, then trucks, then hover-freighters). There are also **gifts** and **alliances**,
+  allies **share inventions**, and hostile tribes send **spies** to steal them.
+- **War:** soldiers are mustered from a tribe's real villagers, so losses cost population.
+  - Armies march along the highways with **siege engines** that match the era: catapult → cannon → tank → drone swarm → battle mech.
+  - Watchtowers, keeps and barracks shoot back.
+  - Pixels' holograms act as decoys, and force fields stop the attack completely.
+  - Winners loot and wreck buildings. Peace treaties come with tribute.
 
-Many inventions protect against disasters, e.g. Lightning Rods, Storm Cellars, Vaccination, Satellites, Force Fields
-and Weather Control. Destroyed buildings are rebuilt by the builders, and the dead get a graveyard. In Settings you can
-set random events to **On**, **Gentle** (damage only) or **Off**, set the rivals to **peaceful**, and change the day
-length and the invention pace.
+### Random encounters
+Weather and wonders hit the whole map; everything else hits one tribe. The camera swings over to the action.
+
+| Weather & sky | Trouble | Good times |
+|---|---|---|
+| ⛈️ Storm · 🌨️ Blizzard · 🏜️ Sandstorm · 🌑 Eclipse · ☀️ Solar flare | 🌪️ Tornado · ☄️ Meteor · 🌋 Earthquake · 🔥 Fire · 🔥 Forest fire · 🌊 Flood | 🎉 Festival · 💒 Wedding (sometimes across tribes) · 👶 Baby boom |
+| 🌌 Northern lights · 🌠 Comet · ✨ Meteor shower | ☠️ Plague · 🦗 Locusts · 🐺 Wolves · 🐉 Dragon · 🥷 Bandits · 🛸 UFO · 🔌 Blackout · 🤖 Robot rampage | 🌾 Harvest · 💰 Treasure · 🐴 Merchant · 🧳 Migrants · ⏱️ Time traveller · 🎸 **Battle of the Bands** |
 
 ## 1. Set up Companion (once)
 
-Companion needs a trigger that counts button presses into the custom variable `$(custom:village_presses)`.
+Each Companion-driven tribe needs a counter variable that goes up with button presses.
 
 **Quick:** run the installer against your Companion (needs Node.js 22+):
 
 ```
-node tools/install-trigger.mjs                  # localhost:8888
-node tools/install-trigger.mjs 192.168.1.20:8000
+node tools/install-trigger.mjs                              # localhost:8888, counts every press into $(custom:village_presses)
+node tools/install-trigger.mjs 192.168.1.20:8000 --cmd village_pixels_cmd   # also create a command variable
+node tools/install-trigger.mjs localhost:8888 --var village_noises          # count into another variable
 ```
 
 **Or import** `tools/village-trigger.companionconfig` in the Companion web UI → *Import / Export* → *Import*.
@@ -73,9 +78,34 @@ node tools/install-trigger.mjs 192.168.1.20:8000
 
 To count only some buttons, skip the trigger. Instead, add the same *Set value* action to the press actions of those buttons.
 
+### Several tribes on Companion
+
+- **One Companion per department:** install the trigger on each machine. In the village Settings → *Tribes & Companion*, set each tribe to
+  *Companion* with that machine's address. All of them can use `village_presses`.
+- **One Companion, several tribes:** the *any button press* trigger counts every button, so use button actions instead.
+  On the video operator's buttons add *Custom Variable: Set value* `village_pixels` = `isNumber($(this:current)) ? floor($(this:current)) + 1 : 1`,
+  on the sound operator's buttons `village_noises`, and so on.
+
+### Commands from Stream Deck buttons
+
+Give a tribe a **command variable** (Settings → Tribes, or `--cmd` in the installer). A button with the action
+*Custom Variable: Set value* `village_pixels_cmd` = `attack:noises` makes the Pixels march on the Noises. The village runs the command and
+clears the variable, so the same button works again.
+
+| Command | Effect |
+|---|---|
+| `attack:<tribe>` | declare war and send an army |
+| `peace:<tribe>` | make peace and improve relations |
+| `gift:<tribe>` | send a gift |
+| `trade:<tribe>` | send a trade caravan |
+| `ally:<tribe>` | offer friendship |
+| `festival` | throw a festival |
+
+`<tribe>` is `pixels`, `noises` or `lampys` (or `video`, `sound`, `lights`).
+
 ## 2. Open the village
 
-Open the live page, press **S** (Settings) and enter your Companion address, e.g. `192.168.1.20:8000`.
+Open the live page, pick your tribe, then press **S** (Settings) → *Tribes & Companion* to enter your Companion address, e.g. `192.168.1.20:8000`.
 
 ### Can a GitHub Pages site reach Companion on my network?
 
@@ -98,7 +128,9 @@ works without internet, and is the best choice for a show machine.
 | Drag / arrow keys | Pan the view |
 | Scroll / pinch / + − | Zoom |
 | Double-click | Zoom in |
-| M | Whole map (see the rival villages) |
+| M | Whole map |
+| 1 / 2 / 3 | Jump to Pixels / Noises / Lampys |
+| D | Diplomacy |
 | 0 or *Follow now* | Back to auto-follow. This also happens on its own after 60 s without input. |
 | H | Hide the overlay (clean view for OBS) |
 | S | Settings |
@@ -109,15 +141,16 @@ works without internet, and is the best choice for a show machine.
 
 Hover a villager or building to see who or what it is.
 
-URL options: `?host=192.168.1.20:8000`, `?var=my_counter`, `?hud=0`, `?speed=2`, `?events=gentle`, `?quality=low`,
-`?day=off|short|normal|long`, `?rivals=on|feud|off`, `?inventEvery=5`,
-`?demo=10` (no Companion: start with 10 settlers, add more over time, nothing is saved).
+URL options: `?tribe=pixels|noises|lampys`, `?host=192.168.1.20:8000`, `?var=my_counter`, `?cmd=my_command_var`, `?hud=0`, `?speed=2`,
+`?events=gentle`, `?quality=low`, `?day=off|short|normal|long`, `?war=on|feud|off`, `?ai=match|steady|fast|slow|frozen`, `?inventEvery=5`,
+`?demo=10` (no Companion: every tribe starts with 10 settlers and runs on AI; nothing is saved).
 
 ## Notes
 
 - The village is saved in the browser (localStorage), separately for each address it's opened from. Presses made while
   the page was closed are caught up when it reopens.
-- Version 3 uses a bigger map, so villages saved by version 2 start over.
+- Version 4 is a new world with three tribes, so villages saved by earlier versions start over.
+- **AI pace “in step”** (the default) means AI tribes advance when a Companion-driven tribe gets presses, each at its own tempo. They don't run away while nobody is pressing.
 - On first start the page records the current counter, so only new presses count. If Companion restarts and the counter
   starts again from 1, the page notices and keeps counting.
 - Graphics quality **Auto** lowers the render resolution on slower GPUs (e.g. retina laptops with integrated graphics)
@@ -137,12 +170,12 @@ The code is TypeScript with no runtime dependencies. Vite builds it into a singl
 src/
   core/      settings, random/noise, utilities
   data/      buildings, inventions, names
-  game/      world generation, simulation, villagers, buildings, events, eras & inventions, day/night,
-             rival villages & raids, traffic (cars, train, planes, rockets), save/load
-  render/    canvas renderer, night lighting, sprite caches, terrain, building art (medieval → sci-fi), rival art, effects
+  game/      world generation (biomes, rivers, highways), tribes & AI pacing, villagers, buildings, events, eras & inventions,
+             war, diplomacy & trade, day/night, traffic (cars, train, planes, rockets), save/load
+  render/    canvas renderer, night lighting, sprite caches, terrain, building art (medieval → sci-fi), tribe landmarks, effects
   view/      camera & input (pan/zoom/follow, hover)
   ui/        HUD, settings, notifications
-  net/       Companion HTTP API polling
+  net/       Companion HTTP API: per-tribe counters and command variables
 tools/       Companion trigger installer + import file
 ```
 

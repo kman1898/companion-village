@@ -1,6 +1,6 @@
 import { clamp } from '../core/util'
 import { eventFocus } from '../game/events'
-import { CX, CY, G, H, W } from '../game/state'
+import { H, player, tribeOf, W, type TribeId } from '../game/state'
 
 export const FOLLOW_TIMEOUT = 60_000
 export const MIN_SCALE = 4
@@ -8,8 +8,8 @@ export const MAX_SCALE = 110
 
 /** x, y = view centre in tiles; s = pixels per tile. t* = where the camera is heading. */
 export const cam = {
-	x: CX, y: CY, s: 40,
-	tx: CX, ty: CY, ts: 40,
+	x: W / 2, y: H / 2, s: 40,
+	tx: W / 2, ty: H / 2, ts: 40,
 	follow: true,
 	lastInput: 0,
 	vw: 1, vh: 1,
@@ -46,6 +46,15 @@ export function overview() {
 	cam.ts = clamp(Math.min(cam.vw / W, cam.vh / H) * 1.02, MIN_SCALE * 0.5, MAX_SCALE)
 }
 
+/** Jump to a tribe's village (free camera) */
+export function lookAt(id: TribeId) {
+	touch()
+	const T = tribeOf(id)
+	cam.tx = T.cx
+	cam.ty = T.cy
+	cam.ts = Math.max(cam.ts, 30)
+}
+
 export function followNow() {
 	cam.follow = true
 }
@@ -74,8 +83,9 @@ function clampTarget() {
 
 /** Frame the built-up area plus villagers working nearby */
 function followTarget() {
-	let x0 = CX - 9, x1 = CX + 9, y0 = CY - 6, y1 = CY + 6
-	for (const b of G.S.buildings) {
+	const T = player()
+	let x0 = T.cx - 9, x1 = T.cx + 9, y0 = T.cy - 6, y1 = T.cy + 6
+	for (const b of T.buildings) {
 		x0 = Math.min(x0, b.ox - 3); x1 = Math.max(x1, b.ox + 5)
 		y0 = Math.min(y0, b.oy - 4); y1 = Math.max(y1, b.oy + 4)
 		if (b.field) {
@@ -84,8 +94,8 @@ function followTarget() {
 		}
 	}
 	const bx0 = x0 - 5, bx1 = x1 + 5, by0 = y0 - 4, by1 = y1 + 4
-	for (const v of G.S.villagers) {
-		if (v.x < bx0 || v.x > bx1 || v.y < by0 || v.y > by1) continue
+	for (const v of T.villagers) {
+		if (v.away || v.x < bx0 || v.x > bx1 || v.y < by0 || v.y > by1) continue
 		x0 = Math.min(x0, v.x - 1.5); x1 = Math.max(x1, v.x + 1.5)
 		y0 = Math.min(y0, v.y - 2); y1 = Math.max(y1, v.y + 1)
 	}

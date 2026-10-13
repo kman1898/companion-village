@@ -1,38 +1,39 @@
 import { clamp } from '../core/util'
+import { TRIBES } from '../data/tribes'
 import { shots } from '../game/agents'
 import { villageBounds } from '../game/buildings'
 import { nightAmount, twilight } from '../game/daynight'
 import { fx } from '../game/events'
-import { currentEra } from '../game/history'
-import { CX, CY, G, has, type ActiveEvent } from '../game/state'
+import { eraOf } from '../game/history'
+import { G, has, W, type ActiveEvent, type Tribe } from '../game/state'
 import { planes, rockets } from '../game/traffic'
-import { El, Ln, OUT, Pl, Rc, roundRect, type Ctx } from './draw'
+import { El, Ln, OUT, Pl, roundRect, type Ctx } from './draw'
 import { rocketShape } from './art-future'
-import { towerEmitters } from './rivalart'
+import { landmarkEmitters, pixelScreen } from './landmarks'
 
-export const rivalStyle = () => {
-	const e = currentEra()
+/** Landmark / tribe art style from a tribe's era: 0 medieval, 1 industrial, 2 modern+space, 3 sci-fi */
+export const tribeStyle = (T: Tribe) => {
+	const e = eraOf(T)
 	return e >= 4 ? 3 : e >= 2 ? 2 : e
 }
+const landmarkOf = (T: Tribe) => T.buildings.find((b) => b.type === 'landmark')
 
 // ======================================================================
 // World-space visuals (drawn after the depth-sorted objects)
 // ======================================================================
 export function drawWorldFX(ctx: Ctx, time: number) {
-	const e = G.S.event
-	for (const r of rockets) {
-		rocketShape(ctx, r.x, r.y - r.alt, r.big)
-	}
+	for (const r of rockets) rocketShape(ctx, r.x, r.y - r.alt, r.big)
+	drawScreens(ctx, time)
 	drawShots(ctx)
-	if (has('forceFields')) drawShield(ctx, time)
-	if (e) {
+	for (const T of G.S.tribes) if (has(T, 'forceFields')) drawShield(ctx, T, time)
+	for (const e of G.S.events) {
 		if (e.type === 'tornado') drawTornado(ctx, e.d.x, e.d.y, time, Math.min(1, e.t / 2, (e.dur - e.t) / 2))
 		if (e.type === 'meteor') drawMeteor(ctx, e)
 		if (e.type === 'locusts') drawSwarm(ctx, e.d.x, e.d.y, time)
-		if (e.type === 'festival' || e.type === 'wedding') drawBunting(ctx, time)
-		if (e.type === 'concert') drawStage(ctx)
+		if ((e.type === 'festival' || e.type === 'wedding') && e.tribe) drawBunting(ctx, G.S.tribes.find((t) => t.id === e.tribe)!, time)
 		if (e.type === 'dragon') drawDragon(ctx, e, time)
 		if (e.type === 'ufo') drawUfo(ctx, e, time)
+		if (e.type === 'flood') drawFlood(ctx, e)
 	}
 	for (const b of fx.bolts) {
 		ctx.globalAlpha = Math.min(1, b.life * 3)
@@ -50,50 +51,109 @@ export function drawWorldFX(ctx: Ctx, time: number) {
 	for (const p of planes) drawPlane(ctx, p, time)
 }
 
+/** The Pixels' landmark screens play colourful pictures */
+function drawScreens(ctx: Ctx, time: number) {
+	const T = G.S.tribes.find((t) => t.id === 'pixels')!
+	const b = landmarkOf(T)
+	if (!b) return
+	const rect = pixelScreen(tribeStyle(T))
+	if (!rect) return
+	const [rx, ry, rw, rh] = rect
+	const x0 = b.ox + 1 + rx, y0 = b.oy + 1.9 + ry
+	const cols = 10, rows = 7
+	const contest = G.S.events.some((e) => e.type === 'contest')
+	const speed = contest ? 6 : 1.5
+	for (let r = 0; r < rows; r++)
+		for (let c = 0; c < cols; c++) {
+			const v = Math.sin(c * 0.7 + time * speed) + Math.cos(r * 0.9 - time * speed * 0.8) + Math.sin((c + r) * 0.5 + time)
+			const hue = ((v + 3) * 60 + time * 40) % 360
+			ctx.fillStyle = `hsl(${hue.toFixed(0)},85%,${(45 + v * 8).toFixed(0)}%)`
+			ctx.fillRect(x0 + (c * rw) / cols, y0 + (r * rh) / rows, rw / cols + 0.01, rh / rows + 0.01)
+		}
+	ctx.fillStyle = 'rgba(0,0,0,0.25)'
+	for (let r = 1; r < rows; r++) ctx.fillRect(x0, y0 + (r * rh) / rows - 0.005, rw, 0.01)
+}
+
 function drawShots(ctx: Ctx) {
 	for (const s of shots) {
 		const f = s.t / s.dur
 		const x = s.x + (s.tx - s.x) * f, y = s.y + (s.ty - s.y) * f
-		if (s.kind === 'ring') {
-			const a = Math.atan2(s.ty - s.y, s.tx - s.x)
-			ctx.strokeStyle = s.col
-			ctx.globalAlpha = 0.9 - f * 0.4
-			for (let k = 0; k < 3; k++) {
-				const r = 0.15 + k * 0.12 + f * 0.25
-				ctx.lineWidth = 0.05
-				ctx.beginPath()
-				ctx.arc(x - Math.cos(a) * k * 0.12, y - Math.sin(a) * k * 0.12, r, a - 0.9, a + 0.9)
-				ctx.stroke()
+		switch (s.kind) {
+			case 'ring': {
+				const a = Math.atan2(s.ty - s.y, s.tx - s.x)
+				ctx.strokeStyle = s.col
+				ctx.globalAlpha = 0.9 - f * 0.4
+				for (let k = 0; k < 3; k++) {
+					ctx.lineWidth = 0.05
+					ctx.beginPath()
+					ctx.arc(x - Math.cos(a) * k * 0.12, y - Math.sin(a) * k * 0.12, 0.15 + k * 0.12 + f * 0.25, a - 0.9, a + 0.9)
+					ctx.stroke()
+				}
+				ctx.globalAlpha = 1
+				break
 			}
-			ctx.globalAlpha = 1
-		} else if (s.kind === 'beam') {
-			ctx.globalCompositeOperation = 'lighter'
-			ctx.globalAlpha = 1 - f
-			Ln(ctx, s.x, s.y, s.tx, s.ty, s.col, 0.14)
-			Ln(ctx, s.x, s.y, s.tx, s.ty, '#ffffff', 0.04)
-			El(ctx, s.tx, s.ty, 0.25, 0.25, s.col)
-			ctx.globalAlpha = 1
-			ctx.globalCompositeOperation = 'source-over'
-		} else {
-			// Companion militia lob glowing buttons
-			const arc = Math.sin(f * Math.PI) * 0.9
-			ctx.lineWidth = 0.02
-			roundRect(ctx, x - 0.09, y - arc - 0.09, 0.18, 0.18, 0.04)
-			ctx.fillStyle = s.col
-			ctx.fill()
-			ctx.strokeStyle = '#111'
-			ctx.stroke()
+			case 'beam':
+			case 'laser':
+				ctx.globalCompositeOperation = 'lighter'
+				ctx.globalAlpha = 1 - f
+				Ln(ctx, s.x, s.y, s.tx, s.ty, s.col, s.kind === 'beam' ? 0.14 : 0.06)
+				Ln(ctx, s.x, s.y, s.tx, s.ty, '#ffffff', 0.03)
+				El(ctx, s.tx, s.ty, 0.2, 0.2, s.col)
+				ctx.globalAlpha = 1
+				ctx.globalCompositeOperation = 'source-over'
+				break
+			case 'pixel':
+				// a burst of glitchy squares
+				for (let k = 0; k < 4; k++) {
+					const jx = Math.sin(k * 7 + s.t * 30) * 0.08, jy = Math.cos(k * 5 + s.t * 25) * 0.08
+					ctx.fillStyle = ['#ff3d9a', '#3ad1ff', '#7dff6b', '#ffffff'][k]
+					ctx.fillRect(x + jx - 0.05 - k * 0.04 * (s.tx - s.x > 0 ? 1 : -1), y + jy - 0.05, 0.1, 0.1)
+				}
+				break
+			case 'arrow':
+				Ln(ctx, x - (s.tx - s.x) * 0.04, y - (s.ty - s.y) * 0.04 - Math.sin(f * Math.PI) * 0.6, x, y - Math.sin(f * Math.PI) * 0.6, '#5a3b22', 0.03)
+				break
+			case 'bullet':
+				El(ctx, x, y, 0.04, 0.04, '#ffe58a')
+				break
+			case 'boulder':
+				El(ctx, x, y - Math.sin(f * Math.PI) * 2.5, 0.14, 0.12, '#6f6a62', OUT)
+				break
+			case 'shell':
+				El(ctx, x, y - Math.sin(f * Math.PI) * 1.5, 0.08, 0.08, '#2a2a2e')
+				break
+			case 'missile':
+				Ln(ctx, x - (s.tx - s.x) * 0.05, y - (s.ty - s.y) * 0.05 - Math.sin(f * Math.PI) * 1.2, x, y - Math.sin(f * Math.PI) * 1.2, '#e8eef4', 0.06)
+				break
+			case 'plasma':
+				ctx.globalCompositeOperation = 'lighter'
+				El(ctx, x, y, 0.22, 0.22, 'rgba(127,246,255,0.8)')
+				ctx.globalCompositeOperation = 'source-over'
+				break
+			default: {
+				const arc = Math.sin(f * Math.PI) * 0.9
+				ctx.lineWidth = 0.02
+				roundRect(ctx, x - 0.09, y - arc - 0.09, 0.18, 0.18, 0.04)
+				ctx.fillStyle = s.col
+				ctx.fill()
+			}
 		}
 	}
 }
 
-function drawShield(ctx: Ctx, time: number) {
-	const b = villageBounds()
+function drawShield(ctx: Ctx, T: Tribe, time: number) {
+	const b = villageBounds(T)
 	const cx = (b.x0 + b.x1) / 2, cy = (b.y0 + b.y1) / 2
 	const rx = (b.x1 - b.x0) / 2 + 3, ry = (b.y1 - b.y0) / 2 + 3
 	const a = 0.07 + fx.shield * 0.5 + Math.sin(time * 2) * 0.02
 	ctx.lineWidth = 0.15
 	El(ctx, cx, cy, rx, ry, `rgba(127,246,255,${(a * 0.25).toFixed(3)})`, `rgba(127,246,255,${Math.min(1, a * 2).toFixed(3)})`)
+}
+
+function drawFlood(ctx: Ctx, e: ActiveEvent) {
+	const k = clamp(Math.min(e.t / 3, (e.dur - e.t) / 4), 0, 1)
+	ctx.fillStyle = `rgba(61,122,161,${(0.55 * k).toFixed(3)})`
+	for (const i of e.d.tiles as number[]) ctx.fillRect((i % W) - 0.1, ((i / W) | 0) - 0.1, 1.2, 1.2)
 }
 
 function drawTornado(ctx: Ctx, x: number, y: number, t: number, k: number) {
@@ -102,10 +162,6 @@ function drawTornado(ctx: Ctx, x: number, y: number, t: number, k: number) {
 	const wid = (f: number) => 0.16 + f ** 1.6 * 1.9
 	ctx.globalAlpha = k
 	El(ctx, x, y, 1.6, 0.5, 'rgba(110,95,75,0.45)')
-	for (let i = 0; i < 6; i++) {
-		const a = t * 4 + i
-		El(ctx, x + Math.cos(a) * 1.1, y + Math.sin(a) * 0.3, 0.35, 0.18, 'rgba(140,125,100,0.4)')
-	}
 	const L: number[] = [], R: number[] = []
 	for (let i = 0; i <= 20; i++) {
 		const f = i / 20, yy = y - f * HGT, o = off(f), w = wid(f)
@@ -132,12 +188,6 @@ function drawTornado(ctx: Ctx, x: number, y: number, t: number, k: number) {
 	El(ctx, x + off(1), y - HGT, 3.2, 1.0, '#5c5f68')
 	El(ctx, x + off(1) - 1.4, y - HGT + 0.2, 1.8, 0.7, '#6a6d75')
 	El(ctx, x + off(1) + 1.5, y - HGT + 0.1, 1.9, 0.75, '#666972')
-	ctx.globalAlpha = k
-	ctx.fillStyle = '#4a3a2a'
-	for (let i = 0; i < 16; i++) {
-		const f = ((i * 0.37) % 1) * 0.7, a = t * 6 + i * 0.52, w = wid(f) + 0.3
-		ctx.fillRect(x + off(f) + Math.cos(a) * w, y - f * HGT + Math.sin(a) * w * 0.25, 0.08, 0.08)
-	}
 	ctx.globalAlpha = 1
 }
 
@@ -179,9 +229,9 @@ function drawSwarm(ctx: Ctx, x: number, y: number, t: number) {
 	}
 }
 
-function drawBunting(ctx: Ctx, t: number) {
-	const cols = ['#e0564a', '#f2c75c', '#5aa6e0', '#7cc457']
-	const corners = [[CX - 2.2, CY - 2.6], [CX + 2.2, CY - 2.6], [CX + 2.2, CY + 1.6], [CX - 2.2, CY + 1.6]]
+function drawBunting(ctx: Ctx, T: Tribe, t: number) {
+	const cols = [TRIBES[T.id].color, '#f2c75c', TRIBES[T.id].accent, '#ffffff']
+	const corners = [[T.cx - 2.2, T.cy - 2.6], [T.cx + 2.2, T.cy - 2.6], [T.cx + 2.2, T.cy + 1.6], [T.cx - 2.2, T.cy + 1.6]]
 	for (const [px, py] of corners) Ln(ctx, px, py + 1.1, px, py - 0.5, '#6b4a2e', 0.06)
 	for (let s = 0; s < 4; s++) {
 		const [ax, ay] = corners[s], [bx, by] = corners[(s + 1) % 4]
@@ -193,23 +243,6 @@ function drawBunting(ctx: Ctx, t: number) {
 	}
 }
 
-const STAGE_L = { x: CX - 3.2, y: CY - 2.0 }, STAGE_R = { x: CX + 3.2, y: CY - 2.0 }
-function drawStage(ctx: Ctx) {
-	ctx.lineWidth = 0.03
-	// speaker stacks
-	for (const dx of [-0.35, 0.35]) {
-		for (let k = 0; k < 3; k++) {
-			const y = STAGE_L.y - k * 0.55
-			Rc(ctx, STAGE_L.x + dx - 0.25, y - 0.55, 0.5, 0.55, '#18181c', OUT)
-			El(ctx, STAGE_L.x + dx, y - 0.25, 0.15, 0.15, '#3a3a44')
-		}
-	}
-	// lighting truss
-	for (const dx of [-0.7, 0.7]) Ln(ctx, STAGE_R.x + dx, STAGE_R.y, STAGE_R.x + dx, STAGE_R.y - 2.4, '#c8ccd2', 0.06)
-	Ln(ctx, STAGE_R.x - 0.9, STAGE_R.y - 2.4, STAGE_R.x + 0.9, STAGE_R.y - 2.4, '#c8ccd2', 0.07)
-	for (const dx of [-0.55, 0, 0.55]) Rc(ctx, STAGE_R.x + dx - 0.12, STAGE_R.y - 2.38, 0.24, 0.2, '#1a1a1e', OUT)
-}
-
 function drawDragon(ctx: Ctx, e: ActiveEvent, t: number) {
 	const { x, y, dir } = e.d
 	const flap = Math.sin(t * 6)
@@ -217,15 +250,12 @@ function drawDragon(ctx: Ctx, e: ActiveEvent, t: number) {
 	El(ctx, x, y + 3.5, 1.4, 0.35, '#000')
 	ctx.globalAlpha = 1
 	ctx.lineWidth = 0.04
-	// wings
 	for (const s of [-1, 1]) Pl(ctx, [x - 0.3 * dir, y, x + 0.3 * dir, y, x + 0.1 * dir + s * 0.2, y - 1.1 * flap * s - 0.4, x - 0.9 * dir, y - 0.7 * flap * s - 0.2], s > 0 ? '#9c2a22' : '#7a1f1a', OUT)
-	// body, tail, neck, head
 	El(ctx, x, y, 0.75, 0.28, '#b4342a', OUT)
 	Pl(ctx, [x - 0.6 * dir, y - 0.1, x - 1.6 * dir, y + 0.25 + Math.sin(t * 3) * 0.15, x - 0.6 * dir, y + 0.1], '#b4342a', OUT)
 	Pl(ctx, [x + 0.5 * dir, y - 0.15, x + 1.0 * dir, y - 0.55, x + 1.1 * dir, y - 0.35, x + 0.6 * dir, y + 0.05], '#b4342a', OUT)
 	El(ctx, x + 1.15 * dir, y - 0.5, 0.22, 0.14, '#c43c30', OUT)
 	El(ctx, x + 1.22 * dir, y - 0.55, 0.03, 0.03, '#ffe58a')
-	Pl(ctx, [x + 1.0 * dir, y - 0.62, x + 0.9 * dir, y - 0.82, x + 1.1 * dir, y - 0.64], '#e8d2a0')
 }
 
 function drawUfo(ctx: Ctx, e: ActiveEvent, t: number) {
@@ -234,7 +264,6 @@ function drawUfo(ctx: Ctx, e: ActiveEvent, t: number) {
 	El(ctx, d.x, d.ty + 0.1, 1.0, 0.25, '#000')
 	ctx.globalAlpha = 1
 	if (d.villager?.abducted) {
-		// the abductee floats up in the beam
 		ctx.globalAlpha = 1 - d.lift * 0.6
 		El(ctx, d.tx, d.ty - d.lift * 2.6 - 0.3, 0.08, 0.18, '#e0862f')
 		El(ctx, d.tx, d.ty - d.lift * 2.6 - 0.55, 0.07, 0.07, '#f1c9a5')
@@ -245,10 +274,7 @@ function drawUfo(ctx: Ctx, e: ActiveEvent, t: number) {
 	El(ctx, d.x, d.y, 1.1, 0.3, '#9aa3ad', OUT)
 	El(ctx, d.x, d.y - 0.05, 0.9, 0.18, '#c8d0da')
 	El(ctx, d.x, d.y - 0.25, 0.45, 0.3, 'rgba(160,240,255,0.85)', OUT)
-	for (let i = 0; i < 6; i++) {
-		const on = Math.floor(t * 6 + i) % 2 === 0
-		El(ctx, d.x - 0.85 + i * 0.34, d.y + 0.08, 0.05, 0.04, on ? '#9dff7f' : '#3a5a3a')
-	}
+	for (let i = 0; i < 6; i++) El(ctx, d.x - 0.85 + i * 0.34, d.y + 0.08, 0.05, 0.04, Math.floor(t * 6 + i) % 2 === 0 ? '#9dff7f' : '#3a5a3a')
 }
 
 function drawPlane(ctx: Ctx, p: { x: number; y: number; dir: number; alt: number }, t: number) {
@@ -257,12 +283,9 @@ function drawPlane(ctx: Ctx, p: { x: number; y: number; dir: number; alt: number
 	El(ctx, p.x + p.alt * 0.3, p.y, 0.8, 0.18, '#000')
 	ctx.globalAlpha = 1
 	ctx.lineWidth = 0.03
-	const scifi = has('hovercars')
-	const body = scifi ? '#e8eef4' : '#f2f2f2'
-	El(ctx, x, y, 0.9, 0.16, body, OUT)
-	Pl(ctx, [x - 0.1, y, x + 0.25 * p.dir, y, x - 0.15 * p.dir, y + 0.75, x - 0.4 * p.dir, y + 0.75], scifi ? '#c8d0da' : '#d8dde2', OUT)
-	Pl(ctx, [x - 0.75 * p.dir, y - 0.05, x - 0.95 * p.dir, y - 0.45, x - 0.85 * p.dir, y - 0.05], scifi ? '#7ff6ff' : '#c8442f', OUT)
-	for (let i = 0; i < 4; i++) El(ctx, x + (0.1 + i * 0.15) * p.dir, y - 0.03, 0.03, 0.03, '#5d8fb0')
+	El(ctx, x, y, 0.9, 0.16, '#f2f2f2', OUT)
+	Pl(ctx, [x - 0.1, y, x + 0.25 * p.dir, y, x - 0.15 * p.dir, y + 0.75, x - 0.4 * p.dir, y + 0.75], '#d8dde2', OUT)
+	Pl(ctx, [x - 0.75 * p.dir, y - 0.05, x - 0.95 * p.dir, y - 0.45, x - 0.85 * p.dir, y - 0.05], '#c8442f', OUT)
 	if (Math.floor(t * 2) % 2) El(ctx, x - 0.15 * p.dir, y + 0.75, 0.04, 0.04, '#ff3b3b')
 }
 
@@ -289,32 +312,50 @@ function beam(ctx: Ctx, x: number, y: number, ang: number, len: number, spread: 
 export function drawGlowFX(ctx: Ctx, time: number) {
 	const S = G.S
 	const night = nightAmount()
-	const e = S.event
-	const raid = e?.type === 'raid'
-	const style = rivalStyle()
+	const contest = S.events.some((e) => e.type === 'contest')
 	ctx.globalCompositeOperation = 'lighter'
-	// rival shows
-	for (const r of S.rivals) {
-		const tower = r.buildings.find((b) => b.tower)
-		if (!tower) continue
-		const k = Math.max(night, raid ? 0.45 : 0, e?.type === 'concert' ? 0.4 : 0) * (tower.hp < 0.6 ? 0.3 : 1)
+	for (const T of S.tribes) {
+		const lm = landmarkOf(T)
+		if (!lm) continue
+		const style = tribeStyle(T)
+		const atWar = S.events.some((e) => e.type === 'raid' && (e.d.att === T.id || e.d.def === T.id))
+		const k = Math.max(night, contest ? 0.7 : 0, atWar ? 0.35 : 0)
 		if (k < 0.05) continue
-		const em = towerEmitters(r.id, style)
-		if (r.id === 'lights') {
-			if (style === 0) continue // a beacon fire, lit by the lighting pass
+		const ax = lm.ox + 1, ay = lm.oy + 1.9
+		const em = landmarkEmitters(T.id, style)
+		if (T.id === 'lampys') {
+			if (style === 0) continue
 			em.forEach(([ex, ey], i) => {
-				const ang = -Math.PI / 2 + Math.sin(time * 0.6 + i * 1.3) * 0.9
-				const col = style === 1 ? '#fff7dc' : BEAMS[(Math.floor(time / 4) + i) % BEAMS.length]
-				beam(ctx, tower.x + ex, tower.y + ey, ang, style === 1 ? 16 : 12, style === 1 ? 0.07 : 0.05, col, 0.35 * k)
+				const ang = -Math.PI / 2 + Math.sin(time * (contest ? 1.4 : 0.6) + i * 1.3) * 0.9
+				const col = style === 1 ? '#fff7dc' : BEAMS[(Math.floor(time / (contest ? 1 : 4)) + i) % BEAMS.length]
+				beam(ctx, ax + ex, ay + ey, ang, style === 1 ? 16 : 13, style === 1 ? 0.07 : 0.05, col, 0.35 * k)
 			})
-		} else {
+		} else if (T.id === 'noises') {
 			const [ex, ey] = em[0]
 			ctx.lineWidth = 0.12
 			for (let i = 0; i < 3; i++) {
-				const f = (time * 0.7 + i / 3) % 1
+				const f = (time * (contest ? 1.6 : 0.7) + i / 3) % 1
 				ctx.globalAlpha = (1 - f) * 0.55 * k
-				El(ctx, tower.x + ex, tower.y + ey, 0.5 + f * 5, (0.5 + f * 5) * 0.55, null, '#a99bff')
+				El(ctx, ax + ex, ay + ey, 0.5 + f * 5, (0.5 + f * 5) * 0.55, null, '#a99bff')
 			}
+		} else {
+			// screen glow and, in the sci-fi age, a hologram
+			const rect = pixelScreen(style)
+			if (rect) {
+				const [rx, ry, rw, rh] = rect
+				ctx.globalAlpha = 0.25 * k
+				ctx.fillStyle = `hsl(${((time * 40) % 360).toFixed(0)},90%,60%)`
+				ctx.fillRect(ax + rx - 0.4, ay + ry - 0.4, rw + 0.8, rh + 0.8)
+			}
+			if (style === 3) {
+				ctx.globalAlpha = 0.45 * k
+				const g = ctx.createLinearGradient(0, ay - 1, 0, ay - 4)
+				g.addColorStop(0, 'rgba(58,209,255,0.8)')
+				g.addColorStop(1, 'rgba(255,61,154,0)')
+				ctx.fillStyle = g
+				ctx.fillRect(ax - 0.3 + Math.sin(time * 3) * 0.05, ay - 4, 0.6, 3)
+			}
+			if (style === 1) beam(ctx, ax + em[0][0], ay + em[0][1], Math.PI * 0.15 + Math.sin(time * 0.5) * 0.3, 6, 0.12, '#fff7dc', 0.25 * k)
 		}
 	}
 	// raid fire glows at night
@@ -322,22 +363,11 @@ export function drawGlowFX(ctx: Ctx, time: number) {
 		for (const sh of shots) {
 			const f = sh.t / sh.dur
 			ctx.globalAlpha = night * (1 - f) * 0.8
-			if (sh.kind === 'beam') Ln(ctx, sh.x, sh.y, sh.tx, sh.ty, sh.col, 0.22)
+			if (sh.kind === 'beam' || sh.kind === 'laser') Ln(ctx, sh.x, sh.y, sh.tx, sh.ty, sh.col, 0.22)
 			else El(ctx, sh.x + (sh.tx - sh.x) * f, sh.y + (sh.ty - sh.y) * f, 0.35, 0.35, sh.col)
 		}
-	if (e?.type === 'concert') {
-		for (let i = 0; i < 3; i++) {
-			const ang = -Math.PI / 2 + Math.sin(time * 1.1 + i * 2) * 1.1
-			beam(ctx, STAGE_R.x - 0.55 + i * 0.55, STAGE_R.y - 2.2, ang + Math.PI * 0.1, 9, 0.06, BEAMS[(Math.floor(time * 2) + i) % BEAMS.length], 0.45)
-		}
-		ctx.lineWidth = 0.1
-		for (let i = 0; i < 3; i++) {
-			const f = (time * 1.4 + i / 3) % 1
-			ctx.globalAlpha = (1 - f) * 0.6
-			El(ctx, STAGE_L.x, STAGE_L.y - 0.8, 0.5 + f * 4, (0.5 + f * 4) * 0.5, null, '#a99bff')
-		}
-	}
-	if (e?.type === 'ufo' && e.d.beam) {
+	for (const e of S.events) {
+		if (e.type !== 'ufo' || !e.d.beam) continue
 		const d = e.d
 		const g = ctx.createLinearGradient(d.x, d.y, d.x, d.ty)
 		g.addColorStop(0, 'rgba(157,255,127,0.55)')
@@ -352,23 +382,22 @@ export function drawGlowFX(ctx: Ctx, time: number) {
 		ctx.closePath()
 		ctx.fill()
 	}
-	// teleporter and fusion glows
-	for (const b of S.buildings) {
-		if (!b.done) continue
-		if (b.type === 'teleporter') {
-			const p = 0.5 + Math.sin(time * 3 + b.id) * 0.3
-			ctx.globalAlpha = p * 0.6
-			const g = ctx.createLinearGradient(0, b.oy + 1.6, 0, b.oy + 0.3)
-			g.addColorStop(0, 'rgba(196,139,255,0.9)')
-			g.addColorStop(1, 'rgba(196,139,255,0)')
-			ctx.fillStyle = g
-			ctx.fillRect(b.ox + 0.45, b.oy + 0.4, 1.1, 1.2)
-		} else if (b.type === 'fusion') {
-			ctx.globalAlpha = 0.35 + Math.sin(time * 2.5) * 0.15
-			ctx.lineWidth = 0.12
-			El(ctx, b.ox + 1, b.oy + 0.95, 0.72, 0.17, null, '#8fe8ff')
+	for (const T of S.tribes)
+		for (const b of T.buildings) {
+			if (!b.done) continue
+			if (b.type === 'teleporter') {
+				ctx.globalAlpha = (0.5 + Math.sin(time * 3 + b.id) * 0.3) * 0.6
+				const g = ctx.createLinearGradient(0, b.oy + 1.6, 0, b.oy + 0.3)
+				g.addColorStop(0, 'rgba(196,139,255,0.9)')
+				g.addColorStop(1, 'rgba(196,139,255,0)')
+				ctx.fillStyle = g
+				ctx.fillRect(b.ox + 0.45, b.oy + 0.4, 1.1, 1.2)
+			} else if (b.type === 'fusion') {
+				ctx.globalAlpha = 0.35 + Math.sin(time * 2.5) * 0.15
+				ctx.lineWidth = 0.12
+				El(ctx, b.ox + 1, b.oy + 0.95, 0.72, 0.17, null, '#8fe8ff')
+			}
 		}
-	}
 	ctx.globalAlpha = 1
 	ctx.globalCompositeOperation = 'source-over'
 }
@@ -378,9 +407,9 @@ export function drawGlowFX(ctx: Ctx, time: number) {
 // ======================================================================
 const drops: { x: number; y: number; l: number }[] = []
 const flakes: { x: number; y: number; r: number; p: number }[] = []
+const grains: { x: number; y: number; v: number }[] = []
 
 export function drawScreenFX(ctx: Ctx, cw: number, ch: number, rdt: number, time: number) {
-	const e = G.S.event
 	const tw = twilight() * (1 - nightAmount())
 	if (tw > 0.02) {
 		ctx.fillStyle = `rgba(255,130,50,${(tw * 0.13).toFixed(3)})`
@@ -390,16 +419,16 @@ export function drawScreenFX(ctx: Ctx, cw: number, ch: number, rdt: number, time
 		ctx.fillStyle = `rgba(18,24,40,${fx.dark.toFixed(3)})`
 		ctx.fillRect(0, 0, cw, ch)
 	}
-	if (fx.tint > 0.005) {
-		ctx.fillStyle = `rgba(100,150,40,${fx.tint.toFixed(3)})`
-		ctx.fillRect(0, 0, cw, ch)
-	}
 	if (fx.flare > 0.005) {
 		ctx.fillStyle = `rgba(255,150,60,${clamp(fx.flare, 0, 0.5).toFixed(3)})`
 		ctx.fillRect(0, 0, cw, ch)
 	}
-	if (e?.type === 'aurora') drawAurora(ctx, cw, ch, time, Math.min(1, e.t / 4, (e.dur - e.t) / 4))
-	if (e?.type === 'comet') drawComet(ctx, cw, ch, e.t / e.dur)
+	if (fx.sand > 0.01) drawSand(ctx, cw, ch, rdt)
+	for (const e of G.S.events) {
+		if (e.type === 'aurora') drawAurora(ctx, cw, ch, time, Math.min(1, e.t / 4, (e.dur - e.t) / 4))
+		if (e.type === 'comet') drawComet(ctx, cw, ch, e.t / e.dur)
+		if (e.type === 'meteorShower') drawShootingStars(ctx, cw, ch, time)
+	}
 	if (fx.rain > 0.02) drawRain(ctx, cw, ch, rdt)
 	if (fx.snow > 0.02) drawSnow(ctx, cw, ch, rdt, time)
 	if (fx.flash > 0.01) {
@@ -450,6 +479,24 @@ function drawSnow(ctx: Ctx, cw: number, ch: number, rdt: number, time: number) {
 	ctx.fill()
 }
 
+function drawSand(ctx: Ctx, cw: number, ch: number, rdt: number) {
+	ctx.fillStyle = `rgba(196,150,90,${(fx.sand * 0.38).toFixed(3)})`
+	ctx.fillRect(0, 0, cw, ch)
+	const target = Math.floor(400 * fx.sand)
+	while (grains.length < target) grains.push({ x: Math.random() * cw, y: Math.random() * ch, v: 300 + Math.random() * 500 })
+	grains.length = Math.min(grains.length, target)
+	ctx.fillStyle = 'rgba(230,200,150,0.7)'
+	for (const g of grains) {
+		g.x += g.v * rdt
+		g.y += Math.sin(g.x * 0.02) * 20 * rdt
+		if (g.x > cw) {
+			g.x = -5
+			g.y = Math.random() * ch
+		}
+		ctx.fillRect(g.x, g.y, 3, 1)
+	}
+}
+
 function drawAurora(ctx: Ctx, cw: number, ch: number, t: number, k: number) {
 	ctx.globalCompositeOperation = 'lighter'
 	const cols = [[90, 255, 160], [140, 110, 255], [70, 220, 255]]
@@ -470,20 +517,24 @@ function drawAurora(ctx: Ctx, cw: number, ch: number, t: number, k: number) {
 	ctx.globalCompositeOperation = 'source-over'
 }
 
-function drawComet(ctx: Ctx, cw: number, ch: number, f: number) {
-	const x = -100 + (cw + 300) * f, y = ch * 0.12 + f * ch * 0.18
-	const tx = x - 260, ty = y - 60
-	ctx.globalCompositeOperation = 'lighter'
+function streak(ctx: Ctx, x: number, y: number, len: number, w: number, a: number) {
+	const tx = x - len, ty = y - len * 0.25
 	const g = ctx.createLinearGradient(x, y, tx, ty)
-	g.addColorStop(0, 'rgba(220,240,255,0.95)')
+	g.addColorStop(0, `rgba(230,245,255,${a})`)
 	g.addColorStop(1, 'rgba(120,180,255,0)')
 	ctx.strokeStyle = g
-	ctx.lineWidth = 10
+	ctx.lineWidth = w
 	ctx.lineCap = 'round'
 	ctx.beginPath()
 	ctx.moveTo(x, y)
 	ctx.lineTo(tx, ty)
 	ctx.stroke()
+}
+
+function drawComet(ctx: Ctx, cw: number, ch: number, f: number) {
+	ctx.globalCompositeOperation = 'lighter'
+	const x = -100 + (cw + 300) * f, y = ch * 0.12 + f * ch * 0.18
+	streak(ctx, x, y, 260, 10, 0.95)
 	ctx.fillStyle = '#ffffff'
 	ctx.beginPath()
 	ctx.arc(x, y, 6, 0, 7)
@@ -491,3 +542,12 @@ function drawComet(ctx: Ctx, cw: number, ch: number, f: number) {
 	ctx.globalCompositeOperation = 'source-over'
 }
 
+function drawShootingStars(ctx: Ctx, cw: number, ch: number, t: number) {
+	ctx.globalCompositeOperation = 'lighter'
+	for (let i = 0; i < 6; i++) {
+		const f = (t * 0.5 + i * 0.37) % 1
+		const x = ((i * 397) % cw) + f * 400, y = ((i * 211) % (ch * 0.5)) + f * 100
+		streak(ctx, x, y, 90, 2.5, (1 - f) * 0.9)
+	}
+	ctx.globalCompositeOperation = 'source-over'
+}

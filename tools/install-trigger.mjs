@@ -1,8 +1,12 @@
 #!/usr/bin/env node
-// Installs the "Village: count button presses" trigger into a running Companion (v4/v5)
-// by driving the same import flow the web UI uses (tRPC over websocket).
+// Sets up Companion (v4/v5) for Companion Village by driving the same import flow the web UI uses (tRPC over websocket).
 //
-// Usage: node tools/install-trigger.mjs [host:port]      (default localhost:8888)
+// Usage:
+//   node tools/install-trigger.mjs [host:port] [--var village_presses] [--cmd village_pixels_cmd] [--no-trigger]
+//
+//   --var   name of the counter variable the "on any button press" trigger increments (default village_presses)
+//   --cmd   also create an empty command variable (buttons set it to attack:noises, gift:lampys, festival …)
+//   --no-trigger   only create the command variable
 //
 // Alternative without this script: Companion web UI -> Import / Export -> Import
 // and pick village-trigger.companionconfig, then import the trigger.
@@ -12,11 +16,25 @@ import { createHash } from 'node:crypto'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 
-const host = process.argv[2] || 'localhost:8888'
+const args = process.argv.slice(2)
+const flag = (k) => {
+	const i = args.indexOf(k)
+	return i >= 0 ? args[i + 1] : undefined
+}
+const host = args.find((a, i) => !a.startsWith('--') && !(i > 0 && args[i - 1].startsWith('--') && args[i - 1] !== '--no-trigger')) || 'localhost:8888'
+const variable = flag('--var') || 'village_presses'
+const cmdVar = flag('--cmd')
+const wantTrigger = !args.includes('--no-trigger')
+
 const here = path.dirname(fileURLToPath(import.meta.url))
-const file = readFileSync(path.join(here, 'village-trigger.companionconfig'))
-const config = JSON.parse(file.toString('utf8'))
+const config = JSON.parse(readFileSync(path.join(here, 'village-trigger.companionconfig'), 'utf8'))
 const triggerIds = Object.keys(config.triggers)
+const trig = config.triggers[triggerIds[0]]
+if (variable !== 'village_presses') {
+	trig.options.name = `Village: count button presses (${variable})`
+	trig.actions[0].options.name.value = variable
+}
+const file = Buffer.from(JSON.stringify(config))
 
 if (typeof WebSocket === 'undefined') {
 	console.error('This script needs Node.js 22 or newer (global WebSocket).')
@@ -51,10 +69,15 @@ async function triggerAlreadyInstalled() {
 	try {
 		const res = await fetch(`http://${host}/int/export/triggers/all?format=json`)
 		const all = await res.json()
-		return Object.values(all.triggers || {}).some((t) => t?.options?.name === config.triggers[triggerIds[0]].options.name)
+		return Object.values(all.triggers || {}).some((t) => t?.options?.name === trig.options.name)
 	} catch {
 		return false
 	}
+}
+
+async function variableExists(name) {
+	const res = await fetch(`http://${host}/api/custom-variable/${encodeURIComponent(name)}/value`)
+	return res.status !== 404
 }
 
 ws.addEventListener('error', () => {
@@ -64,27 +87,26 @@ ws.addEventListener('error', () => {
 
 ws.addEventListener('open', async () => {
 	try {
-		if (await triggerAlreadyInstalled()) {
-			console.log('Trigger "Village: count button presses" already exists, nothing to do.')
-			process.exit(0)
+		if (wantTrigger) {
+			if (await triggerAlreadyInstalled()) console.log(`Trigger "${trig.options.name}" already exists.`)
+			else {
+				const sessionId = await call('importExport.prepareImport.start', { name: 'village-trigger.companionconfig', size: file.length })
+				await call('importExport.prepareImport.uploadChunk', { sessionId, offset: 0, data: file.toString('base64') })
+				const checksum = createHash('sha1').update(file).digest('hex')
+				const prepared = await call('importExport.prepareImport.complete', { sessionId, expectedChecksum: checksum, userData: null })
+				if (Array.isArray(prepared) && prepared[0]) throw new Error(`Import rejected: ${prepared[0]}`)
+				await call('importExport.importTriggers', { selectedTriggerIds: triggerIds, connectionIdRemapping: {}, replaceExisting: false })
+				console.log(`Installed trigger "${trig.options.name}": every button press increments $(custom:${variable}).`)
+			}
 		}
-
-		const sessionId = await call('importExport.prepareImport.start', {
-			name: 'village-trigger.companionconfig',
-			size: file.length,
-		})
-		await call('importExport.prepareImport.uploadChunk', { sessionId, offset: 0, data: file.toString('base64') })
-		const checksum = createHash('sha1').update(file).digest('hex')
-		const prepared = await call('importExport.prepareImport.complete', { sessionId, expectedChecksum: checksum, userData: null })
-		if (Array.isArray(prepared) && prepared[0]) throw new Error(`Import rejected: ${prepared[0]}`)
-
-		await call('importExport.importTriggers', {
-			selectedTriggerIds: triggerIds,
-			connectionIdRemapping: {},
-			replaceExisting: false,
-		})
-		console.log('Installed trigger "Village: count button presses".')
-		console.log('Every button press now increments $(custom:village_presses).')
+		if (cmdVar) {
+			if (await variableExists(cmdVar)) console.log(`Command variable $(custom:${cmdVar}) already exists.`)
+			else {
+				const err = await call('customVariables.create', { name: cmdVar, defaultVal: '' })
+				if (err) throw new Error(String(err))
+				console.log(`Created command variable $(custom:${cmdVar}). Set it from a button to e.g. "attack:noises".`)
+			}
+		}
 		process.exit(0)
 	} catch (e) {
 		console.error('Install failed:', e.message)

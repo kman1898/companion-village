@@ -1,9 +1,8 @@
 import { mulberry32 } from '../core/rng'
 import { B, ROLE, type BType, type Res, type Role } from '../data/buildings'
-import type { RivalId } from '../game/state'
+import { TRIBES, type TribeId } from '../data/tribes'
 import type { AgentKind, Team } from '../game/agents'
-import { rivalHut, rivalTower } from './rivalart'
-import { ART } from './art'
+import { ART, artCtx } from './art'
 import { canvas, El, Ln, Pl, Rc, roundRect, type Ctx } from './draw'
 
 export interface Sprite {
@@ -31,11 +30,12 @@ export function drawSprite(ctx: Ctx, s: Sprite, x: number, y: number, scale = 1)
 // ---------------------------------------------------------------------
 const SR = 80
 const buildingCache = new Map<string, Sprite & { smoke: [number, number] | null }>()
-export function buildingSprite(type: BType, v: number) {
-	const key = type + ':' + v
+export function buildingSprite(type: BType, v: number, tribe: TribeId) {
+	const key = type + ':' + v + ':' + tribe
 	let sp = buildingCache.get(key)
 	if (sp) return sp
 	let smoke: [number, number] | null = null
+	artCtx.tribe = tribe
 	const top = Math.min(-2.4, 1.95 - B[type].h - 0.45)
 	const s = makeSprite(SR, -0.5, top, 2.5, 2.25, (g) => {
 		if (type !== 'graveyard') El(g, 1.12, 1.9, 1.0, 0.16, 'rgba(0,0,0,0.2)')
@@ -47,7 +47,6 @@ export function buildingSprite(type: BType, v: number) {
 }
 export function clearSpriteCaches() {
 	buildingCache.clear()
-	rivalCache.clear()
 }
 
 // ---------------------------------------------------------------------
@@ -56,30 +55,94 @@ export function clearSpriteCaches() {
 const DECID = [['#3f7d32', '#5a9a3f', '#2f6427'], ['#4b8a36', '#6aa846', '#376b2a'], ['#56813a', '#79a24c', '#3e6230'],
 	['#6b8f2f', '#8fb045', '#4f6e25'], ['#3c7440', '#5b9555', '#2b5a31']]
 const PINES = [['#2f5e3a', '#3f7449', '#224a2c'], ['#2c5640', '#3a6b50', '#1f4230'], ['#35603a', '#467a4a', '#264a2b']]
+/** sprites per species (see Sp in state.ts): oak, pine, snow pine, palm, cactus, dead tree, mountain peak */
 export let treeSprites: Sprite[][] = []
 export let stumpSprite: Sprite
 
 export function makeStaticSprites() {
 	const R = 80
-	const tree = (pine: boolean, col: string[]) =>
-		makeSprite(R, -0.65, -1.42, 0.65, 0.18, (g) => {
-			El(g, 0.1, 0.02, 0.34, 0.1, 'rgba(0,0,0,0.22)')
-			Rc(g, -0.055, -0.36, 0.11, 0.38, '#6b4a2e')
-			g.lineWidth = 0.025
-			if (pine) {
-				for (let i = 0; i < 3; i++) {
-					const yb = -0.2 - i * 0.32, wd = 0.42 - i * 0.1
-					Pl(g, [-wd, yb, wd, yb, 0, yb - 0.55], col[0], 'rgba(20,40,20,0.5)')
-					Pl(g, [-wd * 0.2, yb - 0.05, -wd * 0.85, yb - 0.02, -0.02, yb - 0.5], col[1])
-				}
-			} else {
-				const blobs = [[0, -0.66, 0.36], [-0.22, -0.52, 0.25], [0.22, -0.52, 0.25], [0.06, -0.86, 0.26]]
-				for (const [x, y, r] of blobs) El(g, x, y, r, r * 0.95, col[0], 'rgba(20,40,20,0.45)')
-				for (const [x, y, r] of blobs) El(g, x - r * 0.25, y - r * 0.25, r * 0.55, r * 0.5, col[1])
-				El(g, 0.12, -0.5, 0.2, 0.12, col[2])
-			}
-		})
-	treeSprites = [DECID.map((c) => tree(false, c)), PINES.map((c) => tree(true, c))]
+	const box = (draw: (g: Ctx) => void, x0 = -0.65, y0 = -1.42, x1 = 0.65, y1 = 0.18) => makeSprite(R, x0, y0, x1, y1, draw)
+	const shadow = (g: Ctx, w = 0.34) => El(g, 0.1, 0.02, w, 0.1, 'rgba(0,0,0,0.22)')
+	const trunk = (g: Ctx, col = '#6b4a2e') => Rc(g, -0.055, -0.36, 0.11, 0.38, col)
+	const pine = (g: Ctx, col: string[], snow = false) => {
+		g.lineWidth = 0.025
+		for (let i = 0; i < 3; i++) {
+			const yb = -0.2 - i * 0.32, wd = 0.42 - i * 0.1
+			Pl(g, [-wd, yb, wd, yb, 0, yb - 0.55], col[0], 'rgba(20,40,20,0.5)')
+			Pl(g, [-wd * 0.2, yb - 0.05, -wd * 0.85, yb - 0.02, -0.02, yb - 0.5], col[1])
+			if (snow) Pl(g, [-wd * 0.55, yb - 0.25, wd * 0.55, yb - 0.25, 0, yb - 0.55], '#f4f8fb')
+		}
+	}
+	const oak = (col: string[]) => box((g) => {
+		shadow(g)
+		trunk(g)
+		g.lineWidth = 0.025
+		const blobs = [[0, -0.66, 0.36], [-0.22, -0.52, 0.25], [0.22, -0.52, 0.25], [0.06, -0.86, 0.26]]
+		for (const [x, y, r] of blobs) El(g, x, y, r, r * 0.95, col[0], 'rgba(20,40,20,0.45)')
+		for (const [x, y, r] of blobs) El(g, x - r * 0.25, y - r * 0.25, r * 0.55, r * 0.5, col[1])
+		El(g, 0.12, -0.5, 0.2, 0.12, col[2])
+	})
+	const palm = (lean: number) => box((g) => {
+		shadow(g, 0.3)
+		g.lineCap = 'round'
+		g.strokeStyle = '#8a6a45'
+		g.lineWidth = 0.08
+		g.beginPath()
+		g.moveTo(0, 0)
+		g.quadraticCurveTo(lean * 0.3, -0.6, lean * 0.15, -1.15)
+		g.stroke()
+		for (let k = 0; k < 6; k++) {
+			const a = -Math.PI / 2 + (k - 2.5) * 0.55
+			g.strokeStyle = k % 2 ? '#3f8a3a' : '#4fa046'
+			g.lineWidth = 0.07
+			g.beginPath()
+			g.moveTo(lean * 0.15, -1.15)
+			g.quadraticCurveTo(lean * 0.15 + Math.cos(a) * 0.35, -1.25 + Math.sin(a) * 0.2, lean * 0.15 + Math.cos(a) * 0.55, -1.0 + Math.sin(a) * 0.1 + 0.15)
+			g.stroke()
+		}
+		El(g, lean * 0.15, -1.12, 0.06, 0.06, '#7a5a2a')
+	})
+	const cactus = (arms: number) => box((g) => {
+		shadow(g, 0.2)
+		g.lineCap = 'round'
+		const col = '#4f8a46'
+		Ln(g, 0, 0, 0, -0.75, col, 0.16)
+		if (arms > 0) {
+			Ln(g, 0, -0.35, -0.2, -0.35, col, 0.1)
+			Ln(g, -0.2, -0.35, -0.2, -0.6, col, 0.1)
+		}
+		if (arms > 1) {
+			Ln(g, 0, -0.45, 0.2, -0.45, col, 0.1)
+			Ln(g, 0.2, -0.45, 0.2, -0.65, col, 0.1)
+		}
+		Ln(g, -0.03, -0.1, -0.03, -0.7, 'rgba(255,255,255,0.25)', 0.03)
+	})
+	const dead = (v: number) => box((g) => {
+		shadow(g, 0.25)
+		g.lineCap = 'round'
+		const c = '#5a4a3a'
+		Ln(g, 0, 0, 0.02, -0.85, c, 0.08)
+		Ln(g, 0.01, -0.45, -0.25, -0.75, c, 0.04)
+		Ln(g, 0.02, -0.6, 0.25 + v * 0.05, -0.9, c, 0.04)
+		Ln(g, -0.12, -0.6, -0.18, -0.9, c, 0.03)
+	})
+	const peak = (v: number) => makeSprite(R, -1.6, -2.6, 1.6, 0.35, (g) => {
+		El(g, 0.2, 0.05, 1.5, 0.3, 'rgba(0,0,0,0.25)')
+		g.lineWidth = 0.04
+		const h = 2.2 + v * 0.3
+		Pl(g, [-1.5, 0.1, 1.5, 0.1, 0.15, -h], '#8a8478', 'rgba(40,36,30,0.6)')
+		Pl(g, [0.15, -h, 1.5, 0.1, 0.4, 0.1], 'rgba(0,0,0,0.18)')
+		Pl(g, [0.15, -h, -0.35, -h + 0.75, -0.05, -h + 0.6, 0.15, -h + 0.85, 0.45, -h + 0.62, 0.62, -h + 0.75], '#f4f8fb')
+	})
+	treeSprites = [
+		DECID.map((c) => oak(c)),
+		PINES.map((c) => box((g) => { shadow(g); trunk(g); pine(g, c) })),
+		PINES.slice(0, 2).map((c) => box((g) => { shadow(g); trunk(g, '#5a4030'); pine(g, c, true) })),
+		[palm(1), palm(-1)],
+		[cactus(1), cactus(2)],
+		[dead(0), dead(1)],
+		[peak(0), peak(1)],
+	]
 	stumpSprite = makeSprite(64, -0.12, -0.13, 0.12, 0.02, (g) => {
 		El(g, 0, -0.04, 0.1, 0.05, '#6b4a2e')
 		El(g, 0, -0.07, 0.085, 0.04, '#cfa66e')
@@ -175,8 +238,8 @@ const SICK_SKIN = '#a9c58a'
  * frame: 0..3 walk cycle, 4 standing.
  * style: 0 medieval, 1 modern clothes, 2 space-age jumpsuit, 3 sci-fi suit.
  */
-export function villagerSprite(role: Role, skin: string, carry: Res | null, frame: number, face: 1 | -1, sick: boolean, style = 0, android = false) {
-	const key = `${role}|${skin}|${carry}|${frame}|${face}|${sick}|${style}|${android}`
+export function villagerSprite(role: Role, skin: string, carry: Res | null, frame: number, face: 1 | -1, sick: boolean, style: number, android: boolean, tribe: TribeId) {
+	const key = `${role}|${skin}|${carry}|${frame}|${face}|${sick}|${style}|${android}|${tribe}`
 	let sp = villagerCache.get(key)
 	if (sp) return sp
 	const R = ROLE[role]
@@ -200,6 +263,8 @@ export function villagerSprite(role: Role, skin: string, carry: Res | null, fram
 		g.lineWidth = 0.02
 		g.stroke()
 		if (style === 3 && !android) Rc(g, -0.08, -0.23 - bob, 0.16, 0.035, R.color)
+		// tribe scarf
+		Rc(g, -0.075, -0.29 - bob, 0.15, 0.045, TRIBES[tribe].color)
 		if (style === 2 && !android) Ln(g, -0.05, -0.28 - bob, 0.05, -0.28 - bob, '#ffffff', 0.02)
 		El(g, 0, -0.35 - bob, 0.065, 0.065, sk)
 		const hy = -0.375 - bob
@@ -258,22 +323,25 @@ export function villagerSprite(role: Role, skin: string, carry: Res | null, fram
 }
 
 // ---------------------------------------------------------------------
-// Other characters: rival crews, militia, wolves, bandits, robots, the wedding couple, the time traveller's box
+// Other characters: soldiers, siege engines, caravans, wolves, bandits, robots, the wedding couple, the time traveller's box
 // ---------------------------------------------------------------------
 const agentCache = new Map<string, Sprite>()
 const CREW_SKINS = ['#f1c9a5', '#c68b62', '#e0ac85', '#8d5a3b']
-export function agentSprite(kind: AgentKind, team: Team, frame: number, face: 1 | -1, style: number, variant: number, carry = false) {
-	const key = `${kind}|${team}|${frame}|${face}|${style}|${variant}|${carry}`
+export function agentSprite(kind: AgentKind, team: Team, frame: number, face: 1 | -1, style: number, variant: number, carry = false, level = 0) {
+	const key = `${kind}|${team}|${frame}|${face}|${style}|${variant % 4}|${carry}|${level}`
 	let sp = agentCache.get(key)
 	if (sp) return sp
-	const tall = kind === 'traveler'
-	sp = makeSprite(80, -0.45, tall ? -1.4 : -0.75, 0.45, 0.08, (g) => {
+	const big = kind === 'traveler' || kind === 'siege' || kind === 'caravan'
+	sp = makeSprite(80, big ? -0.9 : -0.45, big ? -1.6 : -0.75, big ? 0.9 : 0.45, 0.12, (g) => {
 		const f = face
 		const walking = frame < 4
 		const ph = Math.PI / 4 + (frame * Math.PI) / 2
 		const bob = walking ? Math.abs(Math.sin(ph)) * 0.025 : 0
 		const sw = walking ? Math.sin(ph) * 0.05 : 0
+		const tc = team !== 'none' ? TRIBES[team].color : '#888'
 		g.lineCap = 'round'
+		g.lineWidth = 0.025
+		const O = 'rgba(30,20,10,0.6)'
 		if (kind === 'wolf') {
 			El(g, 0, 0, 0.22, 0.05, 'rgba(0,0,0,0.25)')
 			for (const [lx, d] of [[-0.12, sw], [0.12, -sw]]) Ln(g, lx, -0.12, lx + d, 0, '#4a4a4e', 0.04)
@@ -292,11 +360,74 @@ export function agentSprite(kind: AgentKind, team: Team, frame: number, face: 1 
 			El(g, 0, -1.36, 0.05, 0.06, '#e8f0ff')
 			return
 		}
+		if (kind === 'siege') {
+			El(g, 0, 0.02, 0.6, 0.12, 'rgba(0,0,0,0.25)')
+			if (level === 0) {
+				// catapult
+				Rc(g, -0.45, -0.25, 0.9, 0.12, '#8a5a2b', O)
+				for (const x of [-0.32, 0.32]) El(g, x, -0.08, 0.1, 0.1, '#5a3b22', O)
+				Ln(g, -0.2 * f, -0.25, 0.35 * f, -0.75, '#6b4a2e', 0.06)
+				El(g, 0.38 * f, -0.78, 0.1, 0.07, '#5a4a3a', O)
+				Ln(g, 0, -0.25, 0, -0.5, '#6b4a2e', 0.05)
+			} else if (level === 1) {
+				// cannon
+				for (const x of [-0.2, 0.2]) El(g, x, -0.12, 0.15, 0.15, '#5a3b22', O)
+				g.lineWidth = 0.14
+				Ln(g, -0.3 * f, -0.2, 0.45 * f, -0.38, '#2a2a2e', 0.16)
+				El(g, 0.47 * f, -0.39, 0.06, 0.08, '#111')
+			} else if (level === 2) {
+				// tank
+				Rc(g, -0.55, -0.3, 1.1, 0.28, '#4a5a3a', O)
+				for (let k = 0; k < 5; k++) El(g, -0.44 + k * 0.22, -0.08, 0.08, 0.08, '#2a2a2e')
+				Rc(g, -0.28, -0.52, 0.56, 0.24, '#5a6a4a', O)
+				Ln(g, 0.2 * f, -0.42, 0.75 * f, -0.46, '#3a4a2a', 0.07)
+				Rc(g, -0.06, -0.4, 0.12, 0.08, tc)
+			} else if (level === 3) {
+				// drone swarm carrier
+				for (const [dx, dy] of [[-0.35, -0.9], [0.3, -1.1], [0, -0.7], [0.45, -0.6]]) {
+					Rc(g, dx - 0.12, dy - 0.04, 0.24, 0.08, '#3a3f4a', O)
+					for (const s of [-1, 1]) Ln(g, dx + s * 0.16, dy - 0.07, dx + s * 0.24, dy - 0.07, '#9aa3ad', 0.02)
+					El(g, dx, dy + 0.02, 0.03, 0.03, tc)
+				}
+			} else {
+				// battle mech
+				for (const s of [-1, 1]) Ln(g, s * 0.18, -0.55, s * 0.25 + sw * s, 0, '#7a838d', 0.1)
+				Rc(g, -0.32, -1.15, 0.64, 0.6, '#9aa3ad', O)
+				Rc(g, -0.2, -1.05, 0.4, 0.14, tc)
+				Rc(g, 0.25 * f, -1.0, 0.45 * f, 0.12, '#5a6170', O)
+				El(g, 0.72 * f, -0.94, 0.06, 0.06, '#7ff6ff')
+			}
+			return
+		}
+		if (kind === 'caravan') {
+			El(g, 0, 0.02, 0.7, 0.13, 'rgba(0,0,0,0.25)')
+			if (style <= 1) {
+				// ox cart with a cover in the tribe colour
+				Rc(g, 0.35 * f - 0.18, -0.42, 0.36, 0.22, '#7a4f2a', O)
+				Rc(g, 0.55 * f - 0.08, -0.55, 0.16, 0.18, '#7a4f2a', O)
+				Rc(g, -0.5, -0.4, 0.7, 0.26, '#8a5a2b', O)
+				Pl(g, [-0.5, -0.4, 0.2, -0.4, 0.15, -0.72, -0.45, -0.72], tc, O)
+				El(g, -0.3, -0.1, 0.1, 0.1, '#5a3b22', O)
+				El(g, 0.05, -0.1, 0.1, 0.1, '#5a3b22', O)
+			} else if (style === 2) {
+				// truck
+				Rc(g, -0.55, -0.6, 0.75, 0.45, tc, O)
+				Rc(g, 0.2 * f - (f < 0 ? 0.32 : 0), -0.48, 0.32, 0.33, '#e8e2d6', O)
+				Rc(g, 0.26 * f - (f < 0 ? 0.2 : 0), -0.44, 0.2, 0.12, '#bfe3f2')
+				for (const x of [-0.4, 0.0, 0.35]) El(g, x, -0.1, 0.08, 0.08, '#1e1e1e')
+			} else {
+				// hover freighter
+				Rc(g, -0.6, -0.75, 1.2, 0.4, '#e8eef4', O)
+				Rc(g, -0.6, -0.6, 1.2, 0.08, tc)
+				El(g, 0, -0.28, 0.5, 0.06, 'rgba(127,246,255,0.6)')
+			}
+			return
+		}
 		El(g, 0, 0, 0.13, 0.045, 'rgba(0,0,0,0.25)')
-		let body = '#202024', legs = '#2a2a30', head = CREW_SKINS[variant % 4]
-		if (kind === 'militia') { body = '#c8323c'; legs = '#3a2e2a' }
+		let body = '#202024', legs = '#2a2a30'
+		const head = CREW_SKINS[variant % 4]
 		if (kind === 'bandit') { body = '#3a3440'; legs = '#2a2630' }
-		if (kind === 'robot') { body = '#9aa3ad'; legs = '#7a838d'; head = '#b9c2cc' }
+		if (kind === 'robot') { body = '#9aa3ad'; legs = '#7a838d' }
 		if (kind === 'groom') { body = '#1e1e24'; legs = '#1e1e24' }
 		if (kind === 'bride') {
 			Pl(g, [-0.15, 0, 0.15, 0, 0.06, -0.28, -0.06, -0.28], '#fbf8f2', 'rgba(120,110,100,0.5)')
@@ -307,19 +438,19 @@ export function agentSprite(kind: AgentKind, team: Team, frame: number, face: 1 
 		}
 		Ln(g, -0.035, -0.13, -0.035 + sw, -0.01, legs, 0.045)
 		Ln(g, 0.035, -0.13, 0.035 - sw, -0.01, legs, 0.045)
-		g.fillStyle = body
-		if (kind === 'robot') Rc(g, -0.09, -0.3 - bob, 0.18, 0.2, body, 'rgba(30,30,40,0.6)')
-		else {
-			roundRect(g, -0.08, -0.29 - bob, 0.16, 0.19, 0.045)
-			g.fill()
-		}
-		if (kind === 'crew' && style >= 3) Rc(g, -0.08, -0.22 - bob, 0.16, 0.03, team === 'sound' ? '#a99bff' : '#ffe07a')
-		if (kind === 'crew') Rc(g, -0.05, -0.26 - bob, 0.1, 0.05, team === 'sound' ? '#8f7cff' : '#ffd24a')
 		if (kind === 'robot') {
-			Rc(g, -0.07, -0.44 - bob, 0.14, 0.12, head, 'rgba(30,30,40,0.6)')
+			Rc(g, -0.09, -0.3 - bob, 0.18, 0.2, body, 'rgba(30,30,40,0.6)')
+			Rc(g, -0.07, -0.44 - bob, 0.14, 0.12, '#b9c2cc', 'rgba(30,30,40,0.6)')
 			Ln(g, -0.04, -0.39 - bob, 0.05 * f, -0.39 - bob, '#ff3b3b', 0.025)
-			Ln(g, 0, -0.44 - bob, 0, -0.5 - bob, '#7a838d', 0.015)
 			return
+		}
+		g.fillStyle = body
+		roundRect(g, -0.08, -0.29 - bob, 0.16, 0.19, 0.045)
+		g.fill()
+		if (kind === 'soldier' || kind === 'decoy') {
+			// tabard in the tribe colour, era-dependent trim
+			Rc(g, -0.06, -0.27 - bob, 0.12, 0.16, tc)
+			if (style >= 3) Rc(g, -0.08, -0.2 - bob, 0.16, 0.025, '#7ff6ff')
 		}
 		El(g, 0, -0.35 - bob, 0.065, 0.065, head)
 		const hy = -0.375 - bob
@@ -331,24 +462,24 @@ export function agentSprite(kind: AgentKind, team: Team, frame: number, face: 1 
 			return
 		}
 		El(g, f * 0.035, -0.355 - bob, 0.012, 0.012, '#2a1a10')
-		if (kind === 'militia') {
-			g.fillStyle = '#eeeeee'
-			g.beginPath(); g.arc(0, hy, 0.072, Math.PI, 0); g.fill()
-		} else if (kind === 'groom') {
+		if (kind === 'groom') {
 			Rc(g, -0.05, hy - 0.09, 0.1, 0.08, '#1e1e24')
 			Ln(g, -0.08, hy - 0.01, 0.08, hy - 0.01, '#1e1e24', 0.02)
-		} else if (team === 'sound') {
-			// headphones
+		} else if (team === 'noises') {
 			g.strokeStyle = '#8f7cff'
 			g.lineWidth = 0.025
 			g.beginPath(); g.arc(0, hy + 0.02, 0.075, Math.PI, 0); g.stroke()
 			El(g, -0.07, hy + 0.035, 0.025, 0.035, '#2a2440')
 			El(g, 0.07, hy + 0.035, 0.025, 0.035, '#2a2440')
-		} else {
-			// hard hat and head torch
+		} else if (team === 'lampys') {
 			g.fillStyle = '#e0a030'
 			g.beginPath(); g.arc(0, hy, 0.072, Math.PI, 0); g.fill()
 			El(g, 0.05 * f, hy - 0.02, 0.02, 0.02, '#fff3c8')
+		} else if (team === 'pixels') {
+			// visor and a shoulder camera
+			Ln(g, -0.05, hy + 0.03, 0.06 * f, hy + 0.03, '#3ad1ff', 0.03)
+			Rc(g, -f * 0.05 - 0.06, -0.33 - bob, 0.12, 0.07, '#2a2a2e')
+			El(g, -f * 0.05 + f * 0.07, -0.3 - bob, 0.02, 0.02, '#ff3d9a')
 		}
 	})
 	agentCache.set(key, sp)
@@ -417,29 +548,6 @@ export function lampSprite(style: number) {
 		}
 	})
 	lampCache[style] = sp
-	return sp
-}
-
-// ---------------------------------------------------------------------
-// Rival village buildings (anchor = base centre)
-// ---------------------------------------------------------------------
-const rivalCache = new Map<string, Sprite>()
-export function rivalSprite(team: RivalId, style: number, v: number, tower: boolean, damaged: boolean) {
-	const key = `${team}|${style}|${tower ? 't' : v % 2}|${damaged}`
-	let sp = rivalCache.get(key)
-	if (sp) return sp
-	sp = makeSprite(72, -1.5, tower ? -4.0 : -1.7, 1.5, 0.35, (g) => {
-		if (tower) rivalTower(g, team, style)
-		else rivalHut(g, team, style, v)
-		if (damaged) {
-			g.globalCompositeOperation = 'source-atop'
-			g.fillStyle = 'rgba(25,18,10,0.45)'
-			g.fillRect(-2, -5, 4, 6)
-			g.globalCompositeOperation = 'source-over'
-			for (const [x, y] of [[-0.3, -0.5], [0.25, -0.8], [0.05, -0.3]]) El(g, x, y, 0.12, 0.06, 'rgba(20,15,10,0.6)')
-		}
-	})
-	rivalCache.set(key, sp)
 	return sp
 }
 

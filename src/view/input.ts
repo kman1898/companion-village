@@ -1,8 +1,11 @@
 import { B, ROLE } from '../data/buildings'
+import { TRIBES, TRIBE_IDS } from '../data/tribes'
 import { G, type Building, type Villager } from '../game/state'
-import { cam, followNow, overview, panBy, screenToWorld, zoomAt } from './camera'
+import { agents, type Agent } from '../game/agents'
+import { SIEGE_NAMES } from '../data/tribes'
+import { cam, followNow, lookAt, overview, panBy, screenToWorld, zoomAt } from './camera'
 
-export const hover: { obj: Villager | Building | null } = { obj: null }
+export const hover: { obj: Villager | Building | Agent | null } = { obj: null }
 
 const pointers = new Map<number, { x: number; y: number }>()
 let dragging = false
@@ -72,6 +75,7 @@ export function initInput(canvas: HTMLCanvasElement) {
 		else if (e.key === '-' || e.key === '_') zoomAt(cam.vw / 2, cam.vh / 2, 0.8)
 		else if (e.key === '0' || e.key === 'Home') followNow()
 		else if (e.key === 'm' || e.key === 'M') overview()
+		else if (e.key === '1' || e.key === '2' || e.key === '3') lookAt(TRIBE_IDS[Number(e.key) - 1])
 	})
 	window.addEventListener('keyup', (e) => keys.delete(e.key))
 	window.addEventListener('blur', () => keys.clear())
@@ -96,20 +100,30 @@ export function updateKeys(dt: number) {
 
 function updateHover(px: number, py: number) {
 	const w = screenToWorld(px, py)
-	let best: Villager | Building | null = null, bd = 0.45 * 0.45
-	for (const v of G.S.villagers) {
-		const d = (v.x - w.x) ** 2 + (v.y - 0.25 - w.y) ** 2
+	let best: Villager | Building | Agent | null = null, bd = 0.45 * 0.45
+	for (const T of G.S.tribes)
+		for (const v of T.villagers) {
+			if (v.away || v.inside) continue
+			const d = (v.x - w.x) ** 2 + (v.y - 0.25 - w.y) ** 2
+			if (d < bd) {
+				bd = d
+				best = v
+			}
+		}
+	for (const a of agents) {
+		const d = (a.x - w.x) ** 2 + (a.y - 0.25 - w.y) ** 2
 		if (d < bd) {
 			bd = d
-			best = v
+			best = a
 		}
 	}
 	if (!best)
-		for (const b of G.S.buildings)
-			if (w.x >= b.ox - 0.1 && w.x <= b.ox + 2.1 && w.y >= b.oy - 0.6 && w.y <= b.oy + 2) {
-				best = b
-				break
-			}
+		for (const T of G.S.tribes)
+			for (const b of T.buildings)
+				if (w.x >= b.ox - 0.1 && w.x <= b.ox + 2.1 && w.y >= b.oy - 0.6 && w.y <= b.oy + 2) {
+					best = b
+					break
+				}
 	hover.obj = best
 	if (!best) return hideTooltip()
 	tooltip.textContent = describe(best)
@@ -119,14 +133,21 @@ function updateHover(px: number, py: number) {
 }
 
 const ACT: Record<string, string> = { chop: 'chopping wood', mine: 'quarrying stone', hammer: 'building', farm: 'tending the fields', walk: 'walking', idle: 'resting', dance: 'dancing', drop: 'working', wave: 'just arrived', fly: 'flying through the air!' }
-function describe(o: Villager | Building) {
+function describe(o: Villager | Building | Agent) {
+	if (o.k === 9) {
+		const a = o
+		const who = a.team !== 'none' ? TRIBES[a.team].name : ''
+		const what: Record<string, string> = { soldier: 'fighter', siege: SIEGE_NAMES[a.level ?? 0], caravan: 'trade caravan', decoy: 'hologram decoy', wolf: 'wolf', bandit: 'bandit', robot: 'rogue robot', bride: 'the bride', groom: 'the groom', traveler: 'a mysterious blue box' }
+		return `${who ? who + ' ' : ''}${what[a.kind] || a.kind}${a.hp <= 0 ? ' · knocked out' : ''}`
+	}
 	if (o.k === 4) {
 		const v = o
 		const extra = v.sick ? ' · sick' : v.carry ? ` · carrying ${v.carry}` : ''
-		return `${v.name} · ${ROLE[v.role].label} · ${ACT[v.anim] || v.anim}${extra}`
+		return `${TRIBES[v.tribe].icon} ${v.name} · ${ROLE[v.role].label} · ${ACT[v.anim] || v.anim}${extra}`
 	}
 	const b = o
 	const def = B[b.type]
+	if (b.type === 'landmark') return `${TRIBES[b.tribe].icon} ${TRIBES[b.tribe].name} landmark`
 	if (b.type === 'graveyard') return `Graveyard · ${b.graves || 0} graves`
 	if (b.fire) return `${def.name} · on fire!`
 	if (!b.done) return `${def.name} · ${b.repair ? 'under repair' : 'under construction'} ${Math.round((b.progress / def.work) * 100)}%`

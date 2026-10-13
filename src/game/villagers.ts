@@ -2,27 +2,30 @@ import { B, RES, ROLE, ROLE_TARGET, type Res, type Role } from '../data/building
 import { NAMES, SKINS } from '../data/names'
 import { dist2, pick, rand } from '../core/util'
 import { emit, floatText } from '../render/particles'
-import { ticker } from '../ui/notify'
-import { addGrave, completeBuilding, maxProgress, need, roleCounts } from './buildings'
-import { nearestTree } from './worldgen'
+import { addGrave, completeBuilding, isPlayer, maxProgress, need, news, roleCounts, villageBounds } from './buildings'
 import { isNight } from './daynight'
-import { CX, CY, G, H, has, MAX_AGENTS, popCount, W, type Building, type Patch, type Step, type Villager } from './state'
+import { nearestTree } from './worldgen'
+import { G, H, has, MAX_AGENTS, popOf, tribeOf, W, type Building, type Patch, type Step, type Tribe, type Villager } from './state'
+import { ticker } from '../ui/notify'
 
 export const TREE_REGROW = 80
 export const ROCK_RESPAWN = 240
-export const growTime = () => 35 * (has('cropRotation') ? 0.65 : 1) * (has('irrigation') ? 0.8 : 1) * (has('geneticCrops') ? 0.5 : 1)
+export const growTime = (T: Tribe) => 35 * (has(T, 'cropRotation') ? 0.65 : 1) * (has(T, 'irrigation') ? 0.8 : 1) * (has(T, 'geneticCrops') ? 0.5 : 1)
 
 const walk = (x: number, y: number): Step => ({ k: 'walk', x, y })
 const work = (d: number, a: string, fn?: (v: Villager) => boolean | void, fx?: number): Step => ({ k: 'work', d, a, fn, fx })
 /** work-duration multiplier from festivals, computers and the cold */
-const boostMul = () => (G.S.boost > 0 ? 0.8 : 1) * (has('computers') ? 0.87 : 1) * (G.S.chill > 0 ? 1.4 : 1)
-const gatherMul = () => (has('ironTools') ? 0.65 : 1) * (has('steamEngine') ? 0.8 : 1) * boostMul()
+const boostMul = (T: Tribe) => (T.boost > 0 ? 0.8 : 1) * (has(T, 'computers') ? 0.87 : 1) * (G.S.chill > 0 ? 1.4 : 1)
+const gatherMul = (T: Tribe) => (has(T, 'ironTools') ? 0.65 : 1) * (has(T, 'steamEngine') ? 0.8 : 1) * boostMul(T)
 
-export function chooseRole(): Role {
-	const n = G.S.villagers.length
+/** Is there a party (festival, wedding, concert) going on for this tribe? */
+export const partyFor = (T: Tribe) => G.S.events.some((e) => (e.type === 'festival' || e.d?.party) && (!e.tribe || e.tribe === T.id) && !e.d?.over)
+
+export function chooseRole(T: Tribe): Role {
+	const n = T.villagers.length
 	const first: Role[] = ['builder', 'woodcutter', 'mason', 'farmer']
 	if (n < 4) return first[n]
-	const c = roleCounts()
+	const c = roleCounts(T)
 	let best: Role = 'builder', bd = -1e9
 	for (const r of Object.keys(ROLE_TARGET) as Role[]) {
 		const d = ROLE_TARGET[r] * (n + 1) - c[r]
@@ -34,32 +37,34 @@ export function chooseRole(): Role {
 	return best
 }
 
-export function makeVillager(name: string, role: Role, x: number, y: number, skin?: string): Villager {
+export function makeVillager(T: Tribe, name: string, role: Role, x: number, y: number, skin?: string): Villager {
 	return {
-		k: 4, id: G.S.nextId++, name, role, x, y, plan: [], step: null, t: 0, carry: null, carryN: 1, anim: 'idle', face: 1,
+		k: 4, id: G.S.nextId++, tribe: T.id, name, role, x, y, plan: [], step: null, t: 0, carry: null, carryN: 1, anim: 'idle', face: 1,
 		ph: Math.random() * 6, spd: rand(1.45, 1.85), skin: skin || pick(SKINS), born: G.S.time, res: null, claim: null, hammer: 0,
 	}
 }
 
-/** A new settler walks in from the bottom edge of the view */
-export function spawnVillager(entryY: number) {
-	const S = G.S
-	S.arrivals++
-	if (S.villagers.length >= MAX_AGENTS) {
-		S.extraPop++
-		ticker(`Another settler moved in (${popCount()} total)`, '+')
+/** A new settler walks in from beyond the edge of the village */
+export function spawnVillager(T: Tribe, silent = false) {
+	T.arrivals++
+	if (T.villagers.length >= MAX_AGENTS) {
+		T.extraPop++
 		return
 	}
-	const role = chooseRole()
-	const v = makeVillager(pick(NAMES), role, CX + rand(-0.6, 0.6), Math.min(H - 2, entryY))
-	if (has('androids') && Math.random() < 0.4) {
+	const role = chooseRole(T)
+	const vb = villageBounds(T)
+	const v = makeVillager(T, pick(NAMES), role, T.cx + rand(-0.6, 0.6), Math.min(H - 2, vb.y1 + 4))
+	if (has(T, 'androids') && Math.random() < 0.4) {
 		v.android = true
 		v.name = `${pick(['XR', 'K', 'T', 'Unit', 'Ada', 'Q'])}-${Math.floor(rand(10, 999))}`
 	}
-	v.plan = [walk(CX + rand(-1.4, 1.4), CY + rand(1.4, 2.0)), work(1.4, 'wave')]
-	S.villagers.push(v)
-	ticker(`${v.name} the ${v.android ? 'android ' : ''}${ROLE[role].label} arrived`, '+1', ROLE[role].color)
-	floatText(v.x, v.y - 0.6, '+1')
+	v.plan = [walk(T.cx + rand(-1.4, 1.4), T.cy + rand(1.4, 2.0)), work(1.4, 'wave')]
+	T.villagers.push(v)
+	if (isPlayer(T) && !silent) {
+		ticker(`${v.name} the ${v.android ? 'android ' : ''}${ROLE[role].label} arrived`, '+1', ROLE[role].color)
+		floatText(v.x, v.y - 0.6, '+1')
+	}
+	return v
 }
 
 export function release(v: Villager) {
@@ -70,9 +75,10 @@ export function release(v: Villager) {
 	}
 	if (v.claim) {
 		const c = v.claim
-		const site = G.S.buildings.find((b) => b.id === c.site)
+		const T = tribeOf(v.tribe)
+		const site = T.buildings.find((b) => b.id === c.site)
 		if (site) site.incoming[c.r] -= c.n
-		G.S.stock[c.r] += c.n
+		T.stock[c.r] += c.n
 		v.claim = null
 		v.carry = null
 	}
@@ -85,16 +91,16 @@ export function interrupt(v: Villager) {
 	v.carry = null
 }
 
-export function killVillager(v: Villager, cause: string) {
-	const S = G.S
-	const i = S.villagers.indexOf(v)
+export function killVillager(v: Villager, cause: string, quiet = false) {
+	const T = tribeOf(v.tribe)
+	const i = T.villagers.indexOf(v)
 	if (i < 0) return
 	release(v)
-	S.villagers.splice(i, 1)
-	S.deaths++
-	emit(v.x, v.y - 0.3, 'ghost', 1)
-	addGrave()
-	ticker(`${v.name} the ${ROLE[v.role].label} ${cause}`, '✝', '#b9b2a6')
+	T.villagers.splice(i, 1)
+	T.deaths++
+	if (!v.away) emit(v.x, v.y - 0.3, 'ghost', 1)
+	addGrave(T)
+	if (!quiet) news(T, `${v.name} the ${ROLE[v.role].label} ${cause}`, '✝', '#b9b2a6')
 }
 
 export function flee(v: Villager, fromX: number, fromY: number, radius: number) {
@@ -103,9 +109,9 @@ export function flee(v: Villager, fromX: number, fromY: number, radius: number) 
 	v.plan = [walk(v.x + Math.cos(a) * radius, v.y + Math.sin(a) * radius), work(3, 'idle')]
 }
 
-function dropoffs(r: Res) {
-	const list = [{ x: CX + 1.15, y: CY + 0.95 }]
-	for (const b of G.S.buildings) if (b.done && B[b.type].drop?.includes(r)) list.push({ x: b.ox + 1, y: b.oy + 2.2 })
+function dropoffs(T: Tribe, r: Res) {
+	const list = [{ x: T.cx + 1.15, y: T.cy + 0.95 }]
+	for (const b of T.buildings) if (b.done && B[b.type].drop?.includes(r)) list.push({ x: b.ox + 1, y: b.oy + 2.2 })
 	return list
 }
 function nearest<T extends { x: number; y: number }>(list: T[], x: number, y: number, ok?: (o: T) => boolean): T | null {
@@ -121,62 +127,61 @@ function nearest<T extends { x: number; y: number }>(list: T[], x: number, y: nu
 	return best
 }
 
-function deliverPlan(v: Villager, r: Res, x: number, y: number) {
-	const d = nearest(dropoffs(r), x, y)!
+function deliverPlan(T: Tribe, v: Villager, r: Res, x: number, y: number) {
+	const d = nearest(dropoffs(T, r), x, y)!
 	v.plan.push(walk(d.x + rand(-0.3, 0.3), d.y + rand(-0.1, 0.15)))
 	v.plan.push(work(0.35, 'drop', (v) => {
-		G.S.stock[r] += v.carryN
+		T.stock[r] += v.carryN
 		v.carry = null
 		emit(v.x, v.y - 0.2, 'dust', 3)
 	}))
 }
 
-function gatherWood(v: Villager) {
-	const w = G.world
-	const t = nearestTree(w, v.x, v.y, (t) => !t.gone && !t.cut && !t.res && !t.park && t.g >= 1)
+function gatherWood(T: Tribe, v: Villager) {
+	const t = nearestTree(G.world, v.x, v.y, (t) => !t.gone && !t.cut && !t.res && !t.park && t.g >= 1)
 	if (!t) return false
 	t.res = v.id
 	v.res = t
 	const side = v.x < t.x ? -1 : 1
 	v.plan = [walk(t.x + side * 0.42, t.y + 0.04),
-		work(3.5 * gatherMul(), 'chop', (v) => {
+		work(3.5 * gatherMul(T), 'chop', (v) => {
 			t.res = 0
 			v.res = null
 			if (t.gone || t.cut) return false
 			t.cut = 1
-			t.rt = TREE_REGROW * (has('cartography') ? 0.5 : 1)
+			t.rt = TREE_REGROW * (has(T, 'cartography') ? 0.5 : 1)
 			t.g = 0
 			emit(t.x, t.y - 0.4, 'leaf', 10)
 			v.carry = 'wood'
 			v.carryN = 1
 		}, t.x)]
-	deliverPlan(v, 'wood', t.x, t.y)
+	deliverPlan(T, v, 'wood', t.x, t.y)
 	return true
 }
 
-function gatherStone(v: Villager) {
+function gatherStone(T: Tribe, v: Villager) {
 	const k = nearest(G.world.rocks, v.x, v.y, (k) => !k.gone && k.amt > 0 && !k.res)
-	if (!k) return false
+	if (!k || dist2(k.x, k.y, v.x, v.y) > 45 * 45) return false
 	k.res = v.id
 	v.res = k
 	const side = v.x < k.x ? -1 : 1
 	v.plan = [walk(k.x + side * 0.55, k.y + 0.06),
-		work(4.5 * gatherMul(), 'mine', (v) => {
+		work(4.5 * gatherMul(T), 'mine', (v) => {
 			k.res = 0
 			v.res = null
 			if (k.gone || k.amt <= 0) return false
 			k.amt--
 			if (k.amt <= 0) k.rt = ROCK_RESPAWN
 			v.carry = 'stone'
-			v.carryN = has('smelting') && Math.random() < 0.5 ? 2 : 1
+			v.carryN = has(T, 'smelting') && Math.random() < 0.5 ? 2 : 1
 		}, k.x)]
-	deliverPlan(v, 'stone', k.x, k.y)
+	deliverPlan(T, v, 'stone', k.x, k.y)
 	return true
 }
 
-function gatherFood(v: Villager) {
+function gatherFood(T: Tribe, v: Villager) {
 	let best: Patch | null = null, bd = Infinity
-	for (const b of G.S.buildings) {
+	for (const b of T.buildings) {
 		if (!b.done || !b.field) continue
 		for (const p of b.field.patches) {
 			if (p.res || p.s === 1) continue
@@ -193,7 +198,7 @@ function gatherFood(v: Villager) {
 		v.res = p
 		v.plan = [walk(p.x + 0.5, p.y + 0.85)]
 		if (p.s === 2) {
-			v.plan.push(work(2.6 * boostMul(), 'farm', (v) => {
+			v.plan.push(work(2.6 * boostMul(T), 'farm', (v) => {
 				p.res = 0
 				v.res = null
 				if (p.s !== 2) return false
@@ -201,11 +206,11 @@ function gatherFood(v: Villager) {
 				p.t = 0
 				emit(p.x + 0.5, p.y + 0.5, 'chaff', 8)
 				v.carry = 'food'
-				v.carryN = 2 + (has('plough') ? 1 : 0) + (has('canning') ? 1 : 0)
+				v.carryN = 2 + (has(T, 'plough') ? 1 : 0) + (has(T, 'canning') ? 1 : 0)
 			}))
-			deliverPlan(v, 'food', p.x, p.y)
+			deliverPlan(T, v, 'food', p.x, p.y)
 		} else {
-			v.plan.push(work(2.0 * boostMul(), 'farm', (v) => {
+			v.plan.push(work(2.0 * boostMul(T), 'farm', (v) => {
 				p.res = 0
 				v.res = null
 				if (p.s === 0) {
@@ -217,7 +222,7 @@ function gatherFood(v: Villager) {
 		return true
 	}
 	const bush = nearest(G.world.bushes, v.x, v.y, (b) => !b.gone && !!b.ber && !b.res && !b.park)
-	if (!bush) return false
+	if (!bush || dist2(bush.x, bush.y, v.x, v.y) > 40 * 40) return false
 	bush.res = v.id
 	v.res = bush
 	v.plan = [walk(bush.x - 0.35, bush.y + 0.08),
@@ -230,45 +235,44 @@ function gatherFood(v: Villager) {
 			v.carry = 'food'
 			v.carryN = 1
 		}, bush.x)]
-	deliverPlan(v, 'food', bush.x, bush.y)
+	deliverPlan(T, v, 'food', bush.x, bush.y)
 	return true
 }
 
-function hammerPlan(v: Villager, site: Building) {
+function hammerPlan(T: Tribe, v: Villager, site: Building) {
 	const spots = [[rand(0.2, 1.8), 2.2], [-0.25, rand(1.2, 1.9)], [2.25, rand(1.2, 1.9)]]
 	const [px, py] = pick(spots)
 	v.hammer = site.id
 	v.plan = [walk(site.ox + px, site.oy + py),
-		work(2.2 * (has('carpentry') ? 0.75 : 1) * (has('robotics') ? 0.7 : 1) * boostMul(), 'hammer', (v) => {
+		work(2.2 * (has(T, 'carpentry') ? 0.75 : 1) * (has(T, 'robotics') ? 0.7 : 1) * boostMul(T), 'hammer', (v) => {
 			v.hammer = 0
-			if (!G.S.buildings.includes(site)) return false
+			if (!T.buildings.includes(site)) return false
 			const def = B[site.type]
 			site.progress = Math.min(def.work, maxProgress(site), site.progress + 1)
 			emit(site.ox + 1 + rand(-0.6, 0.6), site.oy + 1.6, 'dust', 3)
-			if (!site.done && site.progress >= def.work - 1e-6) completeBuilding(site)
+			if (!site.done && site.progress >= def.work - 1e-6) completeBuilding(T, site)
 		}, site.ox + 1)]
 }
 
-function builderThink(v: Villager) {
-	const S = G.S
-	const sites = S.buildings.filter((b) => !b.done && !b.fire)
+function builderThink(T: Tribe, v: Villager) {
+	const sites = T.buildings.filter((b) => !b.done && !b.fire)
 	for (const site of sites) {
 		if (site.progress < maxProgress(site) - 0.01) {
 			let hammering = 0
-			for (const o of S.villagers) if (o.hammer === site.id) hammering++
+			for (const o of T.villagers) if (o.hammer === site.id) hammering++
 			if (hammering < 3) {
-				hammerPlan(v, site)
+				hammerPlan(T, v, site)
 				return true
 			}
 		}
 		for (const r of RES) {
 			const needed = need(site, r)
-			if (needed > 0 && S.stock[r] >= 1) {
-				const n = has('wheelbarrow') ? Math.min(2, needed, S.stock[r]) : 1
-				S.stock[r] -= n
+			if (needed > 0 && T.stock[r] >= 1) {
+				const n = has(T, 'wheelbarrow') ? Math.min(2, needed, T.stock[r]) : 1
+				T.stock[r] -= n
 				site.incoming[r] += n
 				v.claim = { site: site.id, r, n }
-				const d = nearest(dropoffs(r), v.x, v.y)!
+				const d = nearest(dropoffs(T, r), v.x, v.y)!
 				const sx = site.ox + 1 + rand(-0.7, 0.7), sy = site.oy + 2.25 + rand(0, 0.15)
 				v.plan = [walk(d.x + rand(-0.3, 0.3), d.y + rand(-0.1, 0.15)),
 					work(0.4, 'drop', (v) => {
@@ -279,8 +283,8 @@ function builderThink(v: Villager) {
 					work(0.4, 'drop', (v) => {
 						v.carry = null
 						v.claim = null
-						if (!S.buildings.includes(site)) {
-							S.stock[r] += n
+						if (!T.buildings.includes(site)) {
+							T.stock[r] += n
 							return
 						}
 						site.delivered[r] += n
@@ -291,33 +295,32 @@ function builderThink(v: Villager) {
 			}
 		}
 	}
-	// Nothing to haul or hammer: fetch whatever a site is waiting for
 	for (const site of sites)
 		for (const r of RES)
 			if (need(site, r) > 0) {
-				if (r === 'wood' && gatherWood(v)) return true
-				if (r === 'stone' && gatherStone(v)) return true
-				if (r === 'food' && gatherFood(v)) return true
+				if (r === 'wood' && gatherWood(T, v)) return true
+				if (r === 'stone' && gatherStone(T, v)) return true
+				if (r === 'food' && gatherFood(T, v)) return true
 			}
 	return false
 }
 
-function idle(v: Villager) {
+function idle(T: Tribe, v: Villager) {
 	const a = Math.random() * Math.PI * 2, d = rand(1.4, 2.4)
-	v.plan = [walk(CX + Math.cos(a) * d, CY + Math.sin(a) * d * 0.7 + 0.2), work(rand(2, 5), 'idle')]
+	v.plan = [walk(T.cx + Math.cos(a) * d, T.cy + Math.sin(a) * d * 0.7 + 0.2), work(rand(2, 5), 'idle')]
 }
 
-function dance(v: Villager) {
+function dance(T: Tribe, v: Villager) {
 	const a = Math.random() * Math.PI * 2, d = rand(1.2, 3.2)
-	v.plan = [walk(CX + Math.cos(a) * d, CY + Math.sin(a) * d * 0.75 + 0.2), work(rand(3, 6), 'dance')]
+	v.plan = [walk(T.cx + Math.cos(a) * d, T.cy + Math.sin(a) * d * 0.75 + 0.2), work(rand(3, 6), 'dance')]
 }
 
 /** About a third of the village (and every android) stays up at night */
 const nightOwl = (v: Villager) => v.android || v.id % 3 === 0
 
-function goToBed(v: Villager) {
+function goToBed(T: Tribe, v: Villager) {
 	let home: Building | null = null, bd = Infinity
-	for (const b of G.S.buildings) {
+	for (const b of T.buildings) {
 		if (!b.done || !B[b.type].cap) continue
 		const d = dist2(b.ox + 1, b.oy + 2.1, v.x, v.y)
 		if (d < bd) {
@@ -326,44 +329,44 @@ function goToBed(v: Villager) {
 		}
 	}
 	if (!home) return false
-	const hx = home.ox + 1 + rand(-0.2, 0.2), hy = home.oy + 2.1
-	v.plan = [walk(hx, hy), work(0.2, 'drop', (v) => {
+	v.plan = [walk(home.ox + 1 + rand(-0.2, 0.2), home.oy + 2.1), work(0.2, 'drop', (v) => {
 		v.inside = true
 	})]
 	return true
 }
 
-function nightOut(v: Villager) {
-	const tav = G.S.buildings.find((b) => b.done && b.type === 'tavern')
+function nightOut(T: Tribe, v: Villager) {
+	const tav = T.buildings.find((b) => b.done && b.type === 'tavern')
 	if (tav && Math.random() < 0.5) {
 		v.plan = [walk(tav.ox + rand(0.3, 1.7), tav.oy + 2.3), work(rand(4, 9), 'idle')]
 		return
 	}
-	idle(v)
+	idle(T, v)
 }
 
-function think(v: Villager) {
+function think(T: Tribe, v: Villager) {
 	release(v)
-	if ((G.S.event?.type === 'festival' || G.S.event?.d?.party) && !v.sick) return dance(v)
-	if (isNight() && !G.S.event?.d?.party) {
+	const party = partyFor(T)
+	if (party && !v.sick) return dance(T, v)
+	if (isNight() && !party) {
 		if (!nightOwl(v)) {
-			if (goToBed(v)) return
-		} else if (v.role !== 'builder' && Math.random() < 0.6) return nightOut(v)
+			if (goToBed(T, v)) return
+		} else if (v.role !== 'builder' && Math.random() < 0.6) return nightOut(T, v)
 	}
 	let ok = false
 	switch (v.role) {
-		case 'builder': ok = builderThink(v); break
-		case 'woodcutter': ok = gatherWood(v); break
-		case 'mason': ok = gatherStone(v) || gatherWood(v); break
-		case 'farmer': ok = gatherFood(v); break
+		case 'builder': ok = builderThink(T, v); break
+		case 'woodcutter': ok = gatherWood(T, v); break
+		case 'mason': ok = gatherStone(T, v) || gatherWood(T, v); break
+		case 'farmer': ok = gatherFood(T, v); break
 	}
-	if (!ok) idle(v)
+	if (!ok) idle(T, v)
 }
 
-export function updateVillager(v: Villager, dt: number) {
-	if (v.abducted) return
+export function updateVillager(T: Tribe, v: Villager, dt: number) {
+	if (v.abducted || v.away) return
 	if (v.inside) {
-		if (isNight() && G.S.event?.type !== 'festival' && !G.S.event?.d?.party) return
+		if (isNight() && !partyFor(T)) return
 		v.inside = false
 		v.step = null
 		v.plan = []
@@ -378,7 +381,7 @@ export function updateVillager(v: Villager, dt: number) {
 		if (f.z <= 0) {
 			v.fly = undefined
 			v.x = Math.max(1, Math.min(v.x, W - 2))
-			v.y = Math.max(6, Math.min(v.y, H - 2))
+			v.y = Math.max(7, Math.min(v.y, H - 2))
 			interrupt(v)
 			emit(v.x, v.y, 'dust', 6)
 			if (v.doomed) killVillager(v, 'was swept away by the tornado')
@@ -388,7 +391,7 @@ export function updateVillager(v: Villager, dt: number) {
 	if (!v.step) {
 		v.step = v.plan.shift() || null
 		if (!v.step) {
-			think(v)
+			think(T, v)
 			v.step = v.plan.shift() || work(1, 'idle')
 		}
 		v.t = 0
@@ -396,7 +399,7 @@ export function updateVillager(v: Villager, dt: number) {
 	const st = v.step
 	if (st.k === 'walk') {
 		const dx = st.x - v.x, dy = st.y - v.y, d = Math.hypot(dx, dy)
-		if (d > 12 && has('teleporters') && G.S.buildings.some((b) => b.done && b.type === 'teleporter')) {
+		if (d > 12 && has(T, 'teleporters') && T.buildings.some((b) => b.done && b.type === 'teleporter')) {
 			emit(v.x, v.y - 0.3, 'spark', 8)
 			v.x = st.x
 			v.y = st.y
@@ -404,8 +407,8 @@ export function updateVillager(v: Villager, dt: number) {
 			emit(v.x, v.y - 0.3, 'spark', 8)
 			return
 		}
-		const mul = (v.carry ? 0.85 : 1) * (has('pavedRoads') ? 1.2 : 1) * (has('asphalt') ? 1.1 : 1) * (v.sick ? 0.5 : 1) *
-			(G.S.boost > 0 ? 1.15 : 1) * (G.S.chill > 0 ? 0.7 : 1)
+		const mul = (v.carry ? 0.85 : 1) * (has(T, 'pavedRoads') ? 1.2 : 1) * (has(T, 'asphalt') ? 1.1 : 1) * (v.sick ? 0.5 : 1) *
+			(T.boost > 0 ? 1.15 : 1) * (G.S.chill > 0 ? 0.7 : 1)
 		const sp = v.spd * mul * dt
 		v.anim = 'walk'
 		if (Math.abs(dx) > 0.01) v.face = dx > 0 ? 1 : -1
@@ -437,31 +440,35 @@ export function updateVillager(v: Villager, dt: number) {
 // ---------------------------------------------------------------------
 // Sheep (Animal Husbandry)
 // ---------------------------------------------------------------------
-export function addSheep(n: number) {
+export function addSheep(T: Tribe, n: number) {
 	for (let i = 0; i < n; i++) {
-		const farm = pick(G.S.buildings.filter((b) => b.type === 'farm')) as Building | undefined
-		const x = farm ? farm.ox + rand(-2, 4) : CX + rand(-6, 6), y = farm ? farm.oy + rand(-2, 4) : CY + rand(4, 8)
-		G.S.sheep.push({ k: 7, x, y, tx: x, ty: y, t: rand(0, 4), face: 1, ph: Math.random() * 6 })
+		const farms = T.buildings.filter((b) => b.type === 'farm')
+		const farm = farms.length ? pick(farms) : null
+		const x = farm ? farm.ox + rand(-2, 4) : T.cx + rand(-6, 6), y = farm ? farm.oy + rand(-2, 4) : T.cy + rand(4, 8)
+		T.sheep.push({ k: 7, x, y, tx: x, ty: y, t: rand(0, 4), face: 1, ph: Math.random() * 6, tribe: T.id })
 	}
 }
 
 export function updateSheep(dt: number) {
-	for (const s of G.S.sheep) {
-		if (s.gone) continue
-		const dx = s.tx - s.x, dy = s.ty - s.y, d = Math.hypot(dx, dy)
-		if (d > 0.05) {
-			const sp = 0.5 * dt
-			s.x += (dx / d) * Math.min(sp, d)
-			s.y += (dy / d) * Math.min(sp, d)
-			s.face = dx > 0 ? 1 : -1
-			s.ph += dt * 8
-		} else {
-			s.t -= dt
-			if (s.t <= 0) {
-				s.t = rand(3, 9)
-				s.tx = Math.max(2, Math.min(W - 3, s.x + rand(-2.5, 2.5)))
-				s.ty = Math.max(7, Math.min(H - 3, s.y + rand(-2, 2)))
+	for (const T of G.S.tribes)
+		for (const s of T.sheep) {
+			if (s.gone) continue
+			const dx = s.tx - s.x, dy = s.ty - s.y, d = Math.hypot(dx, dy)
+			if (d > 0.05) {
+				const sp = 0.5 * dt
+				s.x += (dx / d) * Math.min(sp, d)
+				s.y += (dy / d) * Math.min(sp, d)
+				s.face = dx > 0 ? 1 : -1
+				s.ph += dt * 8
+			} else {
+				s.t -= dt
+				if (s.t <= 0) {
+					s.t = rand(3, 9)
+					s.tx = Math.max(2, Math.min(W - 3, s.x + rand(-2.5, 2.5)))
+					s.ty = Math.max(8, Math.min(H - 3, s.y + rand(-2, 2)))
+				}
 			}
 		}
-	}
 }
+
+export { popOf }
