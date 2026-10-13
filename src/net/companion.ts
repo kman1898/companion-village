@@ -2,7 +2,7 @@ import { anyCompanion, params, settings } from '../core/settings'
 import { TRIBE_IDS, TRIBES, type TribeId } from '../data/tribes'
 import { command } from '../game/diplomacy'
 import { G, tribeOf } from '../game/state'
-import { companionPressed } from '../game/tribes'
+import { addYears } from '../game/tribes'
 import { ticker } from '../ui/notify'
 
 export type ConnState = 'connecting' | 'ok' | 'novar' | 'offline' | 'blocked' | 'ai'
@@ -44,10 +44,7 @@ function onCounter(id: TribeId, n: number) {
 	if (n > T.lastCounter) delta = n - T.lastCounter
 	else if (n < T.lastCounter) delta = Math.max(0, n) // Companion restarted / counter reset
 	T.lastCounter = n
-	if (delta) {
-		T.queue += delta
-		companionPressed(delta)
-	}
+	addYears(T, delta)
 }
 
 async function pollTribe(id: TribeId) {

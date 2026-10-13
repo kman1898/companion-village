@@ -7,6 +7,7 @@ import { load, save } from './game/save'
 import { update } from './game/sim'
 import { G, player, popOf, tribeOf } from './game/state'
 import { declareWar, startRaid } from './game/war'
+import { addYears } from './game/tribes'
 import { poll } from './net/companion'
 import { initRenderer, perf, render } from './render/renderer'
 import { renderBaseTerrain } from './render/terrain'
@@ -58,7 +59,7 @@ window.addEventListener('keydown', (e) => {
 	else if (k === 'd') toggleModal('diplomacy')
 	else if (k === 'p') perfEl.hidden = !perfEl.hidden
 	else if (k === ' ') {
-		player().queue++
+		addYears(player(), 1)
 		e.preventDefault()
 	} else if (k === 'f') document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.()
 	else if (k === 'escape') closeModals()

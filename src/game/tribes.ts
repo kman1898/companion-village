@@ -53,8 +53,18 @@ export function updateAI(dt: number) {
 	}
 }
 
+/**
+ * A tribe gets n more years (Companion presses, the Space key, the +1 button, a Stream Deck command).
+ * Presses on a non-AI tribe also nudge the AI tribes forward when they are set to keep in step.
+ */
+export function addYears(T: Tribe, n: number) {
+	if (n <= 0) return
+	T.queue += n
+	if (!isAI(T)) companionPressed(n)
+}
+
 /** "match": every press on a Companion-driven tribe nudges the AI tribes forward at their own tempo */
-export function companionPressed(n: number) {
+function companionPressed(n: number) {
 	if (settings.aiPace !== 'match') return
 	for (const T of G.S.tribes) {
 		if (!isAI(T)) continue

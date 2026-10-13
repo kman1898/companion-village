@@ -5,6 +5,7 @@ import { EVENTS, startEvent } from '../game/events'
 import { newGame } from '../game/save'
 import { G, tribeOf, type Control } from '../game/state'
 import { poll } from '../net/companion'
+import { addYears } from '../game/tribes'
 import { parts } from '../render/particles'
 import { applyQuality, invalidateTreeLayer } from '../render/renderer'
 import { clearSpriteCaches } from '../render/sprites'
@@ -32,7 +33,7 @@ export function initSettings() {
 		startEvent(sel.value, $<HTMLSelectElement>('s-event-tribe').value as TribeId)
 		closeModals()
 	})
-	$('s-add').addEventListener('click', () => tribeOf(G.S.player).queue++)
+	$('s-add').addEventListener('click', () => addYears(tribeOf(G.S.player), 1))
 	$<HTMLAnchorElement>('s-download').href = location.href.split('#')[0].split('?')[0]
 	$('s-save').addEventListener('click', saveFromForm)
 	$('s-reset').addEventListener('click', () => {
