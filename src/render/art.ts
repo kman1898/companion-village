@@ -1,6 +1,7 @@
 import { shade } from '../core/util'
 import type { BType } from '../data/buildings'
 import { El, Ln, OUT, Pl, Rc, type Ctx } from './draw'
+import { arcology, factory, fusion, habdome, launchpad, modernhouse, skypod, skyscraper, starship, teleporter, townhouse, windfarm } from './art-future'
 
 /*
  * Building art. Local units: 1 = one tile, the 2×2 footprint spans (0,0)–(2,2),
@@ -17,7 +18,7 @@ interface GableOpts {
 }
 
 /** Generic house: front wall + hipped roof seen from above-front */
-function gable(c: Ctx, o: GableOpts): [number, number] | null {
+export function gable(c: Ctx, o: GableOpts): [number, number] | null {
 	const x = o.x ?? 0.15, w = o.w ?? 1.7, yb = o.yb ?? 1.88, wh = o.wh ?? 0.72, rh = o.rh ?? 0.95
 	const yt = yb - wh, dep = 0.14
 	c.lineWidth = 0.035
@@ -140,6 +141,7 @@ const ROOFS = ['#b4553c', '#9c4632', '#8c5a3a', '#6e7d44', '#a8633a', '#7b4a5e']
 const WALLS = ['#ecdab2', '#e5cfa0', '#f1e3c4', '#e8d2b8']
 
 export const ART: Record<BType, (c: Ctx, v: number) => [number, number] | null> = {
+	townhouse, modernhouse, habdome, skypod, factory, skyscraper, windfarm, launchpad, fusion, arcology, teleporter, starship,
 	house: (c, v) => gable(c, { wall: WALLS[v % 4], roof: ROOFS[v % 6], frame: '#7a5434', chim: v % 3 !== 0 }),
 	stonehouse: (c, v) => gable(c, { x: 0.1, w: 1.72, wh: 0.85, rh: 1.0, wall: '#bcb5a6', stone: true, roof: ['#56657a', '#5e4f6e', '#4d6b5f', '#6a5848'][v % 4], chim: true }),
 	woodhut(c) {

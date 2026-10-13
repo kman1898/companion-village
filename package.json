@@ -1,7 +1,7 @@
 {
 	"name": "companion-village",
 	"private": true,
-	"version": "2.0.0",
+	"version": "3.0.0",
 	"description": "A Settlers-style village that grows with every Bitfocus Companion button press",
 	"type": "module",
 	"scripts": {

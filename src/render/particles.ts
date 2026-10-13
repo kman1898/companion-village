@@ -1,6 +1,6 @@
 import { pick, rand } from '../core/util'
 
-export type PType = 'chip' | 'grit' | 'leaf' | 'chaff' | 'dust' | 'smoke' | 'spark' | 'flame' | 'ember' | 'debris' | 'ghost' | 'confetti' | 'miasma' | 'rock'
+export type PType = 'chip' | 'grit' | 'leaf' | 'chaff' | 'dust' | 'smoke' | 'spark' | 'flame' | 'ember' | 'debris' | 'ghost' | 'confetti' | 'miasma' | 'rock' | 'heart'
 
 export interface Particle {
 	x: number; y: number; vx: number; vy: number
@@ -41,6 +41,7 @@ export function emit(x: number, y: number, type: PType, n = 1) {
 			case 'rock': Object.assign(p, { vx: rand(-4, 4), vy: rand(-5, -1), max: rand(0.8, 1.4), size: rand(0.06, 0.14), col: pick(['#5a4a3a', '#8d8b84', '#3a2e24']), g: 7 }); break
 			case 'ghost': Object.assign(p, { vx: rand(-0.1, 0.1), vy: -0.5, max: 2.5, size: 0.12, col: '#ffffff', a: 0.7 }); break
 			case 'confetti': Object.assign(p, { x: x + rand(-2.5, 2.5), y: y + rand(-3, -1.5), vx: rand(-0.4, 0.4), vy: rand(0.4, 1.0), max: rand(1.5, 3), size: 0.05, col: pick(CONFETTI) }); break
+			case 'heart': Object.assign(p, { vx: rand(-0.2, 0.2), vy: rand(-0.7, -0.4), max: 2, size: 0.1, col: pick(['#ff6fa8', '#ff3d7f', '#ffb3d0']) }); break
 			case 'miasma': Object.assign(p, { x: x + rand(-0.6, 0.6), y: y + rand(-0.4, 0.2), vx: rand(-0.15, 0.15), vy: rand(-0.3, -0.1), max: rand(2, 3.5), size: 0.15, col: '#8fc24a', grow: 0.15, a: 0.35 }); break
 		}
 		p.life = p.max

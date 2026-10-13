@@ -1,6 +1,6 @@
 import { B, ROLE } from '../data/buildings'
 import { G, type Building, type Villager } from '../game/state'
-import { cam, followNow, panBy, screenToWorld, zoomAt } from './camera'
+import { cam, followNow, overview, panBy, screenToWorld, zoomAt } from './camera'
 
 export const hover: { obj: Villager | Building | null } = { obj: null }
 
@@ -71,6 +71,7 @@ export function initInput(canvas: HTMLCanvasElement) {
 		} else if (e.key === '+' || e.key === '=') zoomAt(cam.vw / 2, cam.vh / 2, 1.25)
 		else if (e.key === '-' || e.key === '_') zoomAt(cam.vw / 2, cam.vh / 2, 0.8)
 		else if (e.key === '0' || e.key === 'Home') followNow()
+		else if (e.key === 'm' || e.key === 'M') overview()
 	})
 	window.addEventListener('keyup', (e) => keys.delete(e.key))
 	window.addEventListener('blur', () => keys.clear())

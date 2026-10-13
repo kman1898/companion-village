@@ -5,15 +5,18 @@ import { emit, floatText } from '../render/particles'
 import { ticker } from '../ui/notify'
 import { addGrave, completeBuilding, maxProgress, need, roleCounts } from './buildings'
 import { nearestTree } from './worldgen'
-import { CX, CY, G, H, has, MAX_AGENTS, popCount, type Building, type Patch, type Step, type Villager } from './state'
+import { isNight } from './daynight'
+import { CX, CY, G, H, has, MAX_AGENTS, popCount, W, type Building, type Patch, type Step, type Villager } from './state'
 
 export const TREE_REGROW = 80
 export const ROCK_RESPAWN = 240
-export const growTime = () => 35 * (has('cropRotation') ? 0.65 : 1) * (has('irrigation') ? 0.8 : 1)
+export const growTime = () => 35 * (has('cropRotation') ? 0.65 : 1) * (has('irrigation') ? 0.8 : 1) * (has('geneticCrops') ? 0.5 : 1)
 
 const walk = (x: number, y: number): Step => ({ k: 'walk', x, y })
 const work = (d: number, a: string, fn?: (v: Villager) => boolean | void, fx?: number): Step => ({ k: 'work', d, a, fn, fx })
-const boostMul = () => (G.S.boost > 0 ? 0.8 : 1)
+/** work-duration multiplier from festivals, computers and the cold */
+const boostMul = () => (G.S.boost > 0 ? 0.8 : 1) * (has('computers') ? 0.87 : 1) * (G.S.chill > 0 ? 1.4 : 1)
+const gatherMul = () => (has('ironTools') ? 0.65 : 1) * (has('steamEngine') ? 0.8 : 1) * boostMul()
 
 export function chooseRole(): Role {
 	const n = G.S.villagers.length
@@ -49,9 +52,13 @@ export function spawnVillager(entryY: number) {
 	}
 	const role = chooseRole()
 	const v = makeVillager(pick(NAMES), role, CX + rand(-0.6, 0.6), Math.min(H - 2, entryY))
+	if (has('androids') && Math.random() < 0.4) {
+		v.android = true
+		v.name = `${pick(['XR', 'K', 'T', 'Unit', 'Ada', 'Q'])}-${Math.floor(rand(10, 999))}`
+	}
 	v.plan = [walk(CX + rand(-1.4, 1.4), CY + rand(1.4, 2.0)), work(1.4, 'wave')]
 	S.villagers.push(v)
-	ticker(`${v.name} the ${ROLE[role].label} arrived`, '+1', ROLE[role].color)
+	ticker(`${v.name} the ${v.android ? 'android ' : ''}${ROLE[role].label} arrived`, '+1', ROLE[role].color)
 	floatText(v.x, v.y - 0.6, '+1')
 }
 
@@ -132,7 +139,7 @@ function gatherWood(v: Villager) {
 	v.res = t
 	const side = v.x < t.x ? -1 : 1
 	v.plan = [walk(t.x + side * 0.42, t.y + 0.04),
-		work(3.5 * (has('ironTools') ? 0.65 : 1) * boostMul(), 'chop', (v) => {
+		work(3.5 * gatherMul(), 'chop', (v) => {
 			t.res = 0
 			v.res = null
 			if (t.gone || t.cut) return false
@@ -154,7 +161,7 @@ function gatherStone(v: Villager) {
 	v.res = k
 	const side = v.x < k.x ? -1 : 1
 	v.plan = [walk(k.x + side * 0.55, k.y + 0.06),
-		work(4.5 * (has('ironTools') ? 0.65 : 1) * boostMul(), 'mine', (v) => {
+		work(4.5 * gatherMul(), 'mine', (v) => {
 			k.res = 0
 			v.res = null
 			if (k.gone || k.amt <= 0) return false
@@ -194,7 +201,7 @@ function gatherFood(v: Villager) {
 				p.t = 0
 				emit(p.x + 0.5, p.y + 0.5, 'chaff', 8)
 				v.carry = 'food'
-				v.carryN = has('plough') ? 3 : 2
+				v.carryN = 2 + (has('plough') ? 1 : 0) + (has('canning') ? 1 : 0)
 			}))
 			deliverPlan(v, 'food', p.x, p.y)
 		} else {
@@ -232,7 +239,7 @@ function hammerPlan(v: Villager, site: Building) {
 	const [px, py] = pick(spots)
 	v.hammer = site.id
 	v.plan = [walk(site.ox + px, site.oy + py),
-		work(2.2 * (has('carpentry') ? 0.75 : 1) * boostMul(), 'hammer', (v) => {
+		work(2.2 * (has('carpentry') ? 0.75 : 1) * (has('robotics') ? 0.7 : 1) * boostMul(), 'hammer', (v) => {
 			v.hammer = 0
 			if (!G.S.buildings.includes(site)) return false
 			const def = B[site.type]
@@ -305,9 +312,44 @@ function dance(v: Villager) {
 	v.plan = [walk(CX + Math.cos(a) * d, CY + Math.sin(a) * d * 0.75 + 0.2), work(rand(3, 6), 'dance')]
 }
 
+/** About a third of the village (and every android) stays up at night */
+const nightOwl = (v: Villager) => v.android || v.id % 3 === 0
+
+function goToBed(v: Villager) {
+	let home: Building | null = null, bd = Infinity
+	for (const b of G.S.buildings) {
+		if (!b.done || !B[b.type].cap) continue
+		const d = dist2(b.ox + 1, b.oy + 2.1, v.x, v.y)
+		if (d < bd) {
+			bd = d
+			home = b
+		}
+	}
+	if (!home) return false
+	const hx = home.ox + 1 + rand(-0.2, 0.2), hy = home.oy + 2.1
+	v.plan = [walk(hx, hy), work(0.2, 'drop', (v) => {
+		v.inside = true
+	})]
+	return true
+}
+
+function nightOut(v: Villager) {
+	const tav = G.S.buildings.find((b) => b.done && b.type === 'tavern')
+	if (tav && Math.random() < 0.5) {
+		v.plan = [walk(tav.ox + rand(0.3, 1.7), tav.oy + 2.3), work(rand(4, 9), 'idle')]
+		return
+	}
+	idle(v)
+}
+
 function think(v: Villager) {
 	release(v)
-	if (G.S.event?.type === 'festival' && !v.sick) return dance(v)
+	if ((G.S.event?.type === 'festival' || G.S.event?.d?.party) && !v.sick) return dance(v)
+	if (isNight() && !G.S.event?.d?.party) {
+		if (!nightOwl(v)) {
+			if (goToBed(v)) return
+		} else if (v.role !== 'builder' && Math.random() < 0.6) return nightOut(v)
+	}
 	let ok = false
 	switch (v.role) {
 		case 'builder': ok = builderThink(v); break
@@ -319,6 +361,13 @@ function think(v: Villager) {
 }
 
 export function updateVillager(v: Villager, dt: number) {
+	if (v.abducted) return
+	if (v.inside) {
+		if (isNight() && G.S.event?.type !== 'festival' && !G.S.event?.d?.party) return
+		v.inside = false
+		v.step = null
+		v.plan = []
+	}
 	if (v.fly) {
 		const f = v.fly
 		v.x += f.vx * dt
@@ -328,8 +377,8 @@ export function updateVillager(v: Villager, dt: number) {
 		v.anim = 'fly'
 		if (f.z <= 0) {
 			v.fly = undefined
-			v.x = Math.max(1, Math.min(v.x, 130))
-			v.y = Math.max(2, Math.min(v.y, 98))
+			v.x = Math.max(1, Math.min(v.x, W - 2))
+			v.y = Math.max(6, Math.min(v.y, H - 2))
 			interrupt(v)
 			emit(v.x, v.y, 'dust', 6)
 			if (v.doomed) killVillager(v, 'was swept away by the tornado')
@@ -347,7 +396,16 @@ export function updateVillager(v: Villager, dt: number) {
 	const st = v.step
 	if (st.k === 'walk') {
 		const dx = st.x - v.x, dy = st.y - v.y, d = Math.hypot(dx, dy)
-		const mul = (v.carry ? 0.85 : 1) * (has('pavedRoads') ? 1.2 : 1) * (v.sick ? 0.5 : 1) * (G.S.boost > 0 ? 1.15 : 1)
+		if (d > 12 && has('teleporters') && G.S.buildings.some((b) => b.done && b.type === 'teleporter')) {
+			emit(v.x, v.y - 0.3, 'spark', 8)
+			v.x = st.x
+			v.y = st.y
+			v.step = null
+			emit(v.x, v.y - 0.3, 'spark', 8)
+			return
+		}
+		const mul = (v.carry ? 0.85 : 1) * (has('pavedRoads') ? 1.2 : 1) * (has('asphalt') ? 1.1 : 1) * (v.sick ? 0.5 : 1) *
+			(G.S.boost > 0 ? 1.15 : 1) * (G.S.chill > 0 ? 0.7 : 1)
 		const sp = v.spd * mul * dt
 		v.anim = 'walk'
 		if (Math.abs(dx) > 0.01) v.face = dx > 0 ? 1 : -1
@@ -389,6 +447,7 @@ export function addSheep(n: number) {
 
 export function updateSheep(dt: number) {
 	for (const s of G.S.sheep) {
+		if (s.gone) continue
 		const dx = s.tx - s.x, dy = s.ty - s.y, d = Math.hypot(dx, dy)
 		if (d > 0.05) {
 			const sp = 0.5 * dt
@@ -400,8 +459,8 @@ export function updateSheep(dt: number) {
 			s.t -= dt
 			if (s.t <= 0) {
 				s.t = rand(3, 9)
-				s.tx = Math.max(2, Math.min(129, s.x + rand(-2.5, 2.5)))
-				s.ty = Math.max(3, Math.min(97, s.y + rand(-2, 2)))
+				s.tx = Math.max(2, Math.min(W - 3, s.x + rand(-2.5, 2.5)))
+				s.ty = Math.max(7, Math.min(H - 3, s.y + rand(-2, 2)))
 			}
 		}
 	}

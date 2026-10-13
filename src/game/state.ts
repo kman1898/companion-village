@@ -1,7 +1,9 @@
 import type { BType, Res, Role } from '../data/buildings'
 
-export const W = 132, H = 100, CX = 66, CY = 50, CELL = 3
+export const W = 190, H = 110, CX = 95, CY = 55, CELL = 3
 export const MAX_AGENTS = 500
+/** the railway runs along the top of the map */
+export const RAIL_Y = 3.6
 export const idx = (x: number, y: number) => y * W + x
 
 export interface Tree { k: 0; x: number; y: number; pine: boolean; v: number; sc: number; g: number; cut: 0 | 1; rt: number; res: number; gone: 0 | 1; park?: 1 }
@@ -23,8 +25,13 @@ export interface Building {
 	done: boolean
 	field: Field | null
 	repair?: boolean
+	/** being rebuilt in a newer style */
+	renovate?: boolean
 	fire?: number
 	graves?: number
+	/** launchpad: seconds until the next rocket; starship: launched */
+	timer?: number
+	launched?: boolean
 }
 
 export type Step =
@@ -56,9 +63,14 @@ export interface Villager {
 	fly?: { vx: number; vy: number; vz: number; z: number }
 	/** dies when it lands (tornado) */
 	doomed?: boolean
+	/** asleep inside a house */
+	inside?: boolean
+	android?: boolean
+	/** taken by a UFO */
+	abducted?: boolean
 }
 
-export interface Sheep { k: 7; x: number; y: number; tx: number; ty: number; t: number; face: 1 | -1; ph: number }
+export interface Sheep { k: 7; x: number; y: number; tx: number; ty: number; t: number; face: 1 | -1; ph: number; gone?: boolean }
 export interface Crater { x: number; y: number; r: number; until: number }
 export interface HistoryEntry { year: number; icon: string; text: string }
 
@@ -71,10 +83,24 @@ export interface ActiveEvent {
 
 export interface Cell { i: number; j: number; ox: number; oy: number; key: string; d: number; park?: boolean }
 
+export type RivalId = 'sound' | 'lights'
+export interface RivalBuilding { x: number; y: number; v: number; hp: number; tower?: boolean }
+export interface Rival {
+	id: RivalId
+	name: string
+	x: number
+	y: number
+	buildings: RivalBuilding[]
+	wins: number
+	losses: number
+}
+
 export interface State {
 	seed: number
 	time: number
 	year: number
+	/** 0..1, 0 = midnight, 0.5 = noon */
+	dayTime: number
 	stock: Rec
 	villagers: Villager[]
 	buildings: Building[]
@@ -88,11 +114,16 @@ export interface State {
 	firsts: Record<string, 1>
 	used: Map<string, number>
 	inventions: string[]
+	lastInventionYear: number
 	lastEventYear: number
+	lastRaidYear: number
 	event: ActiveEvent | null
 	craters: Crater[]
 	boost: number
+	/** negative work-speed modifier (blizzard) */
+	chill: number
 	history: HistoryEntry[]
+	rivals: Rival[]
 }
 
 export interface World {
@@ -109,6 +140,7 @@ export interface World {
 	cellMap: Map<string, Cell>
 	sparkles: { x: number; y: number; p: number }[]
 	clouds: { x: number; y: number; r: number; sp: number }[]
+	rivalSites: Record<RivalId, { x: number; y: number }>
 }
 
 /** Shared mutable game context */
@@ -122,9 +154,9 @@ export const G = {
 
 export function newState(seed: number): State {
 	return {
-		seed, time: 0, year: 0, stock: { wood: 10, stone: 5, food: 0 }, villagers: [], buildings: [], sheep: [], nextId: 1,
+		seed, time: 0, year: 0, dayTime: 0.3, stock: { wood: 10, stone: 5, food: 0 }, villagers: [], buildings: [], sheep: [], nextId: 1,
 		lastCounter: null, arrivals: 0, deaths: 0, extraPop: 0, queue: 0, firsts: {}, used: new Map(), inventions: [],
-		lastEventYear: 0, event: null, craters: [], boost: 0, history: [],
+		lastInventionYear: 0, lastEventYear: 0, lastRaidYear: 0, event: null, craters: [], boost: 0, chill: 0, history: [], rivals: [],
 	}
 }
 

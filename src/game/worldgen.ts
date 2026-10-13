@@ -2,6 +2,8 @@ import { makeNoise, mulberry32 } from '../core/rng'
 import { dist2 } from '../core/util'
 import { CELL, CX, CY, H, W, idx, type Bush, type Cell, type Rock, type Tree, type World } from './state'
 
+export const RIVAL_RADIUS = 13
+
 export function genWorld(seed: number): World {
 	const r = mulberry32(seed)
 	const nF = makeNoise(seed * 7 + 1), nS = makeNoise(seed * 13 + 5), nL = makeNoise(seed * 29 + 3)
@@ -21,10 +23,25 @@ export function genWorld(seed: number): World {
 			for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) if (water[idx(x + dx, y + dy)]) sand[idx(x, y)] = 1
 		}
 
+	// rival villages at the far left and right
+	const rivalSites = {
+		sound: { x: 22 + r() * 4, y: CY + (r() - 0.5) * 24 },
+		lights: { x: W - 22 - r() * 4, y: CY + (r() - 0.5) * 24 },
+	}
+	for (const site of Object.values(rivalSites))
+		for (let y = 0; y < H; y++)
+			for (let x = 0; x < W; x++)
+				if (Math.hypot(x + 0.5 - site.x, y + 0.5 - site.y) < RIVAL_RADIUS + 2) {
+					water[idx(x, y)] = 0
+					sand[idx(x, y)] = 0
+				}
+	const nearRival = (x: number, y: number, m = 0) =>
+		Object.values(rivalSites).some((s) => Math.hypot(x - s.x, (y - s.y) * 1.1) < RIVAL_RADIUS + m)
+
 	const trees: Tree[] = []
-	for (let y = 2; y < H - 1; y++)
+	for (let y = 6; y < H - 1; y++)
 		for (let x = 1; x < W - 1; x++) {
-			if (water[idx(x, y)] || sand[idx(x, y)]) continue
+			if (water[idx(x, y)] || sand[idx(x, y)] || nearRival(x, y)) continue
 			const d = Math.hypot(x + 0.5 - CX, (y + 0.5 - CY) * 1.25)
 			const f = nF(x * 0.065, y * 0.065)
 			let p = (f - 0.5) * 3.6
@@ -44,11 +61,13 @@ export function genWorld(seed: number): World {
 		addRockCluster(rocks, CX + Math.cos(a) * dd * 1.2, CY + Math.sin(a) * dd * 0.85, 6 + Math.floor(r() * 5), r, water)
 	}
 
+	for (let i = rocks.length - 1; i >= 0; i--) if (nearRival(rocks[i].x, rocks[i].y, 2) || rocks[i].y < 6) rocks.splice(i, 1)
+
 	const bushes: Bush[] = []
 	for (let i = 0; i < 600 && bushes.length < 45; i++) {
 		const x = 2 + r() * (W - 4), y = 3 + r() * (H - 5)
 		const d = Math.hypot(x - CX, (y - CY) * 1.25)
-		if (d < 8 || d > 30 || water[idx(x | 0, y | 0)] || sand[idx(x | 0, y | 0)]) continue
+		if (d < 8 || d > 30 || water[idx(x | 0, y | 0)] || sand[idx(x | 0, y | 0)] || nearRival(x, y, 2)) continue
 		const f = nF(x * 0.065, y * 0.065)
 		if (f < 0.45 || f > 0.56) continue
 		bushes.push({ k: 2, x, y, ber: 1, rt: 0, res: 0, gone: 0, v: r() })
@@ -60,11 +79,12 @@ export function genWorld(seed: number): World {
 
 	const cells: Cell[] = []
 	const cellMap = new Map<string, Cell>()
-	for (let j = -15; j <= 15; j++)
-		for (let i = -21; i <= 21; i++) {
+	for (let j = -17; j <= 17; j++)
+		for (let i = -15; i <= 15; i++) {
 			if (!i && !j) continue
 			const ox = CX - 1 + i * CELL, oy = CY - 1 + j * CELL
-			if (ox - 1 < 1 || oy - 1 < 2 || ox + 3 > W - 1 || oy + 3 > H - 1) continue
+			// keep clear of the map edge, the railway along the top and the rival villages
+			if (ox - 1 < 1 || oy - 1 < 6 || ox + 3 > W - 1 || oy + 3 > H - 1 || nearRival(ox + 1, oy + 1, 4)) continue
 			let bad = false
 			for (let y = oy - 1; y < oy + 3 && !bad; y++)
 				for (let x = ox - 1; x < ox + 3; x++) if (water[idx(x, y)] || sand[idx(x, y)]) { bad = true; break }
@@ -91,10 +111,10 @@ export function genWorld(seed: number): World {
 		if (water[idx(x, y)]) sparkles.push({ x: x + r(), y: y + r(), p: r() * 6.28 })
 	}
 	const clouds: World['clouds'] = []
-	for (let i = 0; i < 6; i++) clouds.push({ x: r() * W, y: r() * H, r: 5 + r() * 6, sp: 0.25 + r() * 0.3 })
+	for (let i = 0; i < 9; i++) clouds.push({ x: r() * W, y: r() * H, r: 5 + r() * 6, sp: 0.25 + r() * 0.3 })
 
 	const treeOrder = trees.map((_, i) => i).sort((a, b) => trees[a].y - trees[b].y)
-	return { seed, water, sand, shade, trees, treeOrder, rocks, bushes, cells, cellMap, sparkles, clouds }
+	return { seed, water, sand, shade, trees, treeOrder, rocks, bushes, cells, cellMap, sparkles, clouds, rivalSites }
 }
 
 export function addRockCluster(rocks: Rock[], cx: number, cy: number, n: number, r: () => number, water: Uint8Array) {

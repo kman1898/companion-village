@@ -3,7 +3,7 @@ import { eventFocus } from '../game/events'
 import { CX, CY, G, H, W } from '../game/state'
 
 export const FOLLOW_TIMEOUT = 60_000
-export const MIN_SCALE = 6
+export const MIN_SCALE = 4
 export const MAX_SCALE = 110
 
 /** x, y = view centre in tiles; s = pixels per tile. t* = where the camera is heading. */
@@ -36,6 +36,14 @@ export function touch() {
 		cam.ts = cam.s
 	}
 	cam.lastInput = performance.now()
+}
+
+/** Zoom out to show the whole map, rivals included */
+export function overview() {
+	touch()
+	cam.tx = W / 2
+	cam.ty = H / 2
+	cam.ts = clamp(Math.min(cam.vw / W, cam.vh / H) * 1.02, MIN_SCALE * 0.5, MAX_SCALE)
 }
 
 export function followNow() {

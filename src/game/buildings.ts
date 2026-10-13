@@ -1,4 +1,4 @@
-import { B, costTotal, RES, SPECIAL_ORDER, type BType, type Res, type Role } from '../data/buildings'
+import { B, costTotal, HOUSE_LINE, RES, SPECIAL_ORDER, type BType, type Res, type Role } from '../data/buildings'
 import { dist2 } from '../core/util'
 import { banner, ticker } from '../ui/notify'
 import { emit } from '../render/particles'
@@ -103,6 +103,14 @@ export function completeBuilding(b: Building) {
 		ticker(`${def.name} repaired`, '✦')
 		return
 	}
+	if (b.renovate) {
+		b.renovate = false
+		ticker(`A home was rebuilt as a ${def.name}`, '✦')
+		if (!G.S.firsts[b.type]) banner(`The first ${def.name} is finished!`, `Year ${G.S.year} · ${popCount()} villagers`)
+		G.S.firsts[b.type] = 1
+		return
+	}
+	if (b.type === 'launchpad') b.timer = 20
 	if (!G.S.firsts[b.type] && b.type !== 'house') {
 		banner(`The first ${def.name} is finished!`, `Year ${G.S.year} · ${popCount()} villagers`)
 	}
@@ -176,12 +184,23 @@ export function addGrave() {
 // ---------------------------------------------------------------------
 // Planner: decides what to build next
 // ---------------------------------------------------------------------
+/** The newest home style the village knows how to build */
+export function bestHouse(): BType {
+	let best: BType = 'house'
+	for (const t of HOUSE_LINE) {
+		const inv = B[t].inv
+		if (!inv || has(inv)) best = t
+	}
+	if (best === 'stonehouse' && popCount() < 20) return 'house'
+	return best
+}
+
 export function chooseBuilding(): BType | null {
 	const S = G.S
 	const pop = popCount(), c = roleCounts()
 	let housing = 0
 	for (const b of S.buildings) housing += B[b.type].cap || 0
-	const houseType: BType = has('masonry') && pop >= 20 ? 'stonehouse' : 'house'
+	const houseType = bestHouse()
 	if (housing < pop + 2) return houseType
 	for (const t of SPECIAL_ORDER) {
 		const def = B[t]
@@ -202,6 +221,31 @@ export function planner() {
 	if (sites >= Math.min(6, 1 + Math.floor(c.builder / 3))) return
 	const t = chooseBuilding()
 	if (t) placeBuilding(t)
+	else renovate()
+}
+
+/** Rebuild the oldest-style home in the newest style (one or two at a time) */
+function renovate() {
+	const S = G.S
+	const best = bestHouse()
+	const rank = HOUSE_LINE.indexOf(best)
+	if (rank < 2) return
+	let busy = 0
+	for (const b of S.buildings) if (b.renovate) busy++
+	if (busy >= (roleCounts().builder > 20 ? 2 : 1)) return
+	let target: Building | null = null
+	for (const b of S.buildings) {
+		if (!b.done || b.fire) continue
+		const r = HOUSE_LINE.indexOf(b.type)
+		if (r >= 0 && r < rank && (!target || r < HOUSE_LINE.indexOf(target.type))) target = b
+	}
+	if (!target) return
+	target.type = best
+	target.done = false
+	target.renovate = true
+	target.progress = 0
+	target.delivered = { wood: 0, stone: 0, food: 0 }
+	emit(target.ox + 1, target.oy + 1.2, 'dust', 12)
 }
 
 /** Bounding box of the built-up area (tiles) */

@@ -1,6 +1,9 @@
 import { settings } from '../core/settings'
 import { B, ROLE, type Role } from '../data/buildings'
-import { eraName, INV_BY_ID, INVENTIONS } from '../data/inventions'
+import { ERAS, INVENTIONS } from '../data/inventions'
+import { clockText } from '../game/daynight'
+import { eraName } from '../game/history'
+import { RIVAL_INFO } from '../game/rivals'
 import { roleCounts } from '../game/buildings'
 import { EVENTS } from '../game/events'
 import { G, popCount } from '../game/state'
@@ -42,7 +45,9 @@ export function updateHud() {
 	const S = G.S
 	const pop = popCount()
 	set('year', `Year ${S.year}`)
-	set('era', eraName(S.inventions.length))
+	set('era', eraName())
+	set('clock', clockText())
+	set('rivals', S.rivals.map((r) => `${RIVAL_INFO[r.id].icon} <b>${r.buildings.length}</b> <span title="wins–losses">${r.wins}–${r.losses}</span>`).join(' · '), true)
 	set('pop', pop)
 	set('poplbl', pop === 1 ? 'villager' : 'villagers')
 	set('r-wood', S.stock.wood)
@@ -59,7 +64,7 @@ export function updateHud() {
 	$('event-line').classList.toggle('good', !!ev?.good)
 	set('inv-count', S.inventions.length)
 	const remaining = INVENTIONS.length - S.inventions.length
-	set('inv-next', remaining ? String(10 - (S.year % 10)) : '—')
+	set('inv-next', remaining ? String(Math.max(1, settings.inventionYears - (S.year - S.lastInventionYear))) : '—')
 
 	const wait = $('wait')
 	wait.style.display = pop === 0 && S.queue === 0 ? 'block' : 'none'
@@ -94,11 +99,15 @@ function renderInventions() {
 		if (inv) yearOf.set(inv.id, h.year)
 	}
 	$('inv-sum').textContent = `· ${S.inventions.length} of ${INVENTIONS.length}`
-	const known = S.inventions.map((id) => INV_BY_ID.get(id)!).filter(Boolean)
-	const unknown = INVENTIONS.length - known.length
-	$('inv-list').innerHTML =
-		known.map((i) => `<div class="inv"><b>${i.icon} ${i.name}</b><small>${yearOf.has(i.id) ? `Year ${yearOf.get(i.id)} · ` : ''}${i.desc}</small></div>`).join('') +
-		Array.from({ length: unknown }, () => `<div class="inv unknown"><b>❔ Undiscovered</b><small>Keep pressing…</small></div>`).join('')
+	let html = ''
+	ERAS.forEach((era, e) => {
+		const list = INVENTIONS.filter((i) => i.era === e)
+		const known = list.filter((i) => S.inventions.includes(i.id))
+		html += `<div class="era-h">${era.name} · ${known.length}/${list.length}</div>`
+		html += known.map((i) => `<div class="inv"><b>${i.icon} ${i.name}</b><small>${yearOf.has(i.id) ? `Year ${yearOf.get(i.id)} · ` : ''}${i.desc}</small></div>`).join('')
+		html += Array.from({ length: list.length - known.length }, () => `<div class="inv unknown"><b>❔ Undiscovered</b><small>Keep pressing…</small></div>`).join('')
+	})
+	$('inv-list').innerHTML = html
 	$('history').innerHTML = S.history.length
 		? [...S.history].reverse().slice(0, 80).map((h) => `<div><b>Year ${h.year}</b> ${h.icon} ${h.text}</div>`).join('')
 		: '<div>Nothing has happened yet. Every button press is a year in the life of the village.</div>'

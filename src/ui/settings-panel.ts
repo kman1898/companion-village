@@ -1,13 +1,14 @@
-import { params, SAVE_KEY, saveSettings, settings, type EventsMode, type Quality } from '../core/settings'
+import { params, SAVE_KEY, saveSettings, settings, type DayLength, type EventsMode, type Quality, type RivalsMode } from '../core/settings'
 import { store } from '../core/util'
 import { EVENTS, startEvent } from '../game/events'
 import { newGame } from '../game/save'
 import { G } from '../game/state'
 import { poll } from '../net/companion'
 import { parts } from '../render/particles'
-import { applyQuality } from '../render/renderer'
+import { applyQuality, invalidateTreeLayer } from '../render/renderer'
 import { clearSpriteCaches } from '../render/sprites'
 import { renderBaseTerrain } from '../render/terrain'
+import { resetTraffic } from '../game/traffic'
 import { clearTicker } from './notify'
 import { closeModals, toggleModal } from './hud'
 
@@ -34,6 +35,9 @@ export function initSettings() {
 			host, variable, quality,
 			speed: Number($<HTMLSelectElement>('s-speed').value) || 1,
 			events: $<HTMLSelectElement>('s-events').value as EventsMode,
+			dayLength: $<HTMLSelectElement>('s-day').value as DayLength,
+			inventionYears: Number($<HTMLSelectElement>('s-pace').value) || 10,
+			rivals: $<HTMLSelectElement>('s-rivals').value as RivalsMode,
 		})
 		saveSettings()
 		if (qualityChanged) applyQuality()
@@ -47,7 +51,9 @@ export function initSettings() {
 		newGame()
 		G.S.lastCounter = last
 		parts.length = 0
+		resetTraffic()
 		clearSpriteCaches()
+		invalidateTreeLayer()
 		renderBaseTerrain()
 		clearTicker()
 		closeModals()
@@ -60,5 +66,8 @@ export function openSettings() {
 	$<HTMLSelectElement>('s-speed').value = String(settings.speed)
 	$<HTMLSelectElement>('s-events').value = settings.events
 	$<HTMLSelectElement>('s-quality').value = settings.quality
+	$<HTMLSelectElement>('s-day').value = settings.dayLength
+	$<HTMLSelectElement>('s-pace').value = String(settings.inventionYears)
+	$<HTMLSelectElement>('s-rivals').value = settings.rivals
 	if ($('settings').hidden) toggleModal('settings')
 }

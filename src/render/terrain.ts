@@ -1,9 +1,9 @@
 import { mulberry32 } from '../core/rng'
 import { clamp } from '../core/util'
-import { CX, CY, G, H, W, has, idx } from '../game/state'
+import { CX, CY, G, H, RAIL_Y, W, has, idx } from '../game/state'
 import { canvas, roundRect } from './draw'
 
-export const TP = 20 // terrain pixels per tile
+export const TP = 16 // terrain pixels per tile
 
 let baseTerrain: HTMLCanvasElement | null = null
 export let terrain: HTMLCanvasElement | null = null
@@ -74,6 +74,20 @@ export function renderBaseTerrain() {
 	g.drawImage(maskLayer((i) => w.water[i] || w.sand[i], [207, 189, 134]), 0, 0)
 	g.drawImage(maskLayer((i) => w.water[i], [61, 122, 161]), 0, 0)
 	g.drawImage(maskLayer((i) => deep(i % W, (i / W) | 0), [52, 109, 147]), 0, 0)
+	// rival village grounds
+	for (const site of Object.values(w.rivalSites)) {
+		g.fillStyle = 'rgba(150,120,80,0.55)'
+		g.beginPath()
+		g.ellipse(site.x * TP, site.y * TP, 5 * TP, 4 * TP, 0, 0, 7)
+		g.fill()
+		g.strokeStyle = 'rgba(160,130,90,0.6)'
+		g.lineWidth = TP * 0.5
+		for (const rr of [7.5, 11]) {
+			g.beginPath()
+			g.ellipse(site.x * TP, site.y * TP, rr * 1.15 * TP, rr * 0.85 * TP, 0, 0, 7)
+			g.stroke()
+		}
+	}
 	baseTerrain = c
 	terrain = canvas(c.width, c.height)[0]
 	G.terrainDirty = true
@@ -83,11 +97,18 @@ export function renderTerrain() {
 	if (!terrain || !baseTerrain) return
 	const g = terrain.getContext('2d')!
 	g.drawImage(baseTerrain, 0, 0)
-	const paved = has('pavedRoads')
+	// 0 dirt · 1 cobble · 2 asphalt · 3 glowing light-lanes
+	const style = has('hovercars') ? 3 : has('asphalt') ? 2 : has('pavedRoads') ? 1 : 0
+	const paved = style === 1
 	const r = mulberry32(7)
 	g.lineCap = 'round'
 	g.lineJoin = 'round'
-	const layers: [string, number][] = paved ? [['#8d8476', 0.66], ['#b3aa98', 0.48]] : [['#a08460', 0.62], ['#bc9d70', 0.4]]
+	const layers: [string, number][] = [
+		[['#a08460', 0.62], ['#bc9d70', 0.4]],
+		[['#8d8476', 0.66], ['#b3aa98', 0.48]],
+		[['#33363a', 0.74], ['#45484d', 0.6]],
+		[['#1e222b', 0.74], ['#2a2f3a', 0.6]],
+	][style] as [string, number][]
 	for (const [col, wd] of layers) {
 		g.strokeStyle = col
 		g.lineWidth = TP * wd
@@ -107,8 +128,28 @@ export function renderTerrain() {
 		}
 		g.stroke()
 	}
+	if (style >= 2) {
+		// lane markings
+		g.strokeStyle = style === 3 ? 'rgba(127,246,255,0.55)' : 'rgba(240,240,230,0.6)'
+		g.lineWidth = style === 3 ? 1.6 : 1.2
+		g.lineCap = 'butt'
+		g.beginPath()
+		for (const i of G.roads) {
+			const x = i % W, y = (i / W) | 0, X = (x + 0.5) * TP, Y = (y + 0.5) * TP
+			const hz = G.roads.has(i + 1) && G.roads.has(i - 1), vt = G.roads.has(i + W) && G.roads.has(i - W)
+			if (hz && !vt) {
+				g.moveTo(X - TP * 0.25, Y)
+				g.lineTo(X + TP * 0.25, Y)
+			} else if (vt && !hz) {
+				g.moveTo(X, Y - TP * 0.25)
+				g.lineTo(X, Y + TP * 0.25)
+			}
+		}
+		g.stroke()
+	}
 	for (const i of G.roads) {
 		const x = i % W, y = (i / W) | 0
+		if (style >= 2) continue
 		if (paved) {
 			g.fillStyle = 'rgba(90,82,70,0.45)'
 			for (let k = 0; k < 4; k++) {
@@ -120,6 +161,17 @@ export function renderTerrain() {
 			g.fillStyle = 'rgba(80,60,35,0.35)'
 			for (let k = 0; k < 3; k++) g.fillRect((x + r()) * TP, (y + r()) * TP, 2, 2)
 		}
+	}
+	// railway along the top of the map
+	if (has('railway')) {
+		const ry = RAIL_Y * TP
+		g.fillStyle = 'rgba(120,100,80,0.7)'
+		g.fillRect(0, ry - TP * 0.45, W * TP, TP * 0.9)
+		g.fillStyle = has('hovercars') ? '#3a4250' : '#5a3b22'
+		for (let x = 0; x < W * TP; x += TP * 0.5) g.fillRect(x, ry - TP * 0.36, TP * 0.18, TP * 0.72)
+		g.fillStyle = has('hovercars') ? '#7ff6ff' : '#9aa0a6'
+		g.fillRect(0, ry - TP * 0.24, W * TP, 2)
+		g.fillRect(0, ry + TP * 0.2, W * TP, 2)
 	}
 	// town square
 	const px = (CX - 2) * TP, py = (CY - 2) * TP

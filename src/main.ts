@@ -11,6 +11,8 @@ import { cam, updateCamera } from './view/camera'
 import { initInput, updateKeys } from './view/input'
 import { closeModals, initHud, toggleModal, updateHud } from './ui/hud'
 import { startEvent } from './game/events'
+import { invent } from './game/history'
+import { forceNextRaid } from './game/rivals'
 import { initNotify, muteBanners, ticker } from './ui/notify'
 import { initSettings, openSettings } from './ui/settings-panel'
 
@@ -70,11 +72,15 @@ window.addEventListener('beforeunload', save)
 setInterval(updateHud, 300)
 updateHud()
 
-if (params.debug) Object.assign(window, { __village: { G, perf, cam, startEvent } })
+if (params.debug)
+	Object.assign(window, {
+		__village: { G, perf, cam, startEvent, forceRaid: forceNextRaid, invent: (n = 1) => { for (let i = 0; i < n; i++) invent(true) }, setTime: (t: number) => (G.S.dayTime = t) },
+	})
 
 let last = performance.now()
 function frame(now: number) {
-	const rdt = Math.min(0.1, (now - last) / 1000)
+	// rAF timestamps can be slightly older than performance.now() on the first frame
+	const rdt = Math.max(0, Math.min(0.1, (now - last) / 1000))
 	last = now
 	updateKeys(rdt)
 	const t0 = performance.now()
