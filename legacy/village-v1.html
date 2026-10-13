@@ -1,0 +1,1904 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Companion Village</title>
+<style>
+	:root {
+		--ink: #f6ead2;
+		--muted: #cbb995;
+		--panel: rgba(30, 22, 14, 0.76);
+		--edge: rgba(255, 226, 170, 0.22);
+		--ok: #7bd36b;
+		--warn: #f0c04a;
+		--bad: #ef6a5a;
+		--gold: #f2c75c;
+	}
+	* { box-sizing: border-box; }
+	html, body { margin: 0; height: 100%; overflow: hidden; background: #24391b; color: var(--ink);
+		font-family: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif; }
+	canvas { display: block; width: 100vw; height: 100vh; }
+	.panel { position: fixed; background: var(--panel); border: 1px solid var(--edge); border-radius: 12px;
+		box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+	.hidehud .panel, .hidehud #wait { display: none !important; }
+
+	#hud { top: 16px; left: 16px; padding: 12px 16px 14px; min-width: 240px; }
+	#hud h1 { margin: 0 0 8px; font-size: 19px; font-weight: 600; letter-spacing: 0.05em; font-variant: small-caps; color: var(--gold); }
+	.popline { display: flex; align-items: baseline; gap: 8px; }
+	.big { font-size: 38px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+	.lbl { color: var(--muted); font-size: 14px; }
+	.res { display: grid; grid-template-columns: repeat(4, auto); gap: 4px 14px; margin-top: 10px; font-size: 15px; }
+	.res b { font-variant-numeric: tabular-nums; }
+	.roles { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-top: 10px; font-size: 13px; color: var(--muted); }
+	.roles span { display: inline-flex; align-items: center; gap: 5px; }
+	.roles i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+	#now { margin-top: 10px; font-size: 13px; color: var(--muted); max-width: 260px; }
+	#now div { display: flex; justify-content: space-between; gap: 10px; }
+	#now em { color: var(--ink); font-style: normal; }
+
+	#status { top: 16px; right: 16px; padding: 8px 14px; font-size: 13px; display: flex; gap: 9px; align-items: center; max-width: 60vw; }
+	#status .dot { width: 10px; height: 10px; border-radius: 50%; flex: none; background: var(--warn); }
+	#status.ok .dot { background: var(--ok); box-shadow: 0 0 8px var(--ok); }
+	#status.bad .dot { background: var(--bad); box-shadow: 0 0 8px var(--bad); }
+
+	#ticker { left: 16px; bottom: 16px; padding: 10px 14px; font-size: 14px; max-width: min(560px, calc(100vw - 32px)); }
+	#ticker:empty { display: none; }
+	#ticker div { padding: 2px 0; transition: opacity 0.6s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+	#hint { right: 16px; bottom: 16px; padding: 6px 12px; font-size: 12px; color: var(--muted); }
+
+	#banner { position: fixed; top: 16%; left: 50%; transform: translate(-50%, -12px); opacity: 0; pointer-events: none;
+		transition: opacity 0.6s, transform 0.6s; text-align: center; padding: 14px 28px; }
+	#banner.show { opacity: 1; transform: translate(-50%, 0); }
+	#banner .t { font-size: 26px; font-weight: 700; color: var(--gold); letter-spacing: 0.02em; }
+	#banner .s { font-size: 14px; color: var(--muted); margin-top: 4px; }
+
+	#wait { position: fixed; left: 50%; bottom: 22%; transform: translateX(-50%); text-align: center; pointer-events: none;
+		text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7); }
+	#wait .t { font-size: 26px; font-weight: 600; }
+	#wait .s { font-size: 15px; color: var(--muted); margin-top: 6px; }
+
+	#settings { top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 18px 20px; width: min(420px, calc(100vw - 32px)); z-index: 5; }
+	#settings[hidden] { display: none; }
+	#settings h2 { margin: 0 0 12px; font-size: 18px; color: var(--gold); font-variant: small-caps; letter-spacing: 0.05em; }
+	#settings label { display: block; margin: 10px 0 0; font-size: 13px; color: var(--muted); }
+	#settings input, #settings select { display: block; width: 100%; margin-top: 4px; padding: 7px 9px; border-radius: 7px;
+		border: 1px solid var(--edge); background: rgba(0, 0, 0, 0.35); color: var(--ink); font: inherit; font-size: 14px; }
+	.btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+	button { font: inherit; font-size: 14px; padding: 7px 12px; border-radius: 7px; cursor: pointer;
+		border: 1px solid var(--edge); background: rgba(255, 226, 170, 0.12); color: var(--ink); }
+	button:hover { background: rgba(255, 226, 170, 0.22); }
+	button.primary { background: #8a6a2a; border-color: #c49a45; }
+	button.danger { border-color: rgba(239, 106, 90, 0.6); color: #ffb3a8; }
+	.small { font-size: 12px; color: var(--muted); margin: 14px 0 0; line-height: 1.5; }
+	#gear { position: fixed; top: 58px; right: 16px; padding: 4px 10px; font-size: 13px; }
+
+	#err { position: fixed; left: 16px; right: 16px; top: 16px; padding: 10px 14px; background: #5a1d18; color: #ffd9d3;
+		border-radius: 8px; font: 13px/1.4 ui-monospace, Menlo, monospace; white-space: pre-wrap; z-index: 9; display: none; }
+</style>
+</head>
+<body>
+<canvas id="cv"></canvas>
+
+<div id="hud" class="panel">
+	<h1>⚑ Companion Village</h1>
+	<div class="popline"><span class="big" id="pop">0</span><span class="lbl" id="poplbl">villagers</span></div>
+	<div class="res">
+		<span title="Wood">🪵 <b id="r-wood">0</b></span>
+		<span title="Stone">🪨 <b id="r-stone">0</b></span>
+		<span title="Food">🌾 <b id="r-food">0</b></span>
+		<span title="Buildings">🏠 <b id="r-bld">0</b></span>
+	</div>
+	<div class="roles" id="roles"></div>
+	<div id="now"></div>
+</div>
+
+<div id="status" class="panel"><span class="dot"></span><span id="status-text">Connecting…</span></div>
+<button id="gear" class="panel" title="Settings (S)">⚙ Settings</button>
+<div id="ticker" class="panel"></div>
+<div id="hint" class="panel">H hide overlay · S settings · Space add villager · F fullscreen</div>
+<div id="banner" class="panel"><div class="t"></div><div class="s"></div></div>
+<div id="wait"><div class="t">Waiting for the first settler…</div><div class="s"></div></div>
+
+<div id="settings" class="panel" hidden>
+	<h2>Village settings</h2>
+	<label>Companion address (host:port)<input id="s-host" spellcheck="false"></label>
+	<label>Counter variable (custom:…)<input id="s-var" spellcheck="false"></label>
+	<label>Game speed
+		<select id="s-speed"><option value="1">1×</option><option value="2">2×</option><option value="4">4×</option><option value="8">8×</option></select>
+	</label>
+	<div class="btns">
+		<button id="s-save" class="primary">Save</button>
+		<button id="s-add">+1 villager</button>
+		<button id="s-reset" class="danger">Reset village</button>
+		<button id="s-close">Close</button>
+	</div>
+	<p class="small">Every button press in Companion increments <b>$(custom:village_presses)</b> (via the
+		“Village: count button presses” trigger). Each increment sends a new settler to the village.<br>
+		Keys: H hide overlay · S settings · Space add villager · F fullscreen</p>
+</div>
+
+<div id="err"></div>
+
+<script>
+'use strict'
+;(() => {
+	// ======================================================================
+	// Errors on screen (handy when running in OBS / on a show machine)
+	// ======================================================================
+	const errBox = document.getElementById('err')
+	window.addEventListener('error', (e) => {
+		errBox.style.display = 'block'
+		errBox.textContent += `${e.message}\n  at ${e.filename}:${e.lineno}:${e.colno}\n`
+	})
+
+	// ======================================================================
+	// Settings
+	// ======================================================================
+	const qs = new URLSearchParams(location.search)
+	const SETTINGS_KEY = 'companionVillage.settings'
+	const SAVE_KEY = 'companionVillage.save.v1'
+	const store = {
+		get(k) { try { return JSON.parse(localStorage.getItem(k)) } catch { return null } },
+		set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)) } catch {} },
+		del(k) { try { localStorage.removeItem(k) } catch {} },
+	}
+	const settings = Object.assign({ host: 'localhost:8888', variable: 'village_presses', poll: 300, speed: 1 }, store.get(SETTINGS_KEY) || {})
+	if (qs.get('host')) settings.host = qs.get('host')
+	if (qs.get('var')) settings.variable = qs.get('var')
+	if (qs.get('poll')) settings.poll = Math.max(100, +qs.get('poll') || 300)
+	if (qs.get('speed')) settings.speed = Math.max(0.25, +qs.get('speed') || 1)
+	// demo=N: no Companion, start with N settlers and keep adding some (for testing). Never saved.
+	const DEMO = qs.has('demo') ? Math.max(0, +qs.get('demo') || 0) : -1
+	const NOSAVE = qs.has('nosave') || DEMO >= 0
+	const WARP = Math.max(0, +qs.get('warp') || 0) // fast-forward N simulated seconds at start (testing)
+	if (qs.get('hud') === '0') document.body.classList.add('hidehud')
+
+	// ======================================================================
+	// Utilities
+	// ======================================================================
+	function mulberry32(a) {
+		return () => {
+			a |= 0; a = (a + 0x6d2b79f5) | 0
+			let t = Math.imul(a ^ (a >>> 15), 1 | a)
+			t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t
+			return ((t ^ (t >>> 14)) >>> 0) / 4294967296
+		}
+	}
+	function makeNoise(seed) {
+		const N = 64, g = new Float32Array(N * N), r = mulberry32(seed)
+		for (let i = 0; i < N * N; i++) g[i] = r()
+		const at = (x, y) => g[(((y % N) + N) % N) * N + (((x % N) + N) % N)]
+		const n = (x, y) => {
+			const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi
+			const u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf)
+			const a = at(xi, yi), b = at(xi + 1, yi), c = at(xi, yi + 1), d = at(xi + 1, yi + 1)
+			return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v
+		}
+		return (x, y) => n(x, y) * 0.6 + n(x * 2.1 + 17, y * 2.1 + 9) * 0.3 + n(x * 4.3 + 3, y * 4.3 + 41) * 0.1
+	}
+	const rand = (a, b) => a + Math.random() * (b - a)
+	const pick = (a) => a[Math.floor(Math.random() * a.length)]
+	const clamp = (v, a, b) => (v < a ? a : v > b ? b : v)
+	const dist2 = (ax, ay, bx, by) => (ax - bx) * (ax - bx) + (ay - by) * (ay - by)
+	function shade(hex, amt) {
+		const n = parseInt(hex.slice(1), 16)
+		let r = n >> 16, g = (n >> 8) & 255, b = n & 255
+		const to = amt < 0 ? 0 : 255, t = Math.abs(amt)
+		r = Math.round(r + (to - r) * t); g = Math.round(g + (to - g) * t); b = Math.round(b + (to - b) * t)
+		return `rgb(${r},${g},${b})`
+	}
+
+	// ======================================================================
+	// Game data
+	// ======================================================================
+	const W = 132, H = 100, CX = 66, CY = 50, CELL = 3, TP = 20
+	const MAX_AGENTS = 500
+	const RES = ['wood', 'stone', 'food']
+	const ROLE = {
+		builder: { label: 'Builder', color: '#e0862f', hat: '#f2c230' },
+		woodcutter: { label: 'Woodcutter', color: '#4e7f39', hat: '#2f5a28' },
+		mason: { label: 'Stonemason', color: '#7d8794', hat: '#545c69' },
+		farmer: { label: 'Farmer', color: '#c79f38', hat: '#ead27a' },
+	}
+	const ROLE_TARGET = { builder: 0.28, woodcutter: 0.28, mason: 0.2, farmer: 0.24 }
+	const SKINS = ['#f1c9a5', '#e0ac85', '#c68b62', '#a8704a', '#f5d6bc', '#8d5a3b']
+	const NAMES = ['Ada', 'Albrecht', 'Agnes', 'Aldo', 'Bertha', 'Bram', 'Brunhild', 'Cedric', 'Clara', 'Conrad', 'Dagmar',
+		'Dietrich', 'Edda', 'Elof', 'Emma', 'Erwin', 'Frieda', 'Fritz', 'Gerda', 'Gunther', 'Hanna', 'Hagen', 'Hilda', 'Hugo',
+		'Ida', 'Ingrid', 'Jakob', 'Jutta', 'Karl', 'Kunigunde', 'Lena', 'Lothar', 'Magda', 'Matthis', 'Nele', 'Norbert', 'Odo',
+		'Olga', 'Otto', 'Paula', 'Pippin', 'Rosa', 'Rudolf', 'Sigrid', 'Siegfried', 'Thea', 'Til', 'Ulla', 'Ulrich', 'Vera',
+		'Volker', 'Wilma', 'Wolf', 'Yrsa', 'Zenzi', 'Marek', 'Kasia', 'Bolek', 'Jadwiga', 'Zbyszek', 'Halina', 'Mirek', 'Basia',
+		'Tomek', 'Wanda', 'Gosia', 'Staszek', 'Bronka', 'Leszek', 'Ewa', 'Jurek', 'Krysia', 'Maciek', 'Ola', 'Piotrek']
+
+	// h = art height above the footprint's front edge, used to reveal the building while under construction
+	const B = {
+		house: { name: 'House', cost: { wood: 3, stone: 1 }, work: 4, h: 1.9, cap: 4 },
+		stonehouse: { name: 'Stone House', cost: { wood: 2, stone: 3 }, work: 6, h: 2.0, cap: 6 },
+		farm: { name: 'Farm', cost: { wood: 4, stone: 1 }, work: 4, h: 1.95, drop: ['food'] },
+		woodhut: { name: "Woodcutter's Hut", cost: { wood: 4 }, work: 3, h: 1.5, drop: ['wood'] },
+		quarry: { name: "Stonemason's Lodge", cost: { wood: 3, stone: 2 }, work: 4, h: 1.45, drop: ['stone'] },
+		well: { name: 'Well', cost: { wood: 1, stone: 3 }, work: 3, h: 1.55 },
+		storehouse: { name: 'Storehouse', cost: { wood: 6, stone: 3 }, work: 6, h: 2.1, drop: ['wood', 'stone', 'food'] },
+		bakery: { name: 'Bakery', cost: { wood: 4, stone: 4, food: 3 }, work: 6, h: 1.9, drop: ['food'] },
+		sawmill: { name: 'Sawmill', cost: { wood: 8, stone: 3 }, work: 7, h: 1.55, drop: ['wood'] },
+		market: { name: 'Market', cost: { wood: 6, stone: 4, food: 6 }, work: 7, h: 1.15 },
+		tavern: { name: 'Tavern', cost: { wood: 8, stone: 6, food: 6 }, work: 8, h: 2.3 },
+		windmill: { name: 'Windmill', cost: { wood: 8, stone: 5 }, work: 8, h: 1.9 },
+		church: { name: 'Chapel', cost: { wood: 10, stone: 14, food: 4 }, work: 12, h: 3.55 },
+		tower: { name: 'Watchtower', cost: { wood: 4, stone: 14 }, work: 10, h: 4.0 },
+		fountain: { name: 'Fountain', cost: { stone: 10 }, work: 6, h: 1.15 },
+		keep: { name: 'Castle Keep', cost: { wood: 16, stone: 30, food: 10 }, work: 20, h: 3.05 },
+	}
+	// Buildings beyond houses: unlocked at population u, wanted count grows with the village
+	const SPECIALS = [
+		{ t: 'farm', u: 2, want: (p, c) => Math.ceil(c.farmer / 4) },
+		{ t: 'woodhut', u: 4, want: (p, c) => Math.ceil(c.woodcutter / 6) },
+		{ t: 'quarry', u: 5, want: (p, c) => Math.ceil(c.mason / 6) },
+		{ t: 'well', u: 8, want: (p) => 1 + Math.floor(p / 35) },
+		{ t: 'storehouse', u: 12, want: (p) => Math.max(1, Math.floor(p / 30)) },
+		{ t: 'bakery', u: 16, want: (p) => 1 + Math.floor(p / 70) },
+		{ t: 'sawmill', u: 20, want: (p) => 1 + Math.floor(p / 90) },
+		{ t: 'market', u: 28, want: (p) => 1 + Math.floor(p / 150) },
+		{ t: 'tavern', u: 36, want: (p) => 1 + Math.floor(p / 150) },
+		{ t: 'windmill', u: 44, want: (p) => Math.floor((p + 56) / 100) },
+		{ t: 'church', u: 55, want: () => 1 },
+		{ t: 'tower', u: 70, want: (p) => Math.floor(p / 70) },
+		{ t: 'fountain', u: 80, want: (p) => Math.floor(p / 80) },
+		{ t: 'keep', u: 120, want: () => 1 },
+	]
+	const GROW_TIME = 35
+	const TREE_REGROW = 80
+	const ROCK_RESPAWN = 240
+
+	// ======================================================================
+	// World generation (deterministic from seed)
+	// ======================================================================
+	let world
+	const idx = (x, y) => y * W + x
+
+	function genWorld(seed) {
+		const r = mulberry32(seed)
+		const nF = makeNoise(seed * 7 + 1), nS = makeNoise(seed * 13 + 5), nL = makeNoise(seed * 29 + 3)
+		const water = new Uint8Array(W * H), sand = new Uint8Array(W * H), shadeMap = new Float32Array(W * H)
+
+		const la = r() * Math.PI * 2, ld = 28 + r() * 5
+		const lx = CX + Math.cos(la) * ld * 1.2, ly = CY + Math.sin(la) * ld * 0.85, lr = 6 + r() * 3
+		for (let y = 0; y < H; y++)
+			for (let x = 0; x < W; x++) {
+				const d = Math.hypot((x + 0.5 - lx) / 1.35, y + 0.5 - ly)
+				if (d < lr + (nL(x * 0.12, y * 0.12) - 0.5) * 7) water[idx(x, y)] = 1
+				shadeMap[idx(x, y)] = nS(x * 0.09, y * 0.09)
+			}
+		for (let y = 1; y < H - 1; y++)
+			for (let x = 1; x < W - 1; x++) {
+				if (water[idx(x, y)]) continue
+				for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) if (water[idx(x + dx, y + dy)]) sand[idx(x, y)] = 1
+			}
+
+		const trees = []
+		for (let y = 2; y < H - 1; y++)
+			for (let x = 1; x < W - 1; x++) {
+				if (water[idx(x, y)] || sand[idx(x, y)]) continue
+				const d = Math.hypot(x + 0.5 - CX, (y + 0.5 - CY) * 1.25)
+				const f = nF(x * 0.065, y * 0.065)
+				let p = (f - 0.5) * 3.6
+				if (d < 9) p = -1
+				else if (d < 17) p -= (17 - d) * 0.09
+				const chance = p > 0 ? Math.min(0.8, p + 0.18) : d > 7 ? 0.018 : 0
+				if (r() < chance)
+					trees.push({ k: 0, x: x + 0.2 + r() * 0.6, y: y + 0.3 + r() * 0.6, pine: r() < (f > 0.6 ? 0.75 : 0.15),
+						v: r(), sc: 0.85 + r() * 0.35, g: 1, cut: 0, rt: 0, res: 0, gone: 0 })
+			}
+
+		const rocks = []
+		const nC = 3 + Math.floor(r() * 2)
+		for (let c = 0; c < nC; c++) {
+			const a = la + Math.PI * 0.55 + c * ((Math.PI * 0.9) / (nC - 1)) + r() * 0.3
+			const dd = c === 0 ? 11 + r() * 2 : 13 + r() * 9
+			addRockCluster(rocks, CX + Math.cos(a) * dd * 1.2, CY + Math.sin(a) * dd * 0.85, 6 + Math.floor(r() * 5), r, water)
+		}
+
+		const bushes = []
+		for (let i = 0; i < 600 && bushes.length < 45; i++) {
+			const x = 2 + r() * (W - 4), y = 3 + r() * (H - 5)
+			const d = Math.hypot(x - CX, (y - CY) * 1.25)
+			if (d < 8 || d > 30 || water[idx(x | 0, y | 0)] || sand[idx(x | 0, y | 0)]) continue
+			const f = nF(x * 0.065, y * 0.065)
+			if (f < 0.45 || f > 0.56) continue
+			bushes.push({ k: 2, x, y, ber: 1, rt: 0, res: 0, gone: 0, v: r() })
+		}
+		for (const t of trees) {
+			if (rocks.some((k) => dist2(k.x, k.y, t.x, t.y) < 1.2)) t.gone = 1
+			if (bushes.some((b) => dist2(b.x, b.y, t.x, t.y) < 0.45)) t.gone = 1
+		}
+
+		const cells = [], cellMap = new Map()
+		for (let j = -15; j <= 15; j++)
+			for (let i = -21; i <= 21; i++) {
+				if (!i && !j) continue
+				const ox = CX - 1 + i * CELL, oy = CY - 1 + j * CELL
+				if (ox - 1 < 1 || oy - 1 < 2 || ox + 3 > W - 1 || oy + 3 > H - 1) continue
+				let bad = false
+				for (let y = oy - 1; y < oy + 3 && !bad; y++)
+					for (let x = ox - 1; x < ox + 3; x++) if (water[idx(x, y)] || sand[idx(x, y)]) { bad = true; break }
+				if (bad) continue
+				const cell = { i, j, ox, oy, key: i + ',' + j, d: Math.hypot(i, j * 1.2) + r() * 0.9 }
+				cells.push(cell)
+				cellMap.set(cell.key, cell)
+			}
+		cells.sort((a, b) => a.d - b.d)
+		for (const cell of cells) {
+			if (cell.d < 2.4 || r() > 0.17) continue
+			cell.park = true
+			const n = 1 + Math.floor(r() * 3)
+			for (let k = 0; k < n; k++)
+				trees.push({ k: 0, x: cell.ox + 0.3 + r() * 1.4, y: cell.oy + 0.5 + r() * 1.3, pine: r() < 0.25, v: r(), sc: 0.8 + r() * 0.3,
+					g: 1, cut: 0, rt: 0, res: 0, gone: 0, park: 1 })
+			if (r() < 0.5) bushes.push({ k: 2, x: cell.ox + 0.4 + r() * 1.2, y: cell.oy + 1.6 + r() * 0.3, ber: 1, rt: 0, res: 0, gone: 0, v: r(), park: 1 })
+		}
+
+		const sparkles = []
+		for (let i = 0; i < 4000 && sparkles.length < 60; i++) {
+			const x = Math.floor(r() * W), y = Math.floor(r() * H)
+			if (water[idx(x, y)]) sparkles.push({ x: x + r(), y: y + r(), p: r() * 6.28 })
+		}
+
+		const clouds = []
+		for (let i = 0; i < 7; i++) clouds.push({ x: r() * W, y: r() * H, r: 4 + r() * 6, sp: 0.25 + r() * 0.3 })
+
+		return { seed, water, sand, shade: shadeMap, trees, rocks, bushes, cells, cellMap, sparkles, clouds }
+	}
+
+	function addRockCluster(rocks, cx, cy, n, r, water) {
+		for (let k = 0; k < n; k++) {
+			const a = r() * Math.PI * 2, rr = 0.4 + r() * 2.2
+			const x = cx + Math.cos(a) * rr, y = cy + Math.sin(a) * rr * 0.8
+			if (x < 2 || y < 3 || x > W - 2 || y > H - 2 || water[idx(x | 0, y | 0)]) continue
+			const max = 8 + Math.floor(r() * 8)
+			rocks.push({ k: 1, x, y, max, amt: max, rt: 0, res: 0, gone: 0, seed: Math.floor(r() * 100000) })
+		}
+	}
+
+	// ======================================================================
+	// Game state
+	// ======================================================================
+	let S
+	let resumed = false
+	let roads = new Set()
+	let terrainDirty = true
+
+	function newState(seed) {
+		return { seed, time: 0, stock: { wood: 10, stone: 5, food: 0 }, villagers: [], buildings: [], nextId: 1,
+			lastCounter: null, arrivals: 0, extraPop: 0, queue: 0, firsts: {}, used: new Map() }
+	}
+
+	function useCell(cell, owner) {
+		S.used.set(cell.key, owner)
+		for (const list of [world.trees, world.rocks, world.bushes])
+			for (const o of list)
+				if (o.x >= cell.ox - 1 && o.x < cell.ox + 3 && o.y >= cell.oy - 1 && o.y < cell.oy + 3.3) o.gone = 1
+	}
+
+	function rebuildRoads() {
+		roads = new Set()
+		const ring = (ox, oy) => {
+			for (let x = ox - 1; x <= ox + 2; x++) { roads.add(idx(x, oy - 1)); roads.add(idx(x, oy + 2)) }
+			for (let y = oy; y <= oy + 1; y++) { roads.add(idx(ox - 1, y)); roads.add(idx(ox + 2, y)) }
+		}
+		for (const b of S.buildings) {
+			ring(b.ox, b.oy)
+			if (b.field) ring(b.field.ox, b.field.oy)
+		}
+		terrainDirty = true
+	}
+
+	function placeBuilding(type) {
+		const cell = world.cells.find((c) => !c.park && !S.used.has(c.key))
+		if (!cell) return null
+		const b = { id: S.nextId++, type, ci: cell.i, cj: cell.j, ox: cell.ox, oy: cell.oy, v: Math.floor(Math.random() * 12),
+			progress: 0, delivered: { wood: 0, stone: 0, food: 0 }, incoming: { wood: 0, stone: 0, food: 0 }, done: false, field: null }
+		useCell(cell, b.id)
+		if (type === 'farm') attachField(b)
+		S.buildings.push(b)
+		rebuildRoads()
+		ticker(`Builders broke ground on a new ${B[type].name}`, '⚒')
+		return b
+	}
+
+	function attachField(b, savedPatches) {
+		const opts = [[0, 1], [1, 0], [-1, 0], [0, -1], [1, 1], [-1, 1]]
+		for (const [di, dj] of opts) {
+			const c = world.cellMap.get(b.ci + di + ',' + (b.cj + dj))
+			if (!c || c.park || S.used.has(c.key)) continue
+			useCell(c, b.id)
+			b.field = { ci: c.i, cj: c.j, ox: c.ox, oy: c.oy,
+				patches: [0, 1, 2, 3].map((n) => ({ s: savedPatches ? savedPatches[n][0] : 0, t: savedPatches ? savedPatches[n][1] : 0, res: 0, x: c.ox + (n % 2), y: c.oy + (n >> 1) })) }
+			return
+		}
+	}
+
+	function need(site, r) {
+		return (B[site.type].cost[r] || 0) - site.delivered[r] - site.incoming[r]
+	}
+	function costTotal(type) {
+		const c = B[type].cost
+		return (c.wood || 0) + (c.stone || 0) + (c.food || 0)
+	}
+	function maxProgress(site) {
+		const d = site.delivered.wood + site.delivered.stone + site.delivered.food
+		return (B[site.type].work * d) / costTotal(site.type)
+	}
+
+	function completeBuilding(b) {
+		b.done = true
+		const def = B[b.type]
+		emit(b.ox + 1, b.oy + 1.2, 'spark', 26)
+		if (!S.firsts[b.type] && b.type !== 'house') {
+			S.firsts[b.type] = 1
+			banner(`The first ${def.name} is finished!`, `${popCount()} villagers live here now`)
+		}
+		S.firsts[b.type] = 1
+		ticker(`${def.name} completed`, '✦')
+	}
+
+	function popCount() {
+		return S.villagers.length + S.extraPop
+	}
+	function roleCounts() {
+		const c = { builder: 0, woodcutter: 0, mason: 0, farmer: 0 }
+		for (const v of S.villagers) c[v.role]++
+		return c
+	}
+	function countType(t) {
+		let n = 0
+		for (const b of S.buildings) if (b.type === t) n++
+		return n
+	}
+
+	// ======================================================================
+	// Planner: decides what to build next
+	// ======================================================================
+	function chooseBuilding() {
+		const pop = popCount(), c = roleCounts()
+		let housing = 0
+		for (const b of S.buildings) housing += B[b.type].cap || 0
+		const houseType = pop >= 30 ? 'stonehouse' : 'house'
+		if (housing < pop + 2) return houseType
+		for (const sp of SPECIALS) if (pop >= sp.u && countType(sp.t) < sp.want(pop, c)) return sp.t
+		if (housing < pop * 1.5 + 6) return houseType
+		if (S.stock.wood > 40 && S.stock.stone > 25 && housing < pop * 3 + 10) return houseType
+		return null
+	}
+	function planner() {
+		const c = roleCounts()
+		if (!c.builder) return
+		let sites = 0
+		for (const b of S.buildings) if (!b.done) sites++
+		if (sites >= Math.min(6, 1 + Math.floor(c.builder / 3))) return
+		const t = chooseBuilding()
+		if (t) placeBuilding(t)
+	}
+
+	// ======================================================================
+	// Villagers
+	// ======================================================================
+	const walk = (x, y) => ({ k: 'walk', x, y })
+	const work = (d, a, fn, fx) => ({ k: 'work', d, a, fn, fx })
+
+	function chooseRole() {
+		const n = S.villagers.length
+		const first = ['builder', 'woodcutter', 'mason', 'farmer']
+		if (n < 4) return first[n]
+		const c = roleCounts()
+		let best = 'builder', bd = -1e9
+		for (const r in ROLE_TARGET) {
+			const d = ROLE_TARGET[r] * (n + 1) - c[r]
+			if (d > bd) { bd = d; best = r }
+		}
+		return best
+	}
+
+	function makeVillager(name, role, x, y, skin) {
+		return { k: 4, id: S.nextId++, name, role, x, y, plan: [], step: null, t: 0, carry: null, carryN: 1, anim: 'idle', face: 1,
+			ph: Math.random() * 6, spd: rand(1.45, 1.85), skin: skin || pick(SKINS), born: S.time, res: null, claim: null, hammer: 0 }
+	}
+
+	function spawnVillager() {
+		S.arrivals++
+		if (S.villagers.length >= MAX_AGENTS) {
+			S.extraPop++
+			ticker(`Another settler moved in (${popCount()} total)`, '+')
+			return
+		}
+		const role = chooseRole()
+		const bottom = Math.min(H - 2, cam.y + viewH() / 2 + 1)
+		const v = makeVillager(pick(NAMES), role, CX + rand(-0.6, 0.6), bottom, null)
+		v.plan = [walk(CX + rand(-1.4, 1.4), CY + rand(1.4, 2.0)), work(1.4, 'wave')]
+		S.villagers.push(v)
+		ticker(`${v.name} the ${ROLE[role].label} arrived`, '+1', ROLE[role].color)
+		floatText(v.x, v.y - 0.6, '+1')
+	}
+
+	function release(v) {
+		v.hammer = 0
+		if (v.res) { v.res.res = 0; v.res = null }
+		if (v.claim) {
+			const site = S.buildings.find((b) => b.id === v.claim.site)
+			if (site) site.incoming[v.claim.r]--
+			S.stock[v.claim.r]++
+			v.claim = null
+			v.carry = null
+		}
+	}
+
+	function dropoffs(r) {
+		const list = [{ x: CX + 1.15, y: CY + 0.95 }]
+		for (const b of S.buildings) if (b.done && B[b.type].drop && B[b.type].drop.includes(r)) list.push({ x: b.ox + 1, y: b.oy + 2.2 })
+		return list
+	}
+	function nearest(list, x, y, ok) {
+		let best = null, bd = Infinity
+		for (const o of list) {
+			if (ok && !ok(o)) continue
+			const d = dist2(o.x, o.y, x, y)
+			if (d < bd) { bd = d; best = o }
+		}
+		return best
+	}
+	function deliverPlan(v, r, x, y, n) {
+		const d = nearest(dropoffs(r), x, y)
+		v.plan.push(walk(d.x + rand(-0.3, 0.3), d.y + rand(-0.1, 0.15)))
+		v.plan.push(work(0.35, 'drop', (v) => {
+			S.stock[r] += n
+			v.carry = null
+			emit(v.x, v.y - 0.2, 'dust', 3)
+		}))
+	}
+
+	function gatherWood(v) {
+		const t = nearest(world.trees, v.x, v.y, (t) => !t.gone && !t.cut && !t.res && !t.park && t.g >= 1)
+		if (!t) return false
+		t.res = v.id; v.res = t
+		const side = v.x < t.x ? -1 : 1
+		v.plan = [walk(t.x + side * 0.42, t.y + 0.04),
+			work(3.5, 'chop', (v) => {
+				t.res = 0; v.res = null
+				if (t.gone || t.cut) return false
+				t.cut = 1; t.rt = TREE_REGROW; t.g = 0
+				emit(t.x, t.y - 0.4, 'leaf', 10)
+				v.carry = 'wood'; v.carryN = 1
+			}, t.x)]
+		deliverPlan(v, 'wood', t.x, t.y, 1)
+		return true
+	}
+
+	function gatherStone(v) {
+		const k = nearest(world.rocks, v.x, v.y, (k) => !k.gone && k.amt > 0 && !k.res)
+		if (!k) return false
+		k.res = v.id; v.res = k
+		const side = v.x < k.x ? -1 : 1
+		v.plan = [walk(k.x + side * 0.55, k.y + 0.06),
+			work(4.5, 'mine', (v) => {
+				k.res = 0; v.res = null
+				if (k.gone || k.amt <= 0) return false
+				k.amt--
+				if (k.amt <= 0) k.rt = ROCK_RESPAWN
+				v.carry = 'stone'; v.carryN = 1
+			}, k.x)]
+		deliverPlan(v, 'stone', k.x, k.y, 1)
+		return true
+	}
+
+	function gatherFood(v) {
+		let best = null, bd = Infinity, bestKind = 0
+		for (const b of S.buildings) {
+			if (!b.done || !b.field) continue
+			for (const p of b.field.patches) {
+				if (p.res || p.s === 1) continue
+				const d = dist2(p.x + 0.5, p.y + 0.5, v.x, v.y) - (p.s === 2 ? 50 : 0)
+				if (d < bd) { bd = d; best = p; bestKind = p.s }
+			}
+		}
+		if (best) {
+			const p = best
+			p.res = v.id; v.res = p
+			v.plan = [walk(p.x + 0.5, p.y + 0.85)]
+			if (bestKind === 2) {
+				v.plan.push(work(2.6, 'farm', (v) => {
+					p.res = 0; v.res = null
+					if (p.s !== 2) return false
+					p.s = 0; p.t = 0
+					emit(p.x + 0.5, p.y + 0.5, 'chaff', 8)
+					v.carry = 'food'; v.carryN = 2
+				}))
+				deliverPlan(v, 'food', p.x, p.y, 2)
+			} else {
+				v.plan.push(work(2.0, 'farm', (v) => {
+					p.res = 0; v.res = null
+					if (p.s === 0) { p.s = 1; p.t = 0 }
+				}))
+			}
+			return true
+		}
+		const bush = nearest(world.bushes, v.x, v.y, (b) => !b.gone && b.ber && !b.res && !b.park)
+		if (!bush) return false
+		bush.res = v.id; v.res = bush
+		v.plan = [walk(bush.x - 0.35, bush.y + 0.08),
+			work(2.5, 'farm', (v) => {
+				bush.res = 0; v.res = null
+				if (bush.gone || !bush.ber) return false
+				bush.ber = 0; bush.rt = 60
+				v.carry = 'food'; v.carryN = 1
+			}, bush.x)]
+		deliverPlan(v, 'food', bush.x, bush.y, 1)
+		return true
+	}
+
+	function builderThink(v) {
+		const sites = S.buildings.filter((b) => !b.done)
+		for (const site of sites) {
+			if (site.progress < maxProgress(site) - 0.01) {
+				let hammering = 0
+				for (const o of S.villagers) if (o.hammer === site.id) hammering++
+				if (hammering < 3) {
+					const spots = [[rand(0.2, 1.8), 2.2], [-0.25, rand(1.2, 1.9)], [2.25, rand(1.2, 1.9)]]
+					const [px, py] = pick(spots)
+					v.hammer = site.id
+					v.plan = [walk(site.ox + px, site.oy + py),
+						work(2.2, 'hammer', (v) => {
+							v.hammer = 0
+							const def = B[site.type]
+							site.progress = Math.min(def.work, maxProgress(site), site.progress + 1)
+							emit(site.ox + 1 + rand(-0.6, 0.6), site.oy + 1.6, 'dust', 3)
+							if (!site.done && site.progress >= def.work - 1e-6) completeBuilding(site)
+						}, site.ox + 1)]
+					return true
+				}
+			}
+			for (const r of RES) {
+				if (need(site, r) > 0 && S.stock[r] >= 1) {
+					S.stock[r]--
+					site.incoming[r]++
+					v.claim = { site: site.id, r }
+					const d = nearest(dropoffs(r), v.x, v.y)
+					const sx = site.ox + 1 + rand(-0.7, 0.7), sy = site.oy + 2.25 + rand(0, 0.15)
+					v.plan = [walk(d.x + rand(-0.3, 0.3), d.y + rand(-0.1, 0.15)),
+						work(0.4, 'drop', (v) => { v.carry = r; v.carryN = 1 }),
+						walk(sx, sy),
+						work(0.4, 'drop', (v) => {
+							v.carry = null
+							site.delivered[r]++
+							site.incoming[r]--
+							v.claim = null
+							emit(v.x, v.y - 0.1, 'dust', 4)
+						})]
+					return true
+				}
+			}
+		}
+		// Nothing to carry or build: fetch whatever a site is waiting for
+		for (const site of sites)
+			for (const r of RES)
+				if (need(site, r) > 0) {
+					if (r === 'wood' && gatherWood(v)) return true
+					if (r === 'stone' && gatherStone(v)) return true
+					if (r === 'food' && gatherFood(v)) return true
+				}
+		return false
+	}
+
+	function idle(v) {
+		const a = Math.random() * Math.PI * 2, d = rand(1.4, 2.4)
+		v.plan = [walk(CX + Math.cos(a) * d, CY + Math.sin(a) * d * 0.7 + 0.2), work(rand(2, 5), 'idle')]
+	}
+
+	function think(v) {
+		release(v)
+		let ok = false
+		switch (v.role) {
+			case 'builder': ok = builderThink(v); break
+			case 'woodcutter': ok = gatherWood(v); break
+			case 'mason': ok = gatherStone(v) || gatherWood(v); break
+			case 'farmer': ok = gatherFood(v); break
+		}
+		if (!ok) idle(v)
+	}
+
+	function updateVillager(v, dt) {
+		if (!v.step) {
+			v.step = v.plan.shift() || null
+			if (!v.step) { think(v); v.step = v.plan.shift() || work(1, 'idle') }
+			v.t = 0
+		}
+		const st = v.step
+		if (st.k === 'walk') {
+			const dx = st.x - v.x, dy = st.y - v.y, d = Math.hypot(dx, dy)
+			const sp = v.spd * (v.carry ? 0.85 : 1) * dt
+			v.anim = 'walk'
+			if (Math.abs(dx) > 0.01) v.face = dx > 0 ? 1 : -1
+			if (d <= sp) { v.x = st.x; v.y = st.y; v.step = null }
+			else { v.x += (dx / d) * sp; v.y += (dy / d) * sp; v.ph += dt * 11 }
+		} else {
+			v.anim = st.a
+			if (st.fx !== undefined) v.face = st.fx >= v.x ? 1 : -1
+			v.t += dt
+			if (st.a === 'chop' && Math.random() < dt * 2.5) emit(v.x + v.face * 0.3, v.y - 0.3, 'chip', 2)
+			if (st.a === 'mine' && Math.random() < dt * 2.5) emit(v.x + v.face * 0.35, v.y - 0.15, 'grit', 2)
+			if (v.t >= st.d) {
+				v.step = null
+				if (st.fn && st.fn(v) === false) { v.plan.length = 0; release(v) }
+			}
+		}
+	}
+
+	// ======================================================================
+	// Simulation tick
+	// ======================================================================
+	let spawnTimer = 0, plannerTimer = 0, slowTimer = 0, saveTimer = 0
+
+	function update(sdt, rdt) {
+		S.time += sdt
+		spawnTimer -= rdt
+		if (S.queue > 0 && spawnTimer <= 0) {
+			S.queue--
+			spawnVillager()
+			spawnTimer = S.queue > 30 ? 0.04 : S.queue > 5 ? 0.12 : 0.3
+		}
+		plannerTimer -= sdt
+		if (plannerTimer <= 0) { plannerTimer = 1.2; planner() }
+
+		slowTimer -= sdt
+		if (slowTimer <= 0) {
+			const st = 0.5 - slowTimer
+			slowTimer = 0.5
+			for (const t of world.trees) {
+				if (t.gone) continue
+				if (t.cut) { t.rt -= st; if (t.rt <= 0) { t.cut = 0; t.g = 0.05 } }
+				else if (t.g < 1) t.g = Math.min(1, t.g + st / 45)
+			}
+			let liveRocks = 0
+			for (const k of world.rocks) {
+				if (k.gone) continue
+				if (k.amt <= 0) { k.rt -= st; if (k.rt <= 0) k.amt = k.max }
+				else liveRocks++
+			}
+			if (liveRocks < 4 && world.rocks.filter((k) => !k.gone).length < 10) spawnRockCluster()
+			for (const b of world.bushes) if (!b.gone && !b.ber) { b.rt -= st; if (b.rt <= 0) b.ber = 1 }
+			for (const b of S.buildings)
+				if (b.field && b.done)
+					for (const p of b.field.patches) if (p.s === 1) { p.t += st; if (p.t >= GROW_TIME) p.s = 2 }
+		}
+
+		for (const v of S.villagers) updateVillager(v, sdt)
+		updateParticles(sdt)
+
+		saveTimer -= rdt
+		if (saveTimer <= 0) { saveTimer = 5; save() }
+	}
+
+	function spawnRockCluster() {
+		for (let tries = 0; tries < 40; tries++) {
+			const a = Math.random() * Math.PI * 2, d = rand(18, 34)
+			const x = CX + Math.cos(a) * d * 1.2, y = CY + Math.sin(a) * d * 0.85
+			if (x < 4 || y < 4 || x > W - 4 || y > H - 4 || world.water[idx(x | 0, y | 0)]) continue
+			if (S.buildings.some((b) => dist2(b.ox + 1, b.oy + 1, x, y) < 16)) continue
+			const before = world.rocks.length
+			addRockCluster(world.rocks, x, y, 7, Math.random, world.water)
+			for (const k of world.rocks.slice(before))
+				for (const t of world.trees) if (!t.gone && dist2(k.x, k.y, t.x, t.y) < 1.2) t.gone = 1
+			return
+		}
+	}
+
+	// ======================================================================
+	// Save / load
+	// ======================================================================
+	function save() {
+		if (NOSAVE || !S) return
+		const stock = { ...S.stock }
+		for (const v of S.villagers) if (v.claim) stock[v.claim.r]++
+		const trees = []
+		world.trees.forEach((t, i) => {
+			if (t.gone) return
+			if (t.cut) trees.push([i, 1, Math.round(t.rt)])
+			else if (t.g < 1) trees.push([i, 0, +t.g.toFixed(2)])
+		})
+		store.set(SAVE_KEY, {
+			v: 1, seed: S.seed, time: Math.round(S.time), stock, nextId: S.nextId, lastCounter: S.lastCounter,
+			arrivals: S.arrivals, extraPop: S.extraPop, queue: S.queue, firsts: S.firsts, variable: settings.variable,
+			villagers: S.villagers.map((v) => [v.name, v.role, +v.x.toFixed(2), +v.y.toFixed(2), v.skin]),
+			buildings: S.buildings.map((b) => ({ id: b.id, type: b.type, ci: b.ci, cj: b.cj, v: b.v, progress: b.progress,
+				delivered: b.delivered, done: b.done, field: b.field ? b.field.patches.map((p) => [p.s, Math.round(p.t)]) : null })),
+			trees, rocks: world.rocks.filter((k) => !k.gone).map((k) => [+k.x.toFixed(2), +k.y.toFixed(2), k.max, k.amt, Math.round(k.rt), k.seed]),
+			bushes: world.bushes.map((b) => [b.ber, Math.round(b.rt)]),
+		})
+	}
+
+	function newGame() {
+		const seed = Math.floor(Math.random() * 1e9)
+		world = genWorld(seed)
+		S = newState(seed)
+		rebuildRoads()
+	}
+
+	function load() {
+		const d = NOSAVE ? null : store.get(SAVE_KEY)
+		if (!d || d.v !== 1) return newGame()
+		try {
+			world = genWorld(d.seed)
+			S = newState(d.seed)
+			Object.assign(S, { time: d.time || 0, stock: d.stock, nextId: d.nextId, lastCounter: d.variable === settings.variable ? d.lastCounter : null,
+				arrivals: d.arrivals || 0, extraPop: d.extraPop || 0, queue: d.queue || 0, firsts: d.firsts || {} })
+			world.rocks = d.rocks.map(([x, y, max, amt, rt, seed]) => ({ k: 1, x, y, max, amt, rt, res: 0, gone: 0, seed }))
+			d.bushes.forEach(([ber, rt], i) => { if (world.bushes[i]) Object.assign(world.bushes[i], { ber, rt }) })
+			for (const [i, cut, val] of d.trees) {
+				const t = world.trees[i]
+				if (!t) continue
+				if (cut) { t.cut = 1; t.rt = val; t.g = 0 } else t.g = val
+			}
+			for (const sb of d.buildings) {
+				const cell = world.cellMap.get(sb.ci + ',' + sb.cj)
+				if (!cell) continue
+				const b = { id: sb.id, type: sb.type, ci: sb.ci, cj: sb.cj, ox: cell.ox, oy: cell.oy, v: sb.v, progress: sb.progress,
+					delivered: sb.delivered, incoming: { wood: 0, stone: 0, food: 0 }, done: sb.done, field: null }
+				useCell(cell, b.id)
+				if (sb.field) attachField(b, sb.field)
+				S.buildings.push(b)
+			}
+			for (const [name, role, x, y, skin] of d.villagers) S.villagers.push(makeVillager(name, role, x, y, skin))
+			rebuildRoads()
+			resumed = S.villagers.length > 0
+		} catch (e) {
+			console.error('Could not load saved village, starting fresh', e)
+			newGame()
+		}
+	}
+
+	// ======================================================================
+	// Rendering setup
+	// ======================================================================
+	const cv = document.getElementById('cv')
+	const ctx = cv.getContext('2d')
+	let dpr = 1, cw = 0, ch = 0, vignette = null
+	const cam = { x: CX, y: CY, s: 40 }
+	const viewH = () => ch / cam.s
+
+	function resize() {
+		dpr = Math.min(2, window.devicePixelRatio || 1)
+		cw = window.innerWidth; ch = window.innerHeight
+		cv.width = Math.round(cw * dpr); cv.height = Math.round(ch * dpr)
+		const g = ctx.createRadialGradient(cw / 2, ch / 2, Math.min(cw, ch) * 0.35, cw / 2, ch / 2, Math.max(cw, ch) * 0.75)
+		g.addColorStop(0, 'rgba(0,0,0,0)')
+		g.addColorStop(1, 'rgba(10,6,0,0.42)')
+		vignette = g
+	}
+	window.addEventListener('resize', resize)
+
+	// ---------- terrain ----------
+	let baseTerrain = null, terrain = null
+	function renderBaseTerrain() {
+		const c = document.createElement('canvas')
+		c.width = W * TP; c.height = H * TP
+		const g = c.getContext('2d')
+		// Smooth grass colour: paint 1px per tile, then upscale with smoothing
+		const small = document.createElement('canvas')
+		small.width = W; small.height = H
+		const sg = small.getContext('2d'), img = sg.createImageData(W, H)
+		for (let i = 0; i < W * H; i++) {
+			const s = world.shade[i]
+			img.data[i * 4] = 70 + s * 40
+			img.data[i * 4 + 1] = 112 + s * 46
+			img.data[i * 4 + 2] = 46 + s * 18
+			img.data[i * 4 + 3] = 255
+		}
+		sg.putImageData(img, 0, 0)
+		g.imageSmoothingEnabled = true
+		g.drawImage(small, 0, 0, W * TP, H * TP)
+		const r = mulberry32(world.seed ^ 0x5eed)
+		for (let k = 0; k < W * H * 3; k++) {
+			const x = r() * W, y = r() * H
+			g.fillStyle = r() < 0.55 ? 'rgba(25,60,12,0.22)' : 'rgba(225,250,170,0.13)'
+			g.fillRect(x * TP, y * TP, 2, 4)
+		}
+		const flowers = ['#f4f1e6', '#f2d24b', '#e98bb0', '#b9a3f0']
+		for (let k = 0; k < 500; k++) {
+			const x = r() * W, y = r() * H
+			g.fillStyle = flowers[Math.floor(r() * flowers.length)]
+			g.beginPath(); g.arc(x * TP, y * TP, 1.6, 0, 7); g.fill()
+		}
+		const deep = (x, y) => {
+			for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) if (!world.water[idx(clamp(x + dx, 0, W - 1), clamp(y + dy, 0, H - 1))]) return 0
+			return 1
+		}
+		g.drawImage(maskLayer((i) => world.water[i] || world.sand[i], [207, 189, 134]), 0, 0)
+		g.drawImage(maskLayer((i) => world.water[i], [61, 122, 161]), 0, 0)
+		g.drawImage(maskLayer((i) => deep(i % W, (i / W) | 0), [52, 109, 147]), 0, 0)
+		baseTerrain = c
+		terrain = document.createElement('canvas')
+		terrain.width = c.width; terrain.height = c.height
+	}
+
+	// Smooth blobby tile masks: paint 1px per tile, upscale with smoothing, then threshold with a soft edge
+	function maskLayer(test, rgb) {
+		const small = document.createElement('canvas')
+		small.width = W; small.height = H
+		const sg = small.getContext('2d'), img = sg.createImageData(W, H)
+		const m = new Uint8Array(W * H)
+		for (let i = 0; i < W * H; i++) m[i] = test(i) ? 1 : 0
+		// 3x3 average before upscaling rounds off the tile corners
+		for (let y = 0; y < H; y++)
+			for (let x = 0; x < W; x++) {
+				let n = 0
+				for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) n += m[idx(clamp(x + dx, 0, W - 1), clamp(y + dy, 0, H - 1))] * (dx && dy ? 1 : 2)
+				img.data[idx(x, y) * 4 + 3] = Math.round((n / 14) * 255)
+			}
+		sg.putImageData(img, 0, 0)
+		const c = document.createElement('canvas')
+		c.width = W * TP; c.height = H * TP
+		const g = c.getContext('2d')
+		g.imageSmoothingEnabled = true
+		g.drawImage(small, 0, 0, W * TP, H * TP)
+		const big = g.getImageData(0, 0, c.width, c.height), d = big.data
+		for (let i = 0; i < d.length; i += 4) {
+			const a = d[i + 3]
+			d[i] = rgb[0]; d[i + 1] = rgb[1]; d[i + 2] = rgb[2]
+			d[i + 3] = a < 112 ? 0 : a > 144 ? 255 : ((a - 112) / 32) * 255
+		}
+		g.putImageData(big, 0, 0)
+		return c
+	}
+
+	function renderTerrain() {
+		const g = terrain.getContext('2d')
+		g.drawImage(baseTerrain, 0, 0)
+		const r = mulberry32(7)
+		g.lineCap = 'round'; g.lineJoin = 'round'
+		for (const [col, wd] of [['#a08460', 0.62], ['#bc9d70', 0.4]]) {
+			g.strokeStyle = col; g.lineWidth = TP * wd
+			g.beginPath()
+			for (const i of roads) {
+				const x = i % W, y = (i / W) | 0, X = (x + 0.5) * TP, Y = (y + 0.5) * TP
+				g.moveTo(X, Y); g.lineTo(X + 0.01, Y)
+				if (roads.has(i + 1) && x < W - 1) { g.moveTo(X, Y); g.lineTo(X + TP, Y) }
+				if (roads.has(i + W)) { g.moveTo(X, Y); g.lineTo(X, Y + TP) }
+			}
+			g.stroke()
+		}
+		g.fillStyle = 'rgba(80,60,35,0.35)'
+		for (const i of roads) {
+			const x = i % W, y = (i / W) | 0
+			for (let k = 0; k < 3; k++) g.fillRect((x + r()) * TP, (y + r()) * TP, 2, 2)
+		}
+		// town square
+		const px = (CX - 2) * TP, py = (CY - 2) * TP
+		g.fillStyle = '#a99a80'
+		roundRect(g, px - 4, py - 4, 4 * TP + 8, 4 * TP + 8, 14); g.fill()
+		for (let y = 0; y < 8; y++)
+			for (let x = 0; x < 8; x++) {
+				g.fillStyle = (x + y) % 2 ? '#bcae93' : '#b3a487'
+				roundRect(g, px + x * TP * 0.5 + 1, py + y * TP * 0.5 + 1, TP * 0.5 - 2, TP * 0.5 - 2, 3); g.fill()
+			}
+		terrainDirty = false
+	}
+
+	function roundRect(g, x, y, w, h, r) {
+		g.beginPath()
+		g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r)
+		g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath()
+	}
+
+	// ---------- drawing helpers (all in tile units) ----------
+	const OUT = 'rgba(45,28,16,0.62)'
+	function Rc(c, x, y, w, h, f, s) { c.fillStyle = f; c.fillRect(x, y, w, h); if (s) { c.strokeStyle = s; c.strokeRect(x, y, w, h) } }
+	function Pl(c, p, f, s) {
+		c.beginPath(); c.moveTo(p[0], p[1])
+		for (let i = 2; i < p.length; i += 2) c.lineTo(p[i], p[i + 1])
+		c.closePath()
+		if (f) { c.fillStyle = f; c.fill() }
+		if (s) { c.strokeStyle = s; c.stroke() }
+	}
+	function El(c, x, y, rx, ry, f, s) {
+		c.beginPath(); c.ellipse(x, y, rx, ry, 0, 0, Math.PI * 2)
+		if (f) { c.fillStyle = f; c.fill() }
+		if (s) { c.strokeStyle = s; c.stroke() }
+	}
+	function Ln(c, x1, y1, x2, y2, col, lw) { c.beginPath(); c.moveTo(x1, y1); c.lineTo(x2, y2); c.strokeStyle = col; c.lineWidth = lw; c.stroke() }
+
+	// Generic house: front wall + hipped roof seen from above-front. Returns chimney top (for smoke) or null.
+	function gable(c, o) {
+		const x = o.x ?? 0.15, w = o.w ?? 1.7, yb = o.yb ?? 1.88, wh = o.wh ?? 0.72, rh = o.rh ?? 0.95
+		const yt = yb - wh, dep = 0.14
+		c.lineWidth = 0.035; c.lineJoin = 'round'
+		Pl(c, [x + w, yb, x + w + dep, yb - 0.12, x + w + dep, yt - 0.1, x + w, yt], shade(o.wall, -0.3), OUT)
+		Rc(c, x, yt, w, wh, o.wall, OUT)
+		if (o.stone) {
+			c.strokeStyle = 'rgba(60,55,48,0.35)'; c.lineWidth = 0.02
+			let row = 0
+			for (let yy = yt + 0.14; yy < yb; yy += 0.14, row++) {
+				Ln(c, x, yy, x + w, yy, 'rgba(60,55,48,0.35)', 0.02)
+				for (let xx = x + (row % 2 ? 0.12 : 0.24); xx < x + w; xx += 0.24) Ln(c, xx, yy - 0.14, xx, yy, 'rgba(60,55,48,0.3)', 0.02)
+			}
+		}
+		if (o.logs) for (let yy = yt + 0.11; yy < yb; yy += 0.11) Ln(c, x, yy, x + w, yy, 'rgba(50,30,15,0.5)', 0.022)
+		if (o.planks) for (let xx = x + 0.12; xx < x + w; xx += 0.12) Ln(c, xx, yt, xx, yb, 'rgba(50,30,15,0.28)', 0.018)
+		if (o.frame) {
+			c.strokeStyle = o.frame; c.lineWidth = 0.05
+			c.strokeRect(x + 0.03, yt + 0.03, w - 0.06, wh - 0.06)
+			Ln(c, x, yt + wh * 0.45, x + w, yt + wh * 0.45, o.frame, 0.045)
+			Ln(c, x + 0.03, yt + 0.03, x + 0.3, yt + wh * 0.45, o.frame, 0.035)
+			Ln(c, x + w - 0.03, yt + 0.03, x + w - 0.3, yt + wh * 0.45, o.frame, 0.035)
+		}
+		const door = o.door ?? 'normal'
+		const dx = o.doorX ?? (o.win === 1 ? x + w * 0.66 : x + w / 2)
+		const rows = o.rows ?? 1, nw = o.win ?? 2
+		for (let rr = 0; rr < rows; rr++) {
+			const wy = rows === 1 ? yt + wh * 0.22 : rr === 0 ? yt + wh * 0.12 : yt + wh * 0.55
+			const bottom = rr === rows - 1
+			for (let k = 0; k < nw; k++) {
+				const wx = nw === 1 ? x + w * 0.22 : x + (w * (k + 1)) / (nw + 1) - 0.1
+				if (bottom && door && Math.abs(wx + 0.1 - dx) < 0.25) continue
+				Rc(c, wx, wy, 0.2, 0.2, '#f3d27a', OUT)
+				Ln(c, wx + 0.1, wy, wx + 0.1, wy + 0.2, '#7a5434', 0.02)
+				Ln(c, wx, wy + 0.1, wx + 0.2, wy + 0.1, '#7a5434', 0.02)
+				c.lineWidth = 0.035
+			}
+		}
+		c.lineWidth = 0.035
+		if (door === 'normal') Rc(c, dx - 0.12, yb - 0.38, 0.24, 0.38, '#5a3b22', OUT)
+		else if (door === 'barn' || door === 'big') {
+			const bw = door === 'barn' ? 0.5 : 0.6, bh = 0.5
+			Rc(c, dx - bw / 2, yb - bh, bw, bh, door === 'barn' ? '#7a2621' : '#6b4a2e', OUT)
+			Ln(c, dx - bw / 2, yb - bh, dx + bw / 2, yb, '#f1e6d0', 0.035)
+			Ln(c, dx + bw / 2, yb - bh, dx - bw / 2, yb, '#f1e6d0', 0.035)
+		}
+		const ov = 0.1, ins = o.ins ?? 0.3, ye = yt + 0.06, yr = yt - rh
+		const x0 = x - ov, x1 = x + w + ov + dep, x2 = x + w - ins + dep, x3 = x + ins
+		c.lineWidth = 0.035
+		Pl(c, [x0, ye, x1, ye, x2, yr, x3, yr], o.roof, OUT)
+		Pl(c, [(x0 + x1) / 2 + 0.25, ye, x1, ye, x2, yr, (x3 + x2) / 2 + 0.2, yr], 'rgba(0,0,0,0.12)')
+		for (let k = 1; k <= 3; k++) {
+			const f = k / 4, yy = ye + (yr - ye) * f
+			Ln(c, x0 + (x3 - x0) * f, yy, x1 + (x2 - x1) * f, yy, 'rgba(0,0,0,0.16)', 0.02)
+		}
+		Ln(c, x3, yr, x2, yr, 'rgba(255,255,255,0.28)', 0.04)
+		c.lineWidth = 0.035
+		if (o.chim) {
+			const cx = x + w * 0.72, cy = yr + rh * 0.4
+			Rc(c, cx, cy - 0.28, 0.13, 0.3, '#8b6a55', OUT)
+			Rc(c, cx - 0.02, cy - 0.31, 0.17, 0.05, '#6d5242', OUT)
+			return [cx + 0.065, cy - 0.34]
+		}
+		return null
+	}
+
+	function logPile(c, x, y, n = 6) {
+		c.lineWidth = 0.025
+		const pos = [[0, 0], [0.16, 0], [0.32, 0], [0.08, -0.13], [0.24, -0.13], [0.16, -0.26]]
+		for (let i = 0; i < Math.min(n, 6); i++) {
+			El(c, x + pos[i][0], y + pos[i][1] - 0.07, 0.08, 0.075, '#8a5a2b', OUT)
+			El(c, x + pos[i][0], y + pos[i][1] - 0.07, 0.045, 0.04, '#d8b27c')
+		}
+	}
+	function stonePile(c, x, y, n = 5) {
+		c.lineWidth = 0.025
+		const pos = [[0, 0], [0.17, 0.01], [0.33, 0], [0.09, -0.13], [0.25, -0.13], [0.17, -0.25]]
+		for (let i = 0; i < Math.min(n, 6); i++) Rc(c, x + pos[i][0] - 0.08, y + pos[i][1] - 0.14, 0.16, 0.13, i % 2 ? '#a9a59c' : '#bdb9b0', OUT)
+	}
+	function sackPile(c, x, y, n = 3) {
+		c.lineWidth = 0.025
+		for (let i = 0; i < Math.min(n, 4); i++) El(c, x + i * 0.15, y - 0.1 - (i === 3 ? 0.12 : 0), 0.085, 0.1, '#dcc48e', OUT)
+	}
+
+	const ROOFS = ['#b4553c', '#9c4632', '#8c5a3a', '#6e7d44', '#a8633a', '#7b4a5e']
+	const WALLS = ['#ecdab2', '#e5cfa0', '#f1e3c4', '#e8d2b8']
+	const ART = {
+		house: (c, v) => gable(c, { wall: WALLS[v % 4], roof: ROOFS[v % 6], frame: '#7a5434', chim: v % 3 !== 0 }),
+		stonehouse: (c, v) => gable(c, { x: 0.1, w: 1.72, wh: 0.85, rh: 1.0, wall: '#bcb5a6', stone: 1, roof: ['#56657a', '#5e4f6e', '#4d6b5f', '#6a5848'][v % 4], chim: 1 }),
+		woodhut(c) {
+			const s = gable(c, { x: 0.12, w: 1.25, wh: 0.62, rh: 0.72, wall: '#8d5f33', logs: 1, roof: '#5f7a3c', win: 1, ins: 0.25 })
+			logPile(c, 1.55, 1.92)
+			return s
+		},
+		quarry(c) {
+			const s = gable(c, { x: 0.1, w: 1.3, wh: 0.62, rh: 0.68, wall: '#a8a194', stone: 1, roof: '#7a5d44', win: 1 })
+			stonePile(c, 1.6, 1.95)
+			return s
+		},
+		farm(c) {
+			gable(c, { x: 0.08, w: 1.45, wh: 0.85, rh: 0.95, wall: '#a8392f', roof: '#5b4131', door: 'barn', win: 0, planks: 1 })
+			El(c, 1.8, 1.78, 0.17, 0.15, '#e2c35a', OUT)
+			Ln(c, 1.66, 1.74, 1.94, 1.74, 'rgba(120,90,20,0.6)', 0.02)
+			return null
+		},
+		well(c) {
+			c.lineWidth = 0.035
+			El(c, 1, 1.72, 0.5, 0.24, '#857f73', OUT)
+			Rc(c, 0.5, 1.48, 1, 0.24, '#8f897d')
+			Ln(c, 0.5, 1.48, 0.5, 1.72, OUT, 0.035); Ln(c, 1.5, 1.48, 1.5, 1.72, OUT, 0.035)
+			El(c, 1, 1.48, 0.5, 0.24, '#a7a195', OUT)
+			El(c, 1, 1.47, 0.36, 0.15, '#2f4d66')
+			Rc(c, 0.56, 0.78, 0.07, 0.72, '#7a5434', OUT)
+			Rc(c, 1.37, 0.78, 0.07, 0.72, '#7a5434', OUT)
+			Ln(c, 0.6, 0.95, 1.4, 0.95, '#5a3b22', 0.05)
+			Ln(c, 1, 0.95, 1, 1.24, '#d8c79a', 0.02)
+			Rc(c, 0.93, 1.22, 0.14, 0.12, '#6b4a2e', OUT)
+			Pl(c, [0.4, 0.86, 1.6, 0.86, 1.38, 0.48, 0.62, 0.48], '#9c4632', OUT)
+			return null
+		},
+		storehouse(c) {
+			gable(c, { x: 0.06, w: 1.74, wh: 0.92, rh: 1.05, wall: '#c49a5e', planks: 1, roof: '#7b4b2a', door: 'big', win: 0, ins: 0.35 })
+			El(c, 1.86, 1.78, 0.12, 0.15, '#7a5434', OUT)
+			Ln(c, 1.74, 1.72, 1.98, 1.72, '#4a3424', 0.025)
+			return null
+		},
+		bakery(c) {
+			const s = gable(c, { wall: '#f0dcc0', roof: '#c4692f', frame: '#8a5a33', chim: 1 })
+			El(c, 1.86, 1.76, 0.2, 0.16, '#b05a3a', OUT)
+			El(c, 1.86, 1.8, 0.09, 0.07, '#2e1c12')
+			return s
+		},
+		sawmill(c) {
+			c.lineWidth = 0.035
+			Rc(c, 0.1, 1.0, 1.8, 0.4, '#9a6b3c', OUT)
+			Rc(c, 0.05, 1.65, 1.9, 0.25, '#a57b4c', OUT)
+			Rc(c, 0.3, 1.48, 1.3, 0.12, '#6b4a2e', OUT)
+			Rc(c, 0.25, 1.32, 1.4, 0.16, '#8a5a2b', OUT)
+			El(c, 0.25, 1.4, 0.05, 0.08, '#d8b27c', OUT)
+			El(c, 1.0, 1.42, 0.17, 0.17, '#c9ced6', OUT)
+			Rc(c, 0.1, 0.95, 0.08, 0.95, '#6b4a2e', OUT)
+			Rc(c, 1.82, 0.95, 0.08, 0.95, '#6b4a2e', OUT)
+			Pl(c, [-0.04, 1.04, 2.06, 1.04, 1.86, 0.45, 0.16, 0.45], '#7a5a3a', OUT)
+			for (let k = 1; k <= 3; k++) Ln(c, -0.04 + 0.2 * (k / 4), 1.04 - 0.59 * (k / 4), 2.06 - 0.2 * (k / 4), 1.04 - 0.59 * (k / 4), 'rgba(0,0,0,0.16)', 0.02)
+			return null
+		},
+		market(c) {
+			stall(c, 0.02, '#c8432f')
+			stall(c, 1.02, '#3d6fa8')
+			return null
+		},
+		tavern(c) {
+			const s = gable(c, { x: 0.05, w: 1.75, wh: 1.15, rh: 1.0, wall: '#dcc394', frame: '#6e4a2c', win: 3, rows: 2, roof: '#7d3a2c', chim: 1 })
+			Ln(c, 1.8, 1.0, 2.15, 1.0, '#3a2a1e', 0.035)
+			Rc(c, 1.97, 1.03, 0.22, 0.2, '#7a5434', OUT)
+			Rc(c, 2.03, 1.08, 0.08, 0.1, '#f2c230')
+			return s
+		},
+		windmill(c) {
+			c.lineWidth = 0.035
+			Pl(c, [0.5, 1.9, 1.5, 1.9, 1.32, 0.55, 0.68, 0.55], '#e6dcc8', OUT)
+			Pl(c, [1.18, 1.9, 1.5, 1.9, 1.32, 0.55, 1.12, 0.55], 'rgba(0,0,0,0.1)')
+			Pl(c, [0.48, 1.9, 1.52, 1.9, 1.48, 1.6, 0.52, 1.6], '#a39b8c', OUT)
+			Rc(c, 0.88, 1.45, 0.24, 0.45, '#5a3b22', OUT)
+			Rc(c, 0.92, 0.95, 0.16, 0.16, '#f3d27a', OUT)
+			Pl(c, [0.6, 0.6, 1.4, 0.6, 1.22, 0.24, 0.78, 0.24], '#7a4a2e', OUT)
+			El(c, 1, 0.24, 0.22, 0.08, '#7a4a2e', OUT)
+			return null
+		},
+		church(c) {
+			gable(c, { x: 0.62, w: 1.25, wh: 0.82, rh: 0.85, wall: '#efe9df', roof: '#4f5f73', win: 2, door: false, ins: 0.25 })
+			Rc(c, 0.08, -0.25, 0.56, 2.13, '#e7e0d4', OUT)
+			Rc(c, 0.5, -0.25, 0.14, 2.13, 'rgba(0,0,0,0.08)')
+			c.beginPath(); c.moveTo(0.2, 1.88); c.lineTo(0.2, 1.55); c.arc(0.36, 1.55, 0.16, Math.PI, 0); c.lineTo(0.52, 1.88)
+			c.fillStyle = '#5a3b22'; c.fill(); c.strokeStyle = OUT; c.stroke()
+			c.beginPath(); c.moveTo(0.24, 0.35); c.lineTo(0.24, 0.17); c.arc(0.36, 0.17, 0.12, Math.PI, 0); c.lineTo(0.48, 0.35)
+			c.fillStyle = '#3b3b46'; c.fill(); c.stroke()
+			Rc(c, 0.28, 0.75, 0.16, 0.22, '#f3d27a', OUT)
+			Pl(c, [0.02, -0.25, 0.7, -0.25, 0.36, -1.25], '#4f5f73', OUT)
+			Pl(c, [0.36, -1.25, 0.7, -0.25, 0.48, -0.25], 'rgba(0,0,0,0.15)')
+			Ln(c, 0.36, -1.25, 0.36, -1.55, '#e9c45a', 0.05)
+			Ln(c, 0.26, -1.45, 0.46, -1.45, '#e9c45a', 0.05)
+			return null
+		},
+		tower(c) {
+			c.lineWidth = 0.035
+			Pl(c, [1.5, 1.9, 1.62, 1.8, 1.62, -0.95, 1.5, -0.9], '#8e8779', OUT)
+			Rc(c, 0.5, -0.9, 1.0, 2.8, '#b4ad9f', OUT)
+			let row = 0
+			for (let yy = -0.75; yy < 1.9; yy += 0.17, row++) {
+				Ln(c, 0.5, yy, 1.5, yy, 'rgba(60,55,48,0.3)', 0.02)
+				for (let xx = 0.5 + (row % 2 ? 0.14 : 0.28); xx < 1.5; xx += 0.28) Ln(c, xx, yy - 0.17, xx, yy, 'rgba(60,55,48,0.25)', 0.02)
+			}
+			c.lineWidth = 0.035
+			Rc(c, 0.4, -1.15, 1.32, 0.28, '#a59e90', OUT)
+			for (let k = 0; k < 4; k++) Rc(c, 0.4 + k * 0.37, -1.33, 0.2, 0.18, '#a59e90', OUT)
+			Rc(c, 0.95, -0.45, 0.1, 0.3, '#2b2b33')
+			Rc(c, 0.95, 0.4, 0.1, 0.3, '#2b2b33')
+			c.beginPath(); c.moveTo(0.82, 1.9); c.lineTo(0.82, 1.6); c.arc(1, 1.6, 0.18, Math.PI, 0); c.lineTo(1.18, 1.9)
+			c.fillStyle = '#5a3b22'; c.fill(); c.strokeStyle = OUT; c.stroke()
+			Ln(c, 1.06, -1.33, 1.06, -2.05, '#5a3b22', 0.04)
+			c.lineWidth = 0.03
+			Pl(c, [1.08, -2.03, 1.52, -1.9, 1.08, -1.77], '#c8432f', OUT)
+			return null
+		},
+		fountain(c) {
+			c.lineWidth = 0.035
+			El(c, 1, 1.64, 0.82, 0.36, '#8f897d', OUT)
+			Rc(c, 0.18, 1.46, 1.64, 0.18, '#8f897d')
+			Ln(c, 0.18, 1.46, 0.18, 1.64, OUT, 0.035); Ln(c, 1.82, 1.46, 1.82, 1.64, OUT, 0.035)
+			El(c, 1, 1.46, 0.82, 0.36, '#b1ab9f', OUT)
+			El(c, 1, 1.46, 0.68, 0.27, '#5d9fca')
+			Rc(c, 0.93, 0.95, 0.14, 0.52, '#b1ab9f', OUT)
+			El(c, 1, 0.95, 0.3, 0.1, '#b1ab9f', OUT)
+			El(c, 1, 0.93, 0.22, 0.06, '#5d9fca')
+			return null
+		},
+		keep(c) {
+			c.lineWidth = 0.035
+			Rc(c, 0.28, 0.2, 1.44, 1.7, '#b8b1a3', OUT)
+			let row = 0
+			for (let yy = 0.36; yy < 1.9; yy += 0.17, row++) {
+				Ln(c, 0.28, yy, 1.72, yy, 'rgba(60,55,48,0.28)', 0.02)
+				for (let xx = 0.28 + (row % 2 ? 0.14 : 0.28); xx < 1.72; xx += 0.28) Ln(c, xx, yy - 0.17, xx, yy, 'rgba(60,55,48,0.22)', 0.02)
+			}
+			c.lineWidth = 0.035
+			for (let k = 0; k < 5; k++) Rc(c, 0.36 + k * 0.27, 0.04, 0.16, 0.17, '#b8b1a3', OUT)
+			for (const tx of [0, 1.5]) {
+				Rc(c, tx, -0.35, 0.5, 2.25, '#aaa395', OUT)
+				Rc(c, tx + 0.2, 0.2, 0.09, 0.26, '#2b2b33')
+				Rc(c, tx + 0.2, 0.95, 0.09, 0.26, '#2b2b33')
+				Pl(c, [tx - 0.07, -0.35, tx + 0.57, -0.35, tx + 0.25, -1.05], '#4a5d80', OUT)
+				Pl(c, [tx + 0.25, -1.05, tx + 0.57, -0.35, tx + 0.36, -0.35], 'rgba(0,0,0,0.15)')
+			}
+			c.beginPath(); c.moveTo(0.75, 1.9); c.lineTo(0.75, 1.45); c.arc(1, 1.45, 0.25, Math.PI, 0); c.lineTo(1.25, 1.9)
+			c.fillStyle = '#3a2a1e'; c.fill(); c.strokeStyle = OUT; c.stroke()
+			for (let xx = 0.82; xx < 1.2; xx += 0.1) Ln(c, xx, 1.32, xx, 1.9, 'rgba(160,150,130,0.6)', 0.02)
+			for (const bx of [0.5, 1.34]) Pl(c, [bx, 0.45, bx + 0.16, 0.45, bx + 0.16, 0.88, bx + 0.08, 0.8, bx, 0.88], '#c8432f', OUT)
+			Ln(c, 1.75, -1.05, 1.75, -1.5, '#5a3b22', 0.035)
+			Pl(c, [1.77, -1.5, 2.1, -1.41, 1.77, -1.32], '#e9c45a', OUT)
+			return null
+		},
+	}
+	function stall(c, x, col) {
+		c.lineWidth = 0.035
+		Rc(c, x + 0.08, 1.45, 0.8, 0.42, '#9a6b3c', OUT)
+		const cols = ['#d9433a', '#f0a43a', '#7cb342', '#e8d25a']
+		for (let k = 0; k < 6; k++) El(c, x + 0.2 + k * 0.11, 1.42, 0.055, 0.045, cols[k % 4])
+		Rc(c, x + 0.08, 0.95, 0.05, 0.92, '#6b4a2e')
+		Rc(c, x + 0.83, 0.95, 0.05, 0.92, '#6b4a2e')
+		const y0 = 0.82, y1 = 1.12
+		for (let k = 0; k < 5; k++)
+			Pl(c, [x + k * 0.192, y1, x + (k + 1) * 0.192, y1, x + 0.04 + (k + 1) * 0.176, y0, x + 0.04 + k * 0.176, y0], k % 2 ? '#f4ecdc' : col)
+		Pl(c, [x, y1, x + 0.96, y1, x + 0.92, y0, x + 0.04, y0], null, OUT)
+	}
+
+	// Completed buildings are rendered once into sprites (1 tile = SR px)
+	const SR = 56
+	const spriteCache = new Map()
+	function buildingSprite(type, v) {
+		const key = type + ':' + v
+		let sp = spriteCache.get(key)
+		if (sp) return sp
+		const c = document.createElement('canvas')
+		c.width = 3 * SR; c.height = 6.2 * SR
+		const g = c.getContext('2d')
+		g.setTransform(SR, 0, 0, SR, 0.5 * SR, 3.9 * SR)
+		El(g, 1.12, 1.9, 1.0, 0.16, 'rgba(0,0,0,0.2)')
+		const smoke = ART[type](g, v)
+		sp = { c, smoke }
+		spriteCache.set(key, sp)
+		return sp
+	}
+
+	const DECID = [['#3f7d32', '#5a9a3f', '#2f6427'], ['#4b8a36', '#6aa846', '#376b2a'], ['#56813a', '#79a24c', '#3e6230'],
+		['#6b8f2f', '#8fb045', '#4f6e25'], ['#3c7440', '#5b9555', '#2b5a31']]
+	const PINES = [['#2f5e3a', '#3f7449', '#224a2c'], ['#2c5640', '#3a6b50', '#1f4230'], ['#35603a', '#467a4a', '#264a2b']]
+	let treeSprites = null
+	function makeTreeSprites() {
+		const R = 64
+		const mk = (pine, col) => {
+			const c = document.createElement('canvas')
+			c.width = 1.3 * R; c.height = 1.6 * R
+			const g = c.getContext('2d')
+			g.setTransform(R, 0, 0, R, 0.65 * R, 1.4 * R)
+			El(g, 0.1, 0.02, 0.34, 0.1, 'rgba(0,0,0,0.22)')
+			Rc(g, -0.055, -0.36, 0.11, 0.38, '#6b4a2e')
+			g.lineWidth = 0.025
+			if (pine) {
+				for (let i = 0; i < 3; i++) {
+					const yb = -0.2 - i * 0.32, wdt = 0.42 - i * 0.1
+					Pl(g, [-wdt, yb, wdt, yb, 0, yb - 0.55], col[0], 'rgba(20,40,20,0.5)')
+					Pl(g, [-wdt * 0.2, yb - 0.05, -wdt * 0.85, yb - 0.02, -0.02, yb - 0.5], col[1])
+				}
+			} else {
+				const blobs = [[0, -0.66, 0.36], [-0.22, -0.52, 0.25], [0.22, -0.52, 0.25], [0.06, -0.86, 0.26]]
+				for (const [x, y, r] of blobs) El(g, x, y, r, r * 0.95, col[0], 'rgba(20,40,20,0.45)')
+				for (const [x, y, r] of blobs) El(g, x - r * 0.25, y - r * 0.25, r * 0.55, r * 0.5, col[1])
+				El(g, 0.12, -0.5, 0.2, 0.12, col[2])
+			}
+			return c
+		}
+		treeSprites = [DECID.map((c) => mk(false, c)), PINES.map((c) => mk(true, c))]
+	}
+
+	// ======================================================================
+	// Particles & floating text
+	// ======================================================================
+	const parts = []
+	const floats = []
+	function emit(x, y, type, n) {
+		if (parts.length > 1500) return
+		for (let i = 0; i < n; i++) {
+			const p = { x, y, type, vx: 0, vy: 0, life: 1, max: 1, size: 0.05, col: '#fff' }
+			switch (type) {
+				case 'chip': Object.assign(p, { vx: rand(-1, 1), vy: rand(-2, -1), max: 0.5, size: 0.04, col: '#c79a5c' }); break
+				case 'grit': Object.assign(p, { vx: rand(-1, 1), vy: rand(-2, -1), max: 0.5, size: 0.04, col: '#c8c5bd' }); break
+				case 'leaf': Object.assign(p, { x: x + rand(-0.3, 0.3), y: y + rand(-0.3, 0.2), vx: rand(-0.4, 0.4), vy: rand(0.1, 0.5), max: 1.2, size: 0.05, col: pick(['#5a9a3f', '#79a24c', '#3f7d32']) }); break
+				case 'chaff': Object.assign(p, { x: x + rand(-0.4, 0.4), vx: rand(-0.5, 0.5), vy: rand(-1.2, -0.5), max: 0.8, size: 0.04, col: '#e6c85a' }); break
+				case 'dust': Object.assign(p, { x: x + rand(-0.15, 0.15), vx: rand(-0.3, 0.3), vy: rand(-0.4, -0.1), max: 0.7, size: 0.08, col: 'rgba(214,196,160,' }); break
+				case 'smoke': Object.assign(p, { vx: rand(0.05, 0.2), vy: rand(-0.45, -0.3), max: 3.2, size: 0.07, col: 'rgba(220,220,220,' }); break
+				case 'spark': Object.assign(p, { x: x + rand(-1, 1), y: y + rand(-0.8, 0.6), vx: rand(-0.3, 0.3), vy: rand(-1.2, -0.4), max: rand(0.8, 1.6), size: 0.06, col: '#ffe58a' }); break
+			}
+			p.life = p.max
+			parts.push(p)
+		}
+	}
+	function updateParticles(dt) {
+		for (let i = parts.length - 1; i >= 0; i--) {
+			const p = parts[i]
+			p.life -= dt
+			if (p.life <= 0) { parts[i] = parts[parts.length - 1]; parts.pop(); continue }
+			p.x += p.vx * dt; p.y += p.vy * dt
+			if (p.type === 'chip' || p.type === 'grit' || p.type === 'chaff') p.vy += 5 * dt
+			if (p.type === 'smoke' || p.type === 'dust') p.size += dt * 0.12
+		}
+		for (let i = floats.length - 1; i >= 0; i--) {
+			floats[i].life -= dt
+			floats[i].y -= dt * 0.5
+			if (floats[i].life <= 0) floats.splice(i, 1)
+		}
+	}
+	function floatText(x, y, text) {
+		floats.push({ x, y, text, life: 2.2 })
+	}
+
+	// ======================================================================
+	// Render
+	// ======================================================================
+	let lastSmoke = 0
+	function updateCamera(dt) {
+		let x0 = CX - 9, x1 = CX + 9, y0 = CY - 6, y1 = CY + 6
+		for (const b of S.buildings) {
+			x0 = Math.min(x0, b.ox - 3); x1 = Math.max(x1, b.ox + 5)
+			y0 = Math.min(y0, b.oy - 4); y1 = Math.max(y1, b.oy + 4)
+			if (b.field) { x0 = Math.min(x0, b.field.ox - 3); x1 = Math.max(x1, b.field.ox + 5); y0 = Math.min(y0, b.field.oy - 3); y1 = Math.max(y1, b.field.oy + 4) }
+		}
+		const bx0 = x0 - 5, bx1 = x1 + 5, by0 = y0 - 4, by1 = y1 + 4
+		for (const v of S.villagers) {
+			if (v.x < bx0 || v.x > bx1 || v.y < by0 || v.y > by1) continue
+			x0 = Math.min(x0, v.x - 1.5); x1 = Math.max(x1, v.x + 1.5)
+			y0 = Math.min(y0, v.y - 2); y1 = Math.max(y1, v.y + 1)
+		}
+		x0 = Math.max(0, x0); y0 = Math.max(0, y0); x1 = Math.min(W, x1); y1 = Math.min(H, y1)
+		// leave room for the overlay panels
+		const padTop = 80 / Math.max(cam.s, 8)
+		const tx = (x0 + x1) / 2, ty = (y0 + y1) / 2 - padTop * 0.3
+		const ts = clamp(Math.min(cw / (x1 - x0), ch / (y1 - y0 + padTop)), 7, 62)
+		const k = 1 - Math.exp(-dt * 0.9)
+		cam.x += (tx - cam.x) * k
+		cam.y += (ty - cam.y) * k
+		cam.s = Math.exp(Math.log(cam.s) + (Math.log(ts) - Math.log(cam.s)) * k)
+	}
+
+	const sortKey = (o) => (o.k === 3 ? o.oy + 1.95 : o.k === 5 ? CY + 0.1 : o.k === 6 ? CY + 1.0 : o.y)
+	const fireObj = { k: 5 }, pileObj = { k: 6 }
+
+	function render(dt) {
+		if (terrainDirty) renderTerrain()
+		updateCamera(dt)
+		const s = cam.s, time = S.time
+		ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+		ctx.fillStyle = '#24391b'
+		ctx.fillRect(0, 0, cw, ch)
+		ctx.setTransform(dpr * s, 0, 0, dpr * s, dpr * (cw / 2 - cam.x * s), dpr * (ch / 2 - cam.y * s))
+		const vx0 = cam.x - cw / 2 / s, vx1 = cam.x + cw / 2 / s, vy0 = cam.y - ch / 2 / s, vy1 = cam.y + ch / 2 / s
+
+		const sx0 = clamp(Math.floor(vx0) - 1, 0, W), sy0 = clamp(Math.floor(vy0) - 1, 0, H)
+		const sx1 = clamp(Math.ceil(vx1) + 1, 0, W), sy1 = clamp(Math.ceil(vy1) + 1, 0, H)
+		if (sx1 > sx0 && sy1 > sy0) ctx.drawImage(terrain, sx0 * TP, sy0 * TP, (sx1 - sx0) * TP, (sy1 - sy0) * TP, sx0, sy0, sx1 - sx0, sy1 - sy0)
+
+		// water glints
+		ctx.lineCap = 'round'
+		for (const sp of world.sparkles) {
+			const a = Math.sin(time * 1.3 + sp.p)
+			if (a <= 0.3) continue
+			Ln(ctx, sp.x - 0.15, sp.y, sp.x + 0.15, sp.y, `rgba(255,255,255,${(a - 0.3) * 0.5})`, 0.04)
+		}
+
+		// fields
+		for (const b of S.buildings) if (b.field) drawField(b)
+
+		// depth-sorted objects
+		const list = []
+		const inView = (x, y, m) => x > vx0 - m && x < vx1 + m && y > vy0 - 0.3 && y < vy1 + m + 1.5
+		for (const t of world.trees) if (!t.gone && inView(t.x, t.y, 1)) list.push(t)
+		for (const r of world.rocks) if (!r.gone && inView(r.x, r.y, 1)) list.push(r)
+		for (const b of world.bushes) if (!b.gone && inView(b.x, b.y, 1)) list.push(b)
+		for (const b of S.buildings) {
+			b.k = 3
+			if (b.ox + 2.6 > vx0 && b.ox - 0.6 < vx1 && b.oy + 2.4 > vy0 && b.oy - 4.2 < vy1) list.push(b)
+		}
+		for (const v of S.villagers) if (inView(v.x, v.y, 1)) list.push(v)
+		list.push(fireObj, pileObj)
+		list.sort((a, b) => sortKey(a) - sortKey(b))
+
+		const detail = s >= 11
+		for (const o of list) {
+			switch (o.k) {
+				case 0: drawTree(o); break
+				case 1: drawRock(o); break
+				case 2: drawBush(o); break
+				case 3: drawBuilding(o, time); break
+				case 4: drawVillager(o, time, detail); break
+				case 5: drawFire(time); break
+				case 6: drawPile(); break
+			}
+		}
+
+		// chimney smoke
+		lastSmoke -= dt
+		if (lastSmoke <= 0) {
+			lastSmoke = 0.35
+			for (const b of S.buildings) {
+				if (!b.done || Math.random() > 0.22) continue
+				const sp = buildingSprite(b.type, b.v)
+				if (sp.smoke) emit(b.ox + jitter(b) + sp.smoke[0], b.oy + sp.smoke[1], 'smoke', 1)
+			}
+		}
+
+		// particles
+		for (const p of parts) {
+			const f = p.life / p.max
+			if (p.type === 'smoke' || p.type === 'dust') {
+				ctx.fillStyle = p.col + (f * (p.type === 'smoke' ? 0.45 : 0.6)).toFixed(3) + ')'
+				ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, 7); ctx.fill()
+			} else if (p.type === 'spark') {
+				ctx.globalAlpha = Math.min(1, f * 1.5)
+				ctx.fillStyle = p.col
+				const z = p.size * (0.6 + 0.4 * Math.sin(time * 20 + p.x * 9))
+				ctx.fillRect(p.x - z / 2, p.y - z / 2, z, z)
+				ctx.globalAlpha = 1
+			} else {
+				ctx.globalAlpha = Math.min(1, f * 2)
+				ctx.fillStyle = p.col
+				ctx.fillRect(p.x - p.size / 2, p.y - p.size / 2, p.size, p.size)
+				ctx.globalAlpha = 1
+			}
+		}
+
+		// drifting cloud shadows
+		ctx.fillStyle = 'rgba(10,20,30,0.07)'
+		for (const c of world.clouds) {
+			c.x += c.sp * dt
+			if (c.x - c.r * 2 > W) c.x = -c.r * 2
+			ctx.beginPath()
+			ctx.ellipse(c.x, c.y, c.r * 1.4, c.r * 0.7, 0, 0, 7)
+			ctx.ellipse(c.x + c.r * 0.9, c.y - c.r * 0.25, c.r * 0.9, c.r * 0.55, 0, 0, 7)
+			ctx.ellipse(c.x - c.r * 0.9, c.y + c.r * 0.1, c.r * 0.8, c.r * 0.45, 0, 0, 7)
+			ctx.fill()
+		}
+
+		// screen space: floating text + vignette
+		ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+		ctx.textAlign = 'center'
+		ctx.font = `700 ${Math.round(clamp(s * 0.55, 14, 26))}px Georgia, serif`
+		for (const f of floats) {
+			const X = (f.x - cam.x) * s + cw / 2, Y = (f.y - cam.y) * s + ch / 2
+			ctx.globalAlpha = Math.min(1, f.life)
+			ctx.lineWidth = 4; ctx.strokeStyle = 'rgba(40,25,10,0.8)'; ctx.strokeText(f.text, X, Y)
+			ctx.fillStyle = '#ffe58a'; ctx.fillText(f.text, X, Y)
+			ctx.globalAlpha = 1
+		}
+		ctx.fillStyle = vignette
+		ctx.fillRect(0, 0, cw, ch)
+	}
+
+	function drawTree(t) {
+		if (t.cut) {
+			El(ctx, t.x, t.y - 0.04, 0.1, 0.05, '#6b4a2e')
+			El(ctx, t.x, t.y - 0.07, 0.085, 0.04, '#cfa66e')
+			return
+		}
+		const sp = treeSprites[t.pine ? 1 : 0]
+		const img = sp[Math.floor(t.v * sp.length)]
+		const sc = t.sc * (t.g < 1 ? 0.25 + 0.75 * t.g : 1)
+		ctx.drawImage(img, t.x - 0.65 * sc, t.y - 1.4 * sc, 1.3 * sc, 1.6 * sc)
+	}
+
+	function drawRock(k) {
+		ctx.lineWidth = 0.03
+		if (k.amt <= 0) {
+			for (let i = 0; i < 3; i++) El(ctx, k.x - 0.15 + i * 0.15, k.y - 0.03, 0.06, 0.035, '#8d8b84')
+			return
+		}
+		const sz = 0.2 + 0.26 * (k.amt / k.max)
+		const r = mulberry32(k.seed)
+		El(ctx, k.x + 0.06, k.y, sz * 1.15, sz * 0.38, 'rgba(0,0,0,0.2)')
+		const pts = [], pts2 = []
+		for (let i = 0; i < 8; i++) {
+			const a = (i / 8) * Math.PI * 2, rad = sz * (0.75 + r() * 0.35)
+			pts.push(k.x + Math.cos(a) * rad * 1.1, k.y - sz * 0.5 + Math.sin(a) * rad * 0.72)
+			pts2.push(k.x - sz * 0.15 + Math.cos(a) * rad * 0.6, k.y - sz * 0.72 + Math.sin(a) * rad * 0.38)
+		}
+		Pl(ctx, pts, '#9f9d95', 'rgba(40,38,34,0.6)')
+		Pl(ctx, pts2, '#bebcb4')
+	}
+
+	function drawBush(b) {
+		El(ctx, b.x + 0.04, b.y, 0.26, 0.08, 'rgba(0,0,0,0.2)')
+		ctx.lineWidth = 0.025
+		for (const [dx, dy, r] of [[-0.12, -0.14, 0.15], [0.12, -0.14, 0.15], [0, -0.24, 0.17]]) El(ctx, b.x + dx, b.y + dy, r, r * 0.9, '#3d7a35', 'rgba(20,40,20,0.4)')
+		El(ctx, b.x - 0.05, b.y - 0.28, 0.08, 0.06, '#5a9a45')
+		if (b.ber) {
+			ctx.fillStyle = '#d23b4a'
+			for (let i = 0; i < 6; i++) {
+				const a = b.v * 10 + i * 1.7
+				ctx.beginPath(); ctx.arc(b.x + Math.cos(a) * 0.17, b.y - 0.18 + Math.sin(a) * 0.09, 0.03, 0, 7); ctx.fill()
+			}
+		}
+	}
+
+	function drawField(b) {
+		const f = b.field
+		ctx.lineWidth = 0.03
+		for (const p of f.patches) {
+			Rc(ctx, p.x + 0.07, p.y + 0.1, 0.86, 0.84, '#7d5c3a', 'rgba(60,40,20,0.5)')
+			for (let r = 0; r < 3; r++) Ln(ctx, p.x + 0.12, p.y + 0.3 + r * 0.25, p.x + 0.88, p.y + 0.3 + r * 0.25, 'rgba(50,32,15,0.45)', 0.035)
+			if (!b.done || p.s === 0) continue
+			const grown = p.s === 2 ? 1 : p.t / GROW_TIME
+			const col = p.s === 2 ? '#e3c255' : grown > 0.6 ? '#9cbf4a' : '#6fae45'
+			for (let r = 0; r < 3; r++)
+				for (let i = 0; i < 5; i++) {
+					const x = p.x + 0.17 + i * 0.165, y = p.y + 0.28 + r * 0.25, hgt = 0.05 + grown * 0.2
+					Ln(ctx, x, y, x, y - hgt, col, 0.045)
+					if (p.s === 2) El(ctx, x, y - hgt, 0.035, 0.05, '#f0d77a')
+				}
+		}
+	}
+
+	function drawBuilding(b, time) {
+		if (b.done) {
+			const sp = buildingSprite(b.type, b.v), jx = jitter(b)
+			ctx.drawImage(sp.c, b.ox + jx - 0.5, b.oy - 3.9, 3, 6.2)
+			if (b.type === 'windmill') drawBlades(b.ox + jx + 1, b.oy + 0.42, time)
+			if (b.type === 'fountain') drawJets(b.ox + jx + 1, b.oy + 0.9, time)
+			return
+		}
+		const def = B[b.type], p = b.progress / def.work
+		ctx.save()
+		ctx.translate(b.ox + jitter(b), b.oy)
+		ctx.lineWidth = 0.04
+		Rc(ctx, 0.05, 0.9, 1.9, 1.05, '#a88b62', 'rgba(70,50,30,0.6)')
+		for (const [x, y] of [[0.05, 0.9], [1.95, 0.9], [0.05, 1.95], [1.95, 1.95]]) Rc(ctx, x - 0.04, y - 0.12, 0.08, 0.14, '#6b4a2e')
+		if (p > 0) {
+			const top = 1.95 - (def.h + 0.15) * p
+			ctx.save()
+			ctx.beginPath(); ctx.rect(-0.6, top, 3.2, 3); ctx.clip()
+			ART[b.type](ctx, b.v)
+			ctx.restore()
+			if (p < 1) {
+				const st = Math.max(top - 0.1, 1.95 - def.h - 0.1)
+				ctx.lineWidth = 0.05
+				for (const x of [0.02, 1.0, 1.98]) Ln(ctx, x, 1.98, x, st, '#8a6a45', 0.05)
+				for (let y = 1.6; y > st; y -= 0.45) Ln(ctx, 0.0, y, 2.0, y, '#9b7a52', 0.04)
+			}
+		}
+		const left = 1 - p
+		const woodN = Math.ceil(b.delivered.wood * left), stoneN = Math.ceil(b.delivered.stone * left), foodN = Math.ceil(b.delivered.food * left)
+		if (woodN) logPile(ctx, 2.05, 2.25, woodN)
+		if (stoneN) stonePile(ctx, -0.45, 2.25, stoneN)
+		if (foodN) sackPile(ctx, 0.8, 2.3, foodN)
+		const by = 1.95 - (def.h + 0.15) * Math.max(p, 0.35) - 0.35
+		Rc(ctx, 0.4, by, 1.2, 0.12, 'rgba(30,20,10,0.65)')
+		Rc(ctx, 0.42, by + 0.02, 1.16 * p, 0.08, '#f2c75c')
+		ctx.restore()
+	}
+
+	function jitter(b) {
+		return ((b.v * 7) % 5 - 2) * 0.07
+	}
+	function drawBlades(x, y, t) {
+		const a0 = t * 0.9
+		ctx.lineWidth = 0.03
+		for (let i = 0; i < 4; i++) {
+			const a = a0 + (i * Math.PI) / 2, ca = Math.cos(a), sa = Math.sin(a)
+			Ln(ctx, x, y, x + ca * 1.05, y + sa * 1.05, '#5a3b22', 0.045)
+			const px = -sa, py = ca
+			Pl(ctx, [x + ca * 0.3, y + sa * 0.3, x + ca * 1.0, y + sa * 1.0, x + ca * 1.0 + px * 0.2, y + sa * 1.0 + py * 0.2, x + ca * 0.3 + px * 0.2, y + sa * 0.3 + py * 0.2], 'rgba(240,232,214,0.92)', OUT)
+		}
+		El(ctx, x, y, 0.07, 0.07, '#5a3b22')
+	}
+	function drawJets(x, y, t) {
+		ctx.fillStyle = 'rgba(170,215,245,0.9)'
+		for (let i = 0; i < 10; i++) {
+			const ph = (t * 0.9 + i / 10) % 1, side = i % 2 ? 1 : -1
+			const px = x + side * ph * 0.55, py = y - Math.sin(ph * Math.PI) * 0.3 + ph * 0.5
+			ctx.beginPath(); ctx.arc(px, py, 0.035, 0, 7); ctx.fill()
+		}
+	}
+
+	function drawFire(t) {
+		const x = CX, y = CY + 0.1
+		ctx.lineWidth = 0.03
+		const g = ctx.createRadialGradient(x, y - 0.2, 0.05, x, y - 0.2, 1.6)
+		g.addColorStop(0, `rgba(255,190,90,${0.3 + Math.sin(t * 7) * 0.04})`)
+		g.addColorStop(1, 'rgba(255,190,90,0)')
+		ctx.fillStyle = g
+		ctx.beginPath(); ctx.arc(x, y - 0.2, 1.6, 0, 7); ctx.fill()
+		for (let i = 0; i < 9; i++) {
+			const a = (i / 9) * Math.PI * 2
+			El(ctx, x + Math.cos(a) * 0.36, y + Math.sin(a) * 0.16, 0.08, 0.06, '#8f8b82', 'rgba(40,38,34,0.5)')
+		}
+		Ln(ctx, x - 0.25, y + 0.02, x + 0.25, y - 0.08, '#5a3b22', 0.09)
+		Ln(ctx, x - 0.25, y - 0.08, x + 0.25, y + 0.02, '#6b4a2e', 0.09)
+		const f1 = Math.sin(t * 9) * 0.04, f2 = Math.sin(t * 13 + 1) * 0.05
+		Pl(ctx, [x - 0.2, y - 0.02, x + 0.2, y - 0.02, x + 0.02 + f1, y - 0.55 - f2], '#e8692a')
+		Pl(ctx, [x - 0.12, y - 0.03, x + 0.13, y - 0.03, x - 0.01 - f1, y - 0.38 + f2], '#f6b136')
+		Pl(ctx, [x - 0.06, y - 0.04, x + 0.07, y - 0.04, x + f1 * 0.5, y - 0.22], '#fff0a0')
+		if (Math.random() < 0.08) emit(x, y - 0.5, 'smoke', 1)
+	}
+
+	function drawPile() {
+		const x = CX + 1.0, y = CY + 1.15
+		logPile(ctx, x - 0.05, y, Math.ceil(Math.min(6, S.stock.wood / 3)))
+		stonePile(ctx, x + 0.45, y + 0.08, Math.ceil(Math.min(6, S.stock.stone / 3)))
+		if (S.stock.food > 0) sackPile(ctx, x - 0.05, y + 0.3, Math.ceil(Math.min(4, S.stock.food / 3)))
+	}
+
+	function drawVillager(v, time, detail) {
+		const R = ROLE[v.role], x = v.x, y = v.y, f = v.face
+		const walking = v.anim === 'walk'
+		const bob = walking ? Math.abs(Math.sin(v.ph)) * 0.025 : 0
+		El(ctx, x, y, 0.13, 0.045, 'rgba(0,0,0,0.25)')
+		if (time - v.born < 4 && v.born > 0) {
+			const a = 1 - (time - v.born) / 4
+			El(ctx, x, y - 0.25, 0.32, 0.36, null, `rgba(255,229,138,${a * 0.9})`)
+		}
+		if (!detail) {
+			Rc(ctx, x - 0.08, y - 0.3 - bob, 0.16, 0.3, R.color)
+			El(ctx, x, y - 0.35 - bob, 0.07, 0.07, v.skin)
+			if (v.carry) Rc(ctx, x - 0.1, y - 0.5 - bob, 0.2, 0.08, v.carry === 'wood' ? '#8a5a2b' : v.carry === 'stone' ? '#b3b0a8' : '#dcc48e')
+			return
+		}
+		ctx.lineCap = 'round'
+		const sw = walking ? Math.sin(v.ph) * 0.05 : 0
+		Ln(ctx, x - 0.035, y - 0.13, x - 0.035 + sw, y - 0.01, '#4a3424', 0.045)
+		Ln(ctx, x + 0.035, y - 0.13, x + 0.035 - sw, y - 0.01, '#4a3424', 0.045)
+		ctx.fillStyle = R.color
+		roundRect(ctx, x - 0.08, y - 0.29 - bob, 0.16, 0.19, 0.045); ctx.fill()
+		ctx.strokeStyle = 'rgba(40,25,10,0.5)'; ctx.lineWidth = 0.02; ctx.stroke()
+		El(ctx, x, y - 0.35 - bob, 0.065, 0.065, v.skin)
+		El(ctx, x + f * 0.035, y - 0.355 - bob, 0.012, 0.012, '#2a1a10')
+		const hy = y - 0.375 - bob
+		switch (v.role) {
+			case 'builder':
+				ctx.fillStyle = R.hat; ctx.beginPath(); ctx.arc(x, hy, 0.07, Math.PI, 0); ctx.fill()
+				Ln(ctx, x - 0.08, hy, x + 0.09 * f + (f > 0 ? 0.01 : -0.01), hy, R.hat, 0.025)
+				break
+			case 'farmer':
+				El(ctx, x, hy + 0.005, 0.12, 0.03, R.hat)
+				El(ctx, x, hy - 0.02, 0.06, 0.04, R.hat)
+				break
+			case 'woodcutter':
+				ctx.fillStyle = R.hat; ctx.beginPath(); ctx.arc(x, hy + 0.01, 0.072, Math.PI, 0); ctx.fill()
+				Ln(ctx, x - 0.06 * f, hy - 0.01, x - 0.13 * f, hy + 0.06, R.hat, 0.03)
+				break
+			case 'mason':
+				ctx.fillStyle = R.hat; ctx.beginPath(); ctx.arc(x, hy + 0.005, 0.068, Math.PI, 0); ctx.fill()
+				break
+		}
+		if (v.carry === 'wood') {
+			ctx.fillStyle = '#8a5a2b'; roundRect(ctx, x - 0.17, y - 0.33 - bob, 0.34, 0.075, 0.035); ctx.fill()
+			El(ctx, x + 0.17 * f, y - 0.292 - bob, 0.03, 0.035, '#d8b27c')
+		} else if (v.carry === 'stone') {
+			Rc(ctx, x - 0.085, y - 0.53 - bob, 0.17, 0.12, '#b3b0a8', 'rgba(40,38,34,0.6)')
+		} else if (v.carry === 'food') {
+			El(ctx, x - f * 0.09, y - 0.24 - bob, 0.08, 0.09, '#dcc48e', 'rgba(80,60,20,0.6)')
+		}
+		const tool = { chop: 'axe', mine: 'pick', hammer: 'hammer', farm: 'hoe' }[v.anim]
+		if (tool) {
+			const sx = x + f * 0.07, sy = y - 0.24
+			// swing between raised (a > 0) and struck (a < 0), mirrored by facing
+			const a = 0.15 + Math.sin(time * (tool === 'hoe' ? 5 : 9) + v.ph) * 1.0
+			const ex = sx + f * Math.cos(a) * 0.24, ey = sy - Math.sin(a) * 0.24
+			Ln(ctx, sx, sy, ex, ey, '#7a5434', 0.03)
+			const hc = tool === 'hoe' ? '#9aa0a8' : '#aeb4bc'
+			if (tool === 'hammer') Rc(ctx, ex - 0.04, ey - 0.03, 0.08, 0.06, '#8a8f99')
+			else El(ctx, ex, ey, 0.05, 0.035, hc)
+		} else if (v.anim === 'wave') {
+			Ln(ctx, x + 0.07, y - 0.25, x + 0.15, y - 0.42 + Math.sin(time * 10) * 0.03, v.skin, 0.035)
+		}
+	}
+
+	// ======================================================================
+	// HUD
+	// ======================================================================
+	const $ = (id) => document.getElementById(id)
+	const tickerEl = $('ticker')
+	function ticker(msg, icon, color) {
+		const d = document.createElement('div')
+		const ic = document.createElement('span')
+		ic.textContent = icon + ' '
+		ic.style.color = color || 'var(--gold)'
+		ic.style.fontWeight = '700'
+		d.append(ic, document.createTextNode(msg))
+		tickerEl.prepend(d)
+		while (tickerEl.children.length > 5) tickerEl.lastChild.remove()
+		;[...tickerEl.children].forEach((c, i) => (c.style.opacity = String(1 - i * 0.17)))
+	}
+	let bannerTimer = null
+	function banner(t, s) {
+		const el = $('banner')
+		el.querySelector('.t').textContent = t
+		el.querySelector('.s').textContent = s || ''
+		el.classList.add('show')
+		clearTimeout(bannerTimer)
+		bannerTimer = setTimeout(() => el.classList.remove('show'), 4800)
+	}
+	function updateHud() {
+		const pop = popCount()
+		$('pop').textContent = pop
+		$('poplbl').textContent = pop === 1 ? 'villager' : 'villagers'
+		$('r-wood').textContent = S.stock.wood
+		$('r-stone').textContent = S.stock.stone
+		$('r-food').textContent = S.stock.food
+		$('r-bld').textContent = S.buildings.filter((b) => b.done).length
+		const c = roleCounts()
+		$('roles').innerHTML = Object.keys(ROLE).map((r) => `<span><i style="background:${ROLE[r].color}"></i>${c[r]} ${ROLE[r].label}${c[r] === 1 ? '' : 's'}</span>`).join('')
+		const sites = S.buildings.filter((b) => !b.done).slice(0, 3)
+		$('now').innerHTML = sites.length
+			? sites.map((b) => `<div><span>⚒ <em>${B[b.type].name}</em></span><span>${Math.round((b.progress / B[b.type].work) * 100)}%</span></div>`).join('')
+			: ''
+		const wait = $('wait')
+		wait.style.display = pop === 0 && S.queue === 0 ? 'block' : 'none'
+		if (pop === 0) {
+			wait.querySelector('.s').textContent =
+				conn.state === 'offline' ? `Can't reach Companion at ${settings.host} — check the address in Settings`
+					: conn.state === 'novar' ? 'Press any button on your Stream Deck to send the first settler'
+						: 'Each button press in Companion brings a new villager'
+		}
+	}
+
+	// ======================================================================
+	// Companion connection (HTTP API polling)
+	// ======================================================================
+	const conn = { state: 'connecting', value: null }
+	function setStatus() {
+		const el = $('status'), tx = $('status-text')
+		el.className = 'panel ' + (conn.state === 'ok' || conn.state === 'demo' ? 'ok' : conn.state === 'offline' ? 'bad' : '')
+		tx.textContent =
+			conn.state === 'demo' ? 'Demo mode — not connected to Companion'
+				: conn.state === 'ok' ? `Companion ${settings.host} · ${conn.value} presses`
+					: conn.state === 'novar' ? `Companion ${settings.host} · waiting for first press (is the trigger installed?)`
+						: conn.state === 'offline' ? `Companion offline (${settings.host})`
+							: 'Connecting…'
+	}
+	function onCounter(n) {
+		conn.value = n
+		if (S.lastCounter === null) { S.lastCounter = n; return }
+		if (n > S.lastCounter) S.queue += n - S.lastCounter
+		else if (n < S.lastCounter) S.queue += Math.max(0, n) // Companion restarted / counter reset
+		S.lastCounter = n
+	}
+	let pollTimer = null
+	async function poll() {
+		clearTimeout(pollTimer)
+		const url = `http://${settings.host}/api/custom-variable/${encodeURIComponent(settings.variable)}/value`
+		try {
+			const ctl = new AbortController()
+			const to = setTimeout(() => ctl.abort(), 2500)
+			const res = await fetch(url, { cache: 'no-store', signal: ctl.signal })
+			clearTimeout(to)
+			if (res.status === 404) conn.state = 'novar'
+			else if (!res.ok) conn.state = 'offline'
+			else {
+				const n = Number((await res.text()).trim())
+				conn.state = 'ok'
+				if (Number.isFinite(n)) onCounter(Math.floor(n))
+			}
+		} catch {
+			conn.state = 'offline'
+		}
+		setStatus()
+		pollTimer = setTimeout(poll, conn.state === 'offline' ? 2000 : settings.poll)
+	}
+
+	// ======================================================================
+	// Settings UI & keys
+	// ======================================================================
+	const panel = $('settings')
+	function openSettings() {
+		$('s-host').value = settings.host
+		$('s-var').value = settings.variable
+		$('s-speed').value = String(settings.speed)
+		panel.hidden = false
+	}
+	$('gear').onclick = openSettings
+	$('s-close').onclick = () => (panel.hidden = true)
+	$('s-add').onclick = () => S.queue++
+	$('s-save').onclick = () => {
+		const host = $('s-host').value.trim().replace(/^https?:\/\//, '').replace(/\/+$/, '') || 'localhost:8888'
+		const variable = $('s-var').value.trim().replace(/^custom:/, '') || 'village_presses'
+		if (host !== settings.host || variable !== settings.variable) S.lastCounter = null
+		Object.assign(settings, { host, variable, speed: +$('s-speed').value || 1 })
+		store.set(SETTINGS_KEY, { host, variable, speed: settings.speed, poll: settings.poll })
+		panel.hidden = true
+		conn.state = 'connecting'
+		if (DEMO < 0) poll()
+	}
+	$('s-reset').onclick = () => {
+		if (!confirm('Start a brand new village? The current one will be lost.')) return
+		const last = S.lastCounter
+		store.del(SAVE_KEY)
+		newGame()
+		S.lastCounter = last
+		parts.length = 0
+		spriteCache.clear()
+		renderBaseTerrain()
+		rebuildRoads()
+		tickerEl.innerHTML = ''
+		panel.hidden = true
+	}
+	window.addEventListener('keydown', (e) => {
+		if (e.target instanceof HTMLInputElement || e.target instanceof HTMLSelectElement) return
+		if (e.key === 'h' || e.key === 'H') document.body.classList.toggle('hidehud')
+		else if (e.key === 's' || e.key === 'S') panel.hidden ? openSettings() : (panel.hidden = true)
+		else if (e.key === ' ') { S.queue++; e.preventDefault() }
+		else if (e.key === 'f' || e.key === 'F') document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.()
+		else if (e.key === 'Escape') panel.hidden = true
+	})
+	window.addEventListener('beforeunload', save)
+
+	// ======================================================================
+	// Boot
+	// ======================================================================
+	resize()
+	load()
+	renderBaseTerrain()
+	makeTreeSprites()
+	rebuildRoads()
+	if (DEMO >= 0) {
+		conn.state = 'demo'
+		S.queue += DEMO
+		setInterval(() => { if (Math.random() < 0.5) S.queue++ }, 4000)
+		setStatus()
+	} else {
+		setStatus()
+		poll()
+	}
+	for (let t = 0; t < WARP; t += 0.1) {
+		if (DEMO >= 0 && Math.random() < 0.1 / 8) S.queue++
+		update(0.1, 0.1)
+	}
+	updateCamera(100)
+	if (qs.has('debug')) {
+		window.__village = { get S() { return S }, get world() { return world } }
+		const dbg = document.createElement('pre')
+		dbg.id = 'debug'
+		dbg.hidden = true
+		document.body.append(dbg)
+		setInterval(() => {
+			const roles = {}, types = {}
+			for (const v of S.villagers) { const k = v.role + ':' + (v.step ? v.step.k + '/' + (v.step.a || '') : '-'); roles[k] = (roles[k] || 0) + 1 }
+			for (const b of S.buildings) types[b.type] = (types[b.type] || 0) + (b.done ? 1 : 0)
+			dbg.textContent = JSON.stringify({ pop: S.villagers.length, time: Math.round(S.time), stock: S.stock, types, roles,
+				sites: S.buildings.filter((b) => !b.done).map((b) => `${b.type} p=${b.progress.toFixed(1)}/${B[b.type].work} d=${JSON.stringify(b.delivered)}`) })
+		}, 500)
+	}
+	if (resumed) ticker(`Welcome back — ${popCount()} villagers kept the fires burning`, '⚑')
+	setInterval(updateHud, 300)
+	updateHud()
+
+	let last = performance.now()
+	function frame(now) {
+		const dt = Math.min(0.1, (now - last) / 1000)
+		last = now
+		update(dt * settings.speed, dt)
+		render(dt)
+		requestAnimationFrame(frame)
+	}
+	requestAnimationFrame(frame)
+})()
+</script>
+</body>
+</html>

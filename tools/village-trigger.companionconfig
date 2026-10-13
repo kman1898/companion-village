@@ -1,0 +1,42 @@
+{
+	"type": "trigger_list",
+	"version": 12,
+	"companionBuild": "5.0.6+9750-stable-1acd2318f5",
+	"triggers": {
+		"villageCounterTrigger01": {
+			"type": "trigger",
+			"options": {
+				"name": "Village: count button presses",
+				"enabled": true,
+				"sortOrder": 0
+			},
+			"actions": [
+				{
+					"id": "villageCounterAction01",
+					"definitionId": "custom_variable_set_value",
+					"connectionId": "internal",
+					"options": {
+						"name": { "isExpression": false, "value": "village_presses" },
+						"create": { "isExpression": false, "value": true },
+						"value": {
+							"isExpression": true,
+							"value": "isNumber($(this:current)) ? floor($(this:current)) + 1 : 1"
+						}
+					},
+					"type": "action",
+					"children": {}
+				}
+			],
+			"condition": [],
+			"events": [
+				{
+					"id": "villageCounterEvent01",
+					"type": "button_press",
+					"enabled": true,
+					"options": {}
+				}
+			],
+			"localVariables": []
+		}
+	}
+}

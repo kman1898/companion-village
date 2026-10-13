@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Companion Village</title>
+	<meta name="description" content="A Settlers-style village that grows with every Bitfocus Companion button press." />
+	<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏘️</text></svg>" />
+</head>
+<body>
+	<canvas id="cv"></canvas>
+	<div id="vignette"></div>
+
+	<div id="hud" class="panel">
+		<h1>⚑ Companion Village</h1>
+		<div class="yearline"><span id="year">Year 0</span><span id="era"></span></div>
+		<div class="popline"><span class="big" id="pop">0</span><span class="lbl" id="poplbl">villagers</span></div>
+		<div class="res">
+			<span title="Wood">🪵 <b id="r-wood">0</b></span>
+			<span title="Stone">🪨 <b id="r-stone">0</b></span>
+			<span title="Food">🌾 <b id="r-food">0</b></span>
+			<span title="Buildings">🏠 <b id="r-bld">0</b></span>
+		</div>
+		<div class="roles" id="roles"></div>
+		<div id="event-line"></div>
+		<div id="now"></div>
+		<button id="inv-btn" class="linkish" title="Inventions & history (I)">💡 <span id="inv-count">0</span> inventions · next in <span id="inv-next">10</span> years</button>
+	</div>
+
+	<div id="status" class="panel"><span class="dot"></span><span id="status-text">Connecting…</span><button id="status-help" class="linkish" hidden>Why?</button></div>
+	<button id="gear" class="panel" title="Settings (S)">⚙ Settings</button>
+	<div id="ticker" class="panel"></div>
+	<div id="hint" class="panel">Drag to pan · scroll to zoom · 0 follow · H hide · S settings · I inventions · Space +1 year</div>
+	<div id="campill" class="panel" hidden>🎥 Free camera · auto-follow in <b id="cam-secs">60</b>s <button id="cam-follow">Follow now</button></div>
+	<div id="banner" class="panel"><div class="t"></div><div class="s"></div></div>
+	<div id="wait"><div class="t">Waiting for the first settler…</div><div class="s" id="wait-s"></div></div>
+	<div id="tooltip"></div>
+
+	<div id="inventions" class="panel modal" hidden>
+		<h2>Inventions <span id="inv-sum"></span></h2>
+		<div id="inv-list"></div>
+		<h2>Chronicle</h2>
+		<div id="history"></div>
+		<div class="btns"><button data-close>Close</button></div>
+	</div>
+
+	<div id="settings" class="panel modal" hidden>
+		<h2>Village settings</h2>
+		<div class="grid2">
+			<label>Companion address (host:port)<input id="s-host" spellcheck="false" /></label>
+			<label>Counter variable (custom:…)<input id="s-var" spellcheck="false" /></label>
+			<label>Random events
+				<select id="s-events">
+					<option value="full">On — disasters can destroy &amp; kill</option>
+					<option value="gentle">Gentle — damage only, nobody dies</option>
+					<option value="off">Off</option>
+				</select>
+			</label>
+			<label>Graphics quality
+				<select id="s-quality">
+					<option value="auto">Auto (adapts to this computer)</option>
+					<option value="high">High (sharp on retina)</option>
+					<option value="low">Low (fastest)</option>
+				</select>
+			</label>
+			<label>Game speed
+				<select id="s-speed"><option value="1">1×</option><option value="2">2×</option><option value="4">4×</option><option value="8">8×</option></select>
+			</label>
+			<label>Make something happen
+				<span class="row"><select id="s-event"></select><button id="s-trigger">Go</button></span>
+			</label>
+		</div>
+		<div class="btns">
+			<button id="s-save" class="primary">Save</button>
+			<button id="s-add">+1 year &amp; settler</button>
+			<a id="s-download" class="button" download="companion-village.html">⬇ Offline copy</a>
+			<button id="s-reset" class="danger">Reset village</button>
+			<button data-close>Close</button>
+		</div>
+		<p class="small">Each Companion button press increments <b>$(custom:village_presses)</b>: one more settler and one more year.
+			Every 10 years brings an invention.<br />
+			Keys: drag/scroll to move the view · 0 follow · H hide overlay · S settings · I inventions · Space +1 year · F fullscreen · P performance</p>
+	</div>
+
+	<div id="help" class="panel modal" hidden>
+		<h2>Can't reach Companion?</h2>
+		<p>This page is served over <b>https</b>, but Companion speaks plain <b>http</b>. Browsers protect you from secure pages talking to
+			insecure local devices, so it depends on the browser:</p>
+		<ul>
+			<li><b>Chrome / Edge</b>: works. Allow the <i>“access devices on your local network”</i> prompt. Use an IP address
+				(e.g. <code>192.168.1.20:8000</code>) or a <code>.local</code> name.</li>
+			<li><b>Companion on this computer</b> (<code>localhost</code>): works in Chrome, Edge and Firefox.</li>
+			<li><b>Safari, Firefox to another machine, OBS browser source</b>: usually blocked.</li>
+		</ul>
+		<p><b>Always works:</b> download the <b>offline copy</b> (Settings → ⬇ Offline copy) and open that file directly, or use it as an
+			OBS <i>Local file</i> browser source. It is the same app in a single file.</p>
+		<div class="btns"><button data-close>Close</button></div>
+	</div>
+
+	<div id="perf" hidden></div>
+	<div id="err"></div>
+	<script type="module" src="/src/main.ts"></script>
+</body>
+</html>

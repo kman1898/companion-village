@@ -1,0 +1,18 @@
+{
+	"name": "companion-village",
+	"private": true,
+	"version": "2.0.0",
+	"description": "A Settlers-style village that grows with every Bitfocus Companion button press",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc --noEmit && vite build",
+		"preview": "vite preview",
+		"install-trigger": "node tools/install-trigger.mjs"
+	},
+	"devDependencies": {
+		"typescript": "^5.9.3",
+		"vite": "^8.3.4",
+		"vite-plugin-singlefile": "^2.3.3"
+	}
+}
