@@ -68,7 +68,7 @@ function companionPressed(n: number) {
 	if (settings.aiPace !== 'match') return
 	for (const T of G.S.tribes) {
 		if (!isAI(T)) continue
-		T.aiAcc += (n * T.aiRate) / Math.max(1, TRIBE_IDS.filter((id) => settings.tribes[id].control === 'companion').length)
+		T.aiAcc += (n * T.aiRate) / Math.max(1, TRIBE_IDS.filter((id) => settings.tribes[id].control !== 'ai').length)
 		while (T.aiAcc >= 1) {
 			T.aiAcc -= 1
 			T.queue++

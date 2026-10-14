@@ -35,7 +35,8 @@
 	<div id="tribes" class="panel"></div>
 	<button id="gear" class="panel" title="Settings (S)">⚙ Settings</button>
 	<div id="ticker" class="panel"></div>
-	<div id="hint" class="panel">Drag · scroll to zoom · 1 2 3 tribes · M map · 0 follow · D diplomacy · I inventions · S settings · H hide</div>
+	<div id="hint" class="panel">Drag · scroll to zoom · 1 2 3 tribes · M map · 0 follow · D diplomacy · I inventions · K pause · S settings · H hide</div>
+	<div id="pausepill" class="panel" hidden>⏸️ Paused — press K or use the Companion button to resume</div>
 	<div id="campill" class="panel" hidden>🎥 Free camera · auto-follow in <b id="cam-secs">60</b>s <button id="cam-follow">Follow now</button></div>
 	<div id="banner" class="panel"><div class="t"></div><div class="s"></div></div>
 	<div id="wait"><div class="t">Waiting for the first settler…</div><div class="s" id="wait-s"></div></div>
@@ -121,6 +122,13 @@
 			machines. The optional <b>command variable</b> lets buttons give orders: set it to <code>attack:noises</code>, <code>gift:lampys</code>,
 			<code>trade:pixels</code>, <code>peace:noises</code>, <code>ally:lampys</code> or <code>festival</code>.</p>
 		<div id="s-tribes"></div>
+
+		<h2>Companion module</h2>
+		<p class="small">With the <b>Companion Village module</b> installed in Companion, buttons can control everything (years, war, diplomacy, events,
+			camera, pause…) and Companion gets live variables and feedbacks from the village.
+			<a id="s-module-dl" class="linkish" href="https://mko1989.github.io/companion-village/companion-village-module.tgz">⬇ Download the module</a> · import it in Companion under
+			<i>Modules → Import module package</i>, add a <i>Companion Village</i> connection, then enter its address here.</p>
+		<label>Module address(es) — host:port, comma separated<input id="s-modules" spellcheck="false" placeholder="localhost:17890" /></label>
 
 		<h2>Make something happen</h2>
 		<div class="row"><select id="s-event"></select><select id="s-event-tribe"></select><button id="s-trigger">Go</button></div>

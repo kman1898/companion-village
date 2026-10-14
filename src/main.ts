@@ -9,13 +9,15 @@ import { G, player, popOf, tribeOf } from './game/state'
 import { declareWar, startRaid } from './game/war'
 import { addYears } from './game/tribes'
 import { poll } from './net/companion'
+import { syncModules } from './net/module'
+import { remoteHooks } from './game/remote'
 import { initRenderer, perf, render } from './render/renderer'
 import { renderBaseTerrain } from './render/terrain'
 import { cam, updateCamera } from './view/camera'
 import { initInput, updateKeys } from './view/input'
 import { closeModals, initHud, toggleModal, updateHud } from './ui/hud'
 import { initNotify, muteBanners, ticker } from './ui/notify'
-import { initSettings, openSettings } from './ui/settings-panel'
+import { initSettings, openSettings, setPlayer } from './ui/settings-panel'
 
 // Errors on screen (handy in OBS / on a show machine)
 const errBox = document.getElementById('err')!
@@ -41,6 +43,8 @@ if (params.demo >= 0) {
 	if (settings.aiPace === 'match') settings.aiPace = 'steady'
 }
 poll()
+syncModules()
+remoteHooks.setPlayer = setPlayer
 
 muteBanners(params.warp > 0)
 for (let t = 0; t < params.warp; t += 0.1) update(0.1, 0.1)
@@ -58,6 +62,7 @@ window.addEventListener('keydown', (e) => {
 	else if (k === 'i') toggleModal('inventions')
 	else if (k === 'd') toggleModal('diplomacy')
 	else if (k === 'p') perfEl.hidden = !perfEl.hidden
+	else if (k === 'k') G.paused = !G.paused
 	else if (k === ' ') {
 		addYears(player(), 1)
 		e.preventDefault()
@@ -91,7 +96,7 @@ function frame(now: number) {
 	last = now
 	updateKeys(rdt)
 	const t0 = performance.now()
-	update(rdt * settings.speed, rdt)
+	if (!G.paused) update(rdt * settings.speed, rdt)
 	const simMs = performance.now() - t0
 	updateCamera(rdt)
 	render(rdt)

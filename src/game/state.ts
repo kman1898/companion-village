@@ -94,7 +94,8 @@ export interface ActiveEvent {
 
 export interface Cell { i: number; j: number; ox: number; oy: number; key: string; d: number; park?: boolean; tribe: TribeId }
 
-export type Control = 'companion' | 'ai'
+/** companion: polls a Companion custom variable · module: driven by the Companion Village module · ai: autopilot */
+export type Control = 'companion' | 'module' | 'ai'
 export interface Connection {
 	control: Control
 	host: string
@@ -191,6 +192,7 @@ export const G = {
 	roadOwner: new Map<number, TribeId>(),
 	roadsVersion: 0,
 	resumed: false,
+	paused: false,
 }
 
 export const tribeOf = (id: TribeId) => G.S.tribes.find((t) => t.id === id)!

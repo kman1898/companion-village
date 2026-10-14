@@ -5,6 +5,7 @@ import { EVENTS, startEvent } from '../game/events'
 import { newGame } from '../game/save'
 import { G, tribeOf, type Control } from '../game/state'
 import { poll } from '../net/companion'
+import { syncModules } from '../net/module'
 import { addYears } from '../game/tribes'
 import { parts } from '../render/particles'
 import { applyQuality, invalidateTreeLayer } from '../render/renderer'
@@ -24,7 +25,7 @@ export function initSettings() {
 	$<HTMLSelectElement>('s-player').innerHTML = TRIBE_IDS.map((id) => `<option value="${id}">${TRIBES[id].icon} ${TRIBES[id].name} (${TRIBES[id].dept})</option>`).join('')
 	$('s-tribes').innerHTML = TRIBE_IDS.map((id) => `<div class="trow">
 		<span class="tn" style="color:${TRIBES[id].color}">${TRIBES[id].icon} ${TRIBES[id].name}</span>
-		<label>Driven by<select id="t-${id}-control"><option value="companion">Companion</option><option value="ai">AI</option></select></label>
+		<label>Driven by<select id="t-${id}-control"><option value="companion">Companion variable</option><option value="module">Companion module</option><option value="ai">AI</option></select></label>
 		<label>Companion address<input id="t-${id}-host" spellcheck="false" /></label>
 		<label>Counter variable<input id="t-${id}-var" spellcheck="false" /></label>
 		<label>Command variable (optional)<input id="t-${id}-cmd" spellcheck="false" placeholder="${TRIBES[id].defaultCmd}" /></label>
@@ -72,12 +73,16 @@ function saveFromForm() {
 		war: $<HTMLSelectElement>('s-war').value as WarMode,
 		aiPace: $<HTMLSelectElement>('s-ai').value as AiPace,
 		followAction: $<HTMLInputElement>('s-follow').checked,
+		modules: $<HTMLInputElement>('s-modules').value.trim(),
 	})
 	setPlayer($<HTMLSelectElement>('s-player').value as TribeId)
 	saveSettings()
 	if (qualityChanged) applyQuality()
 	closeModals()
-	if (params.demo < 0) poll()
+	if (params.demo < 0) {
+		poll()
+		syncModules()
+	}
 }
 
 export function setPlayer(id: TribeId) {
@@ -96,6 +101,7 @@ export function openSettings() {
 	$<HTMLSelectElement>('s-war').value = settings.war
 	$<HTMLSelectElement>('s-ai').value = settings.aiPace
 	$<HTMLInputElement>('s-follow').checked = settings.followAction
+	$<HTMLInputElement>('s-modules').value = settings.modules
 	$<HTMLSelectElement>('s-event-tribe').value = settings.player
 	for (const id of TRIBE_IDS) {
 		const c = settings.tribes[id]

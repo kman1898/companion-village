@@ -103,6 +103,39 @@ clears the variable, so the same button works again.
 
 `<tribe>` is `pixels`, `noises` or `lampys` (or `video`, `sound`, `lights`).
 
+## The Companion module (two-way control)
+
+The plain variable setup above only counts presses. The **Companion Village module** turns Companion into a full remote control
+for the game: buttons send orders, and the village sends live variables and feedbacks back to Companion.
+
+**Install**
+
+1. Download the module: **[companion-village-module.tgz](https://mko1989.github.io/companion-village/companion-village-module.tgz)**
+   (or build it yourself: `cd companion-module && corepack yarn install && corepack yarn package`).
+2. In Companion go to **Modules → Import module package** and pick the file. This needs Companion 4.2 or newer.
+3. **Connections → Add connection → Companion Village**. Choose which tribe this Companion plays as. The listening port is `17890` by default.
+4. In the village press **S** → *Companion module* and enter `localhost:17890` (or the Companion machine's IP, e.g. `192.168.1.20:17890`).
+   Set your tribe's *Driven by* to **Companion module**.
+5. To count every press, add a Trigger with the event **On any button press** and the action
+   **Companion Village: Add years** → *This Companion's tribe*.
+
+On the Companion computer you can do steps 2–5 in one go:
+
+```
+node tools/install-module.mjs --tribe pixels --trigger        # [host:port] [--port 17890] [--label village]
+```
+
+The page talks to the module, not the other way round (it POSTs its state every half second and picks up queued actions), so
+the same browser rules apply as for Companion itself: Chrome and Edge need the local-network prompt allowed, and the offline copy always works.
+For several departments, give each Companion the module with its own tribe and list all addresses, comma separated.
+
+| | |
+|---|---|
+| **Actions** | add years · attack · make peace · send gift · send caravan · offer friendship · festival · make any of 30 events happen · instant invention · give resources · camera (follow / map / tribe / zoom) · show/hide overlay · view as tribe · pause / speed · time of day · war, events, AI pace and day length settings · on-screen message banner |
+| **Feedbacks** | connected · at war · under attack · army on the march · allied · stance between two tribes · event happening · era reached · tribe in the lead · screen viewing tribe · night · paused · tribe colour |
+| **Variables** | `my_*` for this Companion's tribe and `pixels_*` / `noises_*` / `lampys_*` for each tribe: year, pop, era, era_name, inventions, last/next invention, wood, stone, food, buildings, construction, wins, losses, prestige, status, event, raid. Plus `rel_a_b`, `stance_a_b`, `clock`, `phase`, `leader_name`, `news`, `events`, `paused`, `speed`, `camera`, `connected` |
+| **Presets** | years, live tribe tiles, war & diplomacy against each rival, every event, screen control, time of day, info |
+
 ## 2. Open the village
 
 Open the live page, pick your tribe, then press **S** (Settings) → *Tribes & Companion* to enter your Companion address, e.g. `192.168.1.20:8000`.
@@ -133,6 +166,7 @@ works without internet, and is the best choice for a show machine.
 | D | Diplomacy |
 | 0 or *Follow now* | Back to auto-follow. This also happens on its own after 60 s without input. |
 | H | Hide the overlay (clean view for OBS) |
+| K | Pause / resume |
 | S | Settings |
 | I | Inventions & chronicle |
 | Space | Add a year and a settler by hand |
@@ -141,7 +175,7 @@ works without internet, and is the best choice for a show machine.
 
 Hover a villager or building to see who or what it is.
 
-URL options: `?tribe=pixels|noises|lampys`, `?host=192.168.1.20:8000`, `?var=my_counter`, `?cmd=my_command_var`, `?hud=0`, `?speed=2`,
+URL options: `?tribe=pixels|noises|lampys`, `?host=192.168.1.20:8000`, `?var=my_counter`, `?cmd=my_command_var`, `?module=localhost:17890`, `?hud=0`, `?speed=2`,
 `?events=gentle`, `?quality=low`, `?day=off|short|normal|long`, `?war=on|feud|off`, `?ai=match|steady|fast|slow|frozen`, `?inventEvery=5`,
 `?demo=10` (no Companion: every tribe starts with 10 settlers and runs on AI; nothing is saved).
 
@@ -175,10 +209,11 @@ src/
   render/    canvas renderer, night lighting, sprite caches, terrain, building art (medieval → sci-fi), tribe landmarks, effects
   view/      camera & input (pan/zoom/follow, hover)
   ui/        HUD, settings, notifications
-  net/       Companion HTTP API: per-tribe counters and command variables
-tools/       Companion trigger installer + import file
+  net/       Companion HTTP API (per-tribe counters, command variables) and the Companion module sync
+companion-module/  the Companion Village module (from bitfocus/companion-module-template-ts)
+tools/       installers for the Companion trigger and the module, trigger import file
 ```
 
-Pushing to `main` deploys to GitHub Pages via `.github/workflows/pages.yml`.
+Pushing to `main` deploys to GitHub Pages via `.github/workflows/pages.yml`, which also builds the module package.
 
 `legacy/village-v1.html` is the original single-file version.

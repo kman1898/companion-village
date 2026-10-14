@@ -158,3 +158,5 @@ button.linkish:hover { color: var(--ink); text-decoration: underline; }
 @media (max-width: 700px) { .trow { grid-template-columns: 1fr 1fr; } }
 .modal .row { display: flex; gap: 6px; margin-top: 4px; }
 .modal .row select { margin-top: 0; }
+#pausepill { left: 50%; top: 16px; transform: translateX(-50%); padding: 6px 14px; font-size: 14px; color: #ffd27a; }
+#pausepill[hidden] { display: none; }

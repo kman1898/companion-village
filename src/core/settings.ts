@@ -26,6 +26,8 @@ export interface Settings {
 	/** false until the player picked a tribe on the welcome screen */
 	chosen: boolean
 	tribes: Record<TribeId, Connection>
+	/** Companion Village module links, comma separated host:port */
+	modules: string
 }
 
 const SETTINGS_KEY = 'companionVillage.settings.v4'
@@ -39,7 +41,7 @@ function defaults(): Settings {
 	for (const id of TRIBE_IDS) tribes[id] = { control: 'ai', host: old.host || 'localhost:8888', variable: TRIBES[id].defaultVar, cmd: '' }
 	return {
 		poll: 300, speed: 1, events: 'full', quality: 'auto', dayLength: 'normal', inventionYears: 10, war: 'on', aiPace: 'match',
-		followAction: true, player: 'pixels', chosen: false, tribes,
+		followAction: true, player: 'pixels', chosen: false, tribes, modules: '',
 	}
 }
 
@@ -55,6 +57,7 @@ if (qs.get('var')) {
 	settings.tribes[settings.player].variable = qs.get('var')!
 	settings.tribes[settings.player].control = 'companion'
 }
+if (qs.get('module')) settings.modules = qs.get('module')!
 if (qs.get('cmd')) settings.tribes[settings.player].cmd = qs.get('cmd')!
 if (qs.get('poll')) settings.poll = Math.max(100, Number(qs.get('poll')) || 300)
 if (qs.get('speed')) settings.speed = Math.max(0.25, Number(qs.get('speed')) || 1)
@@ -82,4 +85,6 @@ export function saveSettings() {
 }
 
 /** Is at least one tribe driven by Companion? */
-export const anyCompanion = () => params.demo < 0 && TRIBE_IDS.some((id) => settings.tribes[id].control === 'companion')
+export const anyCompanion = () => params.demo < 0 && TRIBE_IDS.some((id) => settings.tribes[id].control !== 'ai')
+/** module links as a clean list */
+export const moduleLinks = () => settings.modules.split(/[\s,;]+/).map((s) => s.trim().replace(/^https?:\/\//, '').replace(/\/+$/, '')).filter(Boolean)

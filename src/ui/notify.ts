@@ -16,7 +16,11 @@ export function initNotify() {
 	bannerEl = document.getElementById('banner')
 }
 
+/** the latest headline (shared with the Companion module) */
+export let lastNews = ''
+
 export function ticker(msg: string, icon: string, color?: string) {
+	lastNews = `${icon} ${msg}`
 	if (!tickerEl) return
 	const d = document.createElement('div')
 	const ic = document.createElement('span')

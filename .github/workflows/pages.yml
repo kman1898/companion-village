@@ -25,6 +25,13 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+      - name: Build the Companion module package
+        working-directory: companion-module
+        run: |
+          corepack enable
+          yarn install --immutable
+          yarn package
+          cp companion-village-*.tgz ../dist/companion-village-module.tgz
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -13,6 +13,7 @@ import { inventionPace, isAI } from '../game/tribes'
 import { power, siegeLevel } from '../game/war'
 import { SIEGE_NAMES } from '../data/tribes'
 import { conns, crossesToLocalNetwork } from '../net/companion'
+import { links } from '../net/module'
 import { cam, followNow, followSecondsLeft, lookAt } from '../view/camera'
 
 const $ = (id: string) => document.getElementById(id)!
@@ -108,8 +109,13 @@ export function updateHud() {
 		const txt = c.state === 'ok' ? `${c.value}` : c.state === 'novar' ? 'no presses yet' : c.state === 'connecting' ? '…' : 'offline'
 		return `<span class="conn" title="${settings.tribes[id].host} · ${settings.tribes[id].variable}"><i class="dot ${cls}"></i>${TRIBES[id].icon} ${txt}</span>`
 	}).filter(Boolean)
+	for (const [host, l] of links) {
+		const cls = l.state === 'ok' ? 'ok' : l.state === 'connecting' ? '' : 'bad'
+		parts.push(`<span class="conn" title="Companion module at ${host}"><i class="dot ${cls}"></i>🎛️ ${l.state === 'ok' ? l.label || 'module' : host}</span>`)
+	}
 	set('status-text', parts.length ? parts.join(' ') : '🤖 All tribes on autopilot — connect Companion in Settings', true)
-	$('status-help').hidden = !TRIBE_IDS.some((id) => conns[id].state === 'blocked' || (conns[id].state === 'offline' && crossesToLocalNetwork(settings.tribes[id].host)))
+	$('status-help').hidden = !(TRIBE_IDS.some((id) => conns[id].state === 'blocked' || (conns[id].state === 'offline' && crossesToLocalNetwork(settings.tribes[id].host))) || [...links.values()].some((l) => l.state === 'blocked'))
+	$('pausepill').hidden = !G.paused
 
 	const wait = $('wait')
 	wait.style.display = pop === 0 && T.queue === 0 && settings.chosen ? 'block' : 'none'
@@ -160,7 +166,7 @@ function renderDiplomacy() {
 			<dt>Inventions</dt><dd>${T.inventions.length}</dd><dt>Battles</dt><dd>${T.wins} won · ${T.losses} lost</dd>
 			<dt>Army</dt><dd>power ${power(T)}${sl >= 0 ? ` · ${SIEGE_NAMES[sl]}` : ''}</dd><dt>Prestige</dt><dd>${Math.round(T.prestige)}</dd>
 			<dt>Temper</dt><dd>${T.personality.aggression > 0.6 ? 'hot-headed' : T.personality.aggression < 0.3 ? 'peaceful' : 'steady'}, ${T.personality.trade > 0.6 ? 'loves trade' : 'self-reliant'}</dd>
-			<dt>Driven by</dt><dd>${isAI(T) ? 'AI' : `Companion (${settings.tribes[T.id].variable})`}</dd></dl></div>`
+			<dt>Driven by</dt><dd>${isAI(T) ? 'AI' : settings.tribes[T.id].control === 'module' ? 'Companion module' : `Companion (${settings.tribes[T.id].variable})`}</dd></dl></div>`
 	}).join('')
 	$('dip-rel').innerHTML = S.relations.map((r) => {
 		const st = stance(r)

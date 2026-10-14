@@ -1,0 +1,35 @@
+{
+	"$schema": "../node_modules/@companion-module/base/assets/manifest.schema.json",
+	"type": "connection",
+	"id": "companion-village",
+	"name": "companion-village",
+	"shortname": "village",
+	"description": "Drive Companion Village — three rival tribes (Pixels, Noises, Lampys) that grow with your button presses",
+	"version": "1.0.0",
+	"license": "MIT",
+	"repository": "git+https://github.com/mko1989/companion-village.git",
+	"bugs": "https://github.com/mko1989/companion-village/issues",
+	"maintainers": [
+		{
+			"name": "mko1989"
+		}
+	],
+	"runtime": {
+		"type": "node26",
+		"api": "nodejs-ipc",
+		"apiVersion": "0.0.0",
+		"entrypoint": "../dist/main.js"
+	},
+	"legacyIds": [],
+	"manufacturer": "Companion Village",
+	"products": [
+		"Village"
+	],
+	"keywords": [
+		"game",
+		"village",
+		"fun",
+		"settlers",
+		"show"
+	]
+}
