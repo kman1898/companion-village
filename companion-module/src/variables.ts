@@ -32,6 +32,7 @@ export function UpdateVariableDefinitions(self: ModuleInstance): void {
 	const defs: CompanionVariableDefinitions<VariablesSchema> = {
 		connected: { name: 'Village page connected (yes/no)' },
 		pages: { name: 'Number of village pages syncing' },
+		url: { name: 'Address to open the village in a browser' },
 		my_tribe: { name: 'This Companion’s tribe id' },
 		my_name: { name: 'This Companion’s tribe name' },
 		player: { name: 'Tribe the screen is following' },
@@ -91,6 +92,7 @@ export function UpdateVariableValues(self: ModuleInstance, st: VillageState | nu
 	const vals: Record<string, CompanionVariableValue> = {
 		connected: self.isConnected() ? 'yes' : 'no',
 		pages: self.server.livePages(self.config.timeout * 1000),
+		url: self.villageUrl(),
 		my_tribe: self.config.tribe,
 		my_name: tribeName(self.config.tribe),
 	}

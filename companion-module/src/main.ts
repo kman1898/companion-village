@@ -1,3 +1,4 @@
+import { networkInterfaces } from 'node:os'
 import { InstanceBase, InstanceStatus, type SomeCompanionConfigField } from '@companion-module/base'
 import { DEFAULT_PORT, GetConfigFields, type ModuleConfig } from './config.js'
 import { UpdateVariableDefinitions, UpdateVariableValues, type VariablesSchema } from './variables.js'
@@ -111,6 +112,21 @@ export default class ModuleInstance extends InstanceBase<ModuleSchema> {
 		return this.state?.tribes.find((x) => x.id === id) ?? null
 	}
 
+	/** Where to open the village: this machine's LAN address (or localhost) and the module's port */
+	villageUrl(): string {
+		let host = this.config.bind && this.config.bind !== '0.0.0.0' && this.config.bind !== '::' ? this.config.bind : ''
+		if (!host) {
+			for (const list of Object.values(networkInterfaces())) {
+				const ip = list?.find((a) => a.family === 'IPv4' && !a.internal)
+				if (ip) {
+					host = ip.address
+					break
+				}
+			}
+		}
+		return `http://${host || 'localhost'}:${this.config.port}/`
+	}
+
 	isConnected(): boolean {
 		return Date.now() - this.lastSync < this.config.timeout * 1000
 	}
@@ -133,8 +149,9 @@ export default class ModuleInstance extends InstanceBase<ModuleSchema> {
 	async #startServer() {
 		try {
 			await this.server.start(this.config.port, this.config.bind)
-			this.log('info', `Listening for Companion Village on port ${this.config.port}`)
-			this.updateStatus(InstanceStatus.Connecting, `Waiting for the village page (port ${this.config.port})`)
+			this.log('info', `Companion Village is at ${this.villageUrl()}${this.server.html ? '' : ' (page not bundled)'}`)
+			this.updateStatus(InstanceStatus.Connecting, `Open ${this.villageUrl()} in a browser`)
+			this.#dirty = true
 		} catch (e) {
 			const msg =
 				(e as NodeJS.ErrnoException).code === 'EADDRINUSE'

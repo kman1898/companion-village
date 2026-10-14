@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Installs the Companion Village module into a running Companion (v4.2+/v5) on THIS computer,
-// adds a "Companion Village" connection and (optionally) a trigger that counts every button press.
+// adds (or upgrades) a "Companion Village" connection and (optionally) a trigger that counts every button press.
+// The module then serves the village itself at http://<this computer>:<port>/
 //
 // Usage:
 //   node tools/install-module.mjs [host:port] [--tribe pixels|noises|lampys] [--port 17890] [--label village] [--trigger] [--pkg file.tgz]
@@ -104,7 +105,15 @@ ws.addEventListener('open', async () => {
 			const id = await call('instances.connections.add', { module: { type: 'companion-village' }, label, versionId: version })
 			conn = { id }
 			console.log(`Added connection "${label}".`)
-		} else console.log(`Connection "${label}" already exists — updating its config.`)
+		} else {
+			console.log(`Connection "${label}" already exists — updating it.`)
+			if (conn.moduleVersionId !== version) {
+				const r = await call('instances.connections.setModuleAndVersion', { connectionId: conn.id, moduleId: 'companion-village', versionId: version })
+				if (r) throw new Error(String(r))
+				console.log(`Switched it to module version ${version}.`)
+				await sleep(1000)
+			}
+		}
 		const res = await call('instances.connections.setConfig', { connectionId: conn.id, label, enabled: true, config: { port, bind: '', tribe, timeout: 5 } })
 		if (res) throw new Error(String(res))
 		console.log(`Configured: plays as ${tribe}, listening on port ${port}.`)
@@ -135,7 +144,8 @@ ws.addEventListener('open', async () => {
 			await call('importExport.importTriggers', { selectedTriggerIds: ['villageModuleTrigger01'], connectionIdRemapping: { villageconn: conn.id }, replaceExisting: false })
 			console.log('Added a trigger: every button press on this Companion adds a year to its tribe.')
 		}
-		console.log(`\nNow open Companion Village → Settings → Companion module and enter: ${host.split(':')[0]}:${port}`)
+		console.log(`\nOpen the village in any browser (or as an OBS browser source): http://${host.split(':')[0]}:${port}/`)
+		console.log('From another computer use this machine\'s IP address instead of localhost.')
 		process.exit(0)
 	} catch (e) {
 		console.error('Install failed:', e.message)

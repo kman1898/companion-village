@@ -1,5 +1,8 @@
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from 'node:http'
 import { randomBytes } from 'node:crypto'
+import { existsSync, readFileSync } from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import {
 	PROTOCOL_VERSION,
 	type SyncRequest,
@@ -11,6 +14,22 @@ import {
 
 const MAX_QUEUE = 300
 const MAX_BODY = 512 * 1024
+
+/** The village app (one self-contained HTML file) is packaged next to main.js */
+function loadVillageHtml(): string | null {
+	const here = path.dirname(fileURLToPath(import.meta.url))
+	for (const p of [path.join(here, 'village.html'), path.join(here, '..', 'village.html')]) {
+		if (existsSync(p)) return readFileSync(p, 'utf8')
+	}
+	return null
+}
+
+const FALLBACK_HTML = `<!doctype html><meta charset="utf-8"><title>Companion Village</title>
+<body style="font:16px system-ui;background:#111;color:#eee;padding:2em">
+<h1>Companion Village</h1><p>This module build does not include the village page.
+Open <a style="color:#9cf" href="https://mko1989.github.io/companion-village/">the web version</a> and enter this address under Settings → Companion module.</p>`
+
+const escapeJs = (s: string) => JSON.stringify(s).replace(/</g, '\\u003c')
 
 export interface ServerEvents {
 	onState: (state: VillageState, page: string) => void
@@ -29,6 +48,7 @@ export class VillageServer {
 	#seq = 0
 	readonly boot = randomBytes(4).toString('hex')
 	readonly pages = new Map<string, number>()
+	readonly html = loadVillageHtml()
 
 	constructor(private readonly ev: ServerEvents) {}
 
@@ -86,6 +106,14 @@ export class VillageServer {
 		res.end(JSON.stringify(body))
 	}
 
+	/** The village page, told which module served it so it links up by itself */
+	#page(req: IncomingMessage, res: ServerResponse) {
+		const marker = `<script>window.__VILLAGE_MODULE__={host:${escapeJs(req.headers.host || '')},tribe:${escapeJs(this.ev.tribe())},label:${escapeJs(this.ev.label())}}</script>`
+		const body = this.html ? this.html.replace('<head>', () => `<head>${marker}`) : FALLBACK_HTML
+		res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-cache' })
+		res.end(req.method === 'HEAD' ? undefined : body)
+	}
+
 	#handle(req: IncomingMessage, res: ServerResponse) {
 		const url = new URL(req.url || '/', 'http://village')
 		if (req.method === 'OPTIONS') {
@@ -94,7 +122,11 @@ export class VillageServer {
 			res.end()
 			return
 		}
-		if (req.method === 'GET' && (url.pathname === '/' || url.pathname === '/status')) {
+		if ((req.method === 'GET' || req.method === 'HEAD') && (url.pathname === '/' || url.pathname === '/index.html')) {
+			this.#page(req, res)
+			return
+		}
+		if (req.method === 'GET' && url.pathname === '/status') {
 			this.#json(res, 200, {
 				app: 'companion-village',
 				v: PROTOCOL_VERSION,

@@ -1,12 +1,13 @@
 {
 	"name": "companion-module-companion-village",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"main": "dist/main.js",
 	"type": "module",
 	"scripts": {
 		"postinstall": "husky",
 		"format": "prettier -w .",
-		"package": "run build && companion-module-build",
+		"package": "run village && run build && companion-module-build",
+		"village": "node scripts/copy-village.mjs",
 		"build": "rimraf dist && run build:main",
 		"build:main": "tsc -p tsconfig.build.json",
 		"dev": "tsc -p tsconfig.build.json --watch",

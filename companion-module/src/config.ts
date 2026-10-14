@@ -18,9 +18,10 @@ export function GetConfigFields(): SomeCompanionConfigField[] {
 			label: 'How it works',
 			width: 12,
 			value:
-				'This module runs a small server inside Companion. Open Companion Village ' +
-				'(https://mko1989.github.io/companion-village/ or the offline copy), go to Settings → Companion module ' +
-				'and enter this computer’s address and the port below, e.g. <code>localhost:17890</code> or <code>192.168.1.20:17890</code>.',
+				'This module runs the village itself. Open <code>http://&lt;this computer&gt;:&lt;port&gt;/</code> in any browser ' +
+				'or as an OBS browser source, e.g. <code>http://localhost:17890/</code> here or <code>http://192.168.1.20:17890/</code> ' +
+				'from another machine. It links up by itself and plays as the tribe chosen below. ' +
+				'The address is also in the variable <code>$(village:url)</code>.',
 		},
 		{
 			type: 'number',

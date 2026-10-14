@@ -34,15 +34,33 @@ const SETTINGS_KEY = 'companionVillage.settings.v4'
 export const SAVE_KEY = 'companionVillage.save.v4'
 
 const qs = new URLSearchParams(location.search)
+
+/**
+ * Set when the page is served by the Companion Village module (it injects this before the app script).
+ * The page then links to that module by itself — no address to type, no https/local-network issues.
+ */
+const served = (window as { __VILLAGE_MODULE__?: { host?: string; tribe?: string; label?: string } }).__VILLAGE_MODULE__
+const servedHost = !served ? '' : location.protocol.startsWith('http') ? location.host : served.host || ''
+export const servedBy = served && servedHost ? { host: servedHost, tribe: served.tribe as TribeId | undefined, label: served.label || 'village' } : null
 const old = store.get<{ host?: string; variable?: string }>('companionVillage.settings') || {}
 
 function defaults(): Settings {
 	const tribes = {} as Record<TribeId, Connection>
-	for (const id of TRIBE_IDS) tribes[id] = { control: 'ai', host: old.host || 'localhost:8888', variable: TRIBES[id].defaultVar, cmd: '' }
-	return {
+	// served by the module: Companion's own HTTP API is most likely on the same machine
+	const companionHost = old.host || (servedBy ? `${servedBy.host.replace(/:\d+$/, '')}:8888` : 'localhost:8888')
+	for (const id of TRIBE_IDS) tribes[id] = { control: 'ai', host: companionHost, variable: TRIBES[id].defaultVar, cmd: '' }
+	const d: Settings = {
 		poll: 300, speed: 1, events: 'full', quality: 'auto', dayLength: 'normal', inventionYears: 10, war: 'on', aiPace: 'match',
 		followAction: true, player: 'pixels', chosen: false, tribes, modules: '',
 	}
+	// first visit from the module: play as the module's tribe, driven by the module
+	const t = servedBy?.tribe
+	if (t && TRIBE_IDS.includes(t)) {
+		d.player = t
+		d.chosen = true
+		tribes[t].control = 'module'
+	}
+	return d
 }
 
 const saved = store.get<Partial<Settings>>(SETTINGS_KEY) || {}
@@ -87,4 +105,8 @@ export function saveSettings() {
 /** Is at least one tribe driven by Companion? */
 export const anyCompanion = () => params.demo < 0 && TRIBE_IDS.some((id) => settings.tribes[id].control !== 'ai')
 /** module links as a clean list */
-export const moduleLinks = () => settings.modules.split(/[\s,;]+/).map((s) => s.trim().replace(/^https?:\/\//, '').replace(/\/+$/, '')).filter(Boolean)
+export const moduleLinks = () => {
+	const list = settings.modules.split(/[\s,;]+/).map((s) => s.trim().replace(/^https?:\/\//, '').replace(/\/+$/, '')).filter(Boolean)
+	if (servedBy && !list.includes(servedBy.host)) list.unshift(servedBy.host)
+	return list
+}

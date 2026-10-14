@@ -124,11 +124,13 @@
 		<div id="s-tribes"></div>
 
 		<h2>Companion module</h2>
-		<p class="small">With the <b>Companion Village module</b> installed in Companion, buttons can control everything (years, war, diplomacy, events,
-			camera, pause…) and Companion gets live variables and feedbacks from the village.
-			<a id="s-module-dl" class="linkish" href="https://mko1989.github.io/companion-village/companion-village-module.tgz">⬇ Download the module</a> · import it in Companion under
-			<i>Modules → Import module package</i>, add a <i>Companion Village</i> connection, then enter its address here.</p>
-		<label>Module address(es) — host:port, comma separated<input id="s-modules" spellcheck="false" placeholder="localhost:17890" /></label>
+		<p class="small">Best way to run the village: install the <b>Companion Village module</b> in Companion and open
+				<code>http://&lt;companion-computer&gt;:17890/</code>. The module serves this page itself, links up automatically and works in every browser
+				and in OBS. Its buttons control everything (years, war, diplomacy, events, camera, pause…), and Companion gets live variables and feedbacks.
+				<a id="s-module-dl" class="linkish" href="https://mko1989.github.io/companion-village/companion-village-module.tgz">⬇ Download the module</a>
+				· in Companion: <i>Modules → Import module package</i>, then add a <i>Companion Village</i> connection.</p>
+			<p class="small" id="s-module-served" hidden>✅ This page is served by the module at <b id="s-module-host"></b> and linked to it automatically.</p>
+			<label>Other module addresses — host:port, comma separated<input id="s-modules" spellcheck="false" placeholder="192.168.1.21:17890" /></label>
 
 		<h2>Make something happen</h2>
 		<div class="row"><select id="s-event"></select><select id="s-event-tribe"></select><button id="s-trigger">Go</button></div>

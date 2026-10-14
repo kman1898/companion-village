@@ -2,7 +2,7 @@
 
 Three rival tribes build their villages while you run a show with [Bitfocus Companion](https://bitfocus.io/companion).
 
-**▶ Live: https://mko1989.github.io/companion-village/**
+**▶ Demo: https://mko1989.github.io/companion-village/?demo=10** · for shows, run it from the [Companion module](#quick-start-the-companion-module-recommended)
 
 | Tribe | Department | Style |
 |---|---|---|
@@ -47,7 +47,41 @@ Weather and wonders hit the whole map; everything else hits one tribe. The camer
 | ⛈️ Storm · 🌨️ Blizzard · 🏜️ Sandstorm · 🌑 Eclipse · ☀️ Solar flare | 🌪️ Tornado · ☄️ Meteor · 🌋 Earthquake · 🔥 Fire · 🔥 Forest fire · 🌊 Flood | 🎉 Festival · 💒 Wedding (sometimes across tribes) · 👶 Baby boom |
 | 🌌 Northern lights · 🌠 Comet · ✨ Meteor shower | ☠️ Plague · 🦗 Locusts · 🐺 Wolves · 🐉 Dragon · 🥷 Bandits · 🛸 UFO · 🔌 Blackout · 🤖 Robot rampage | 🌾 Harvest · 💰 Treasure · 🐴 Merchant · 🧳 Migrants · ⏱️ Time traveller · 🎸 **Battle of the Bands** |
 
-## 1. Set up Companion (once)
+## Quick start: the Companion module (recommended)
+
+The **Companion Village module** runs inside Companion and **serves the village page itself**. There's nothing to host and
+no https or local-network permission trouble, and it works in every browser and as an OBS browser source.
+
+1. Download **[companion-village-module.tgz](https://mko1989.github.io/companion-village/companion-village-module.tgz)**.
+2. In Companion: **Modules → Import module package** → pick the file (Companion 4.2 or newer).
+3. **Connections → Add connection → Companion Village**, then choose which tribe this Companion plays as.
+4. Open **`http://<companion-computer>:17890/`**, e.g. `http://localhost:17890/` on the same machine. The page links up by itself.
+5. To count every press, add a Trigger: event **On any button press** → action **Companion Village: Add years** → *This Companion's tribe*.
+
+On the Companion computer, steps 2–5 can be done in one go (it also upgrades an existing connection):
+
+```
+node tools/install-module.mjs --tribe pixels --trigger        # [host:port] [--port 17890] [--label village]
+```
+
+Buttons then control the whole game, and the village sends live variables and feedbacks back:
+
+| | |
+|---|---|
+| **Actions** | add years · attack · make peace · send gift · send caravan · offer friendship · festival · make any of 30 events happen · instant invention · give resources · camera (follow / map / tribe / zoom) · show/hide overlay · view as tribe · pause / speed · time of day · war, events, AI pace and day length settings · on-screen message banner |
+| **Feedbacks** | connected · at war · under attack · army on the march · allied · stance between two tribes · event happening · era reached · tribe in the lead · screen viewing tribe · night · paused · tribe colour |
+| **Variables** | `my_*` for this Companion's tribe and `pixels_*` / `noises_*` / `lampys_*` for each tribe: year, pop, era, era_name, inventions, last/next invention, wood, stone, food, buildings, construction, wins, losses, prestige, status, event, raid. Plus `url`, `rel_a_b`, `stance_a_b`, `clock`, `phase`, `leader_name`, `news`, `events`, `paused`, `speed`, `camera`, `connected` |
+| **Presets** | years, live tribe tiles, war & diplomacy against each rival, every event, screen control, time of day, info |
+
+**Several departments:** give each department's Companion the module with its own tribe. Open the village from one of them and list the
+others' addresses (comma separated) under Settings → *Companion module*. If another computer can't open the page, allow port 17890
+through the Companion machine's firewall.
+
+## Without the module: plain Companion variables
+
+The village can also just count presses through Companion's HTTP API, with no module installed. It's simpler, but one-way.
+
+### 1. Set up Companion (once)
 
 Each Companion-driven tribe needs a counter variable that goes up with button presses.
 
@@ -78,7 +112,7 @@ node tools/install-trigger.mjs localhost:8888 --var village_noises          # co
 
 To count only some buttons, skip the trigger. Instead, add the same *Set value* action to the press actions of those buttons.
 
-### Several tribes on Companion
+#### Several tribes on Companion
 
 - **One Companion per department:** install the trigger on each machine. In the village Settings → *Tribes & Companion*, set each tribe to
   *Companion* with that machine's address. All of them can use `village_presses`.
@@ -86,7 +120,7 @@ To count only some buttons, skip the trigger. Instead, add the same *Set value* 
   On the video operator's buttons add *Custom Variable: Set value* `village_pixels` = `isNumber($(this:current)) ? floor($(this:current)) + 1 : 1`,
   on the sound operator's buttons `village_noises`, and so on.
 
-### Commands from Stream Deck buttons
+#### Commands from Stream Deck buttons
 
 Give a tribe a **command variable** (Settings → Tribes, or `--cmd` in the installer). A button with the action
 *Custom Variable: Set value* `village_pixels_cmd` = `attack:noises` makes the Pixels march on the Noises. The village runs the command and
@@ -103,54 +137,21 @@ clears the variable, so the same button works again.
 
 `<tribe>` is `pixels`, `noises` or `lampys` (or `video`, `sound`, `lights`).
 
-## The Companion module (two-way control)
-
-The plain variable setup above only counts presses. The **Companion Village module** turns Companion into a full remote control
-for the game: buttons send orders, and the village sends live variables and feedbacks back to Companion.
-
-**Install**
-
-1. Download the module: **[companion-village-module.tgz](https://mko1989.github.io/companion-village/companion-village-module.tgz)**
-   (or build it yourself: `cd companion-module && corepack yarn install && corepack yarn package`).
-2. In Companion go to **Modules → Import module package** and pick the file. This needs Companion 4.2 or newer.
-3. **Connections → Add connection → Companion Village**. Choose which tribe this Companion plays as. The listening port is `17890` by default.
-4. In the village press **S** → *Companion module* and enter `localhost:17890` (or the Companion machine's IP, e.g. `192.168.1.20:17890`).
-   Set your tribe's *Driven by* to **Companion module**.
-5. To count every press, add a Trigger with the event **On any button press** and the action
-   **Companion Village: Add years** → *This Companion's tribe*.
-
-On the Companion computer you can do steps 2–5 in one go:
-
-```
-node tools/install-module.mjs --tribe pixels --trigger        # [host:port] [--port 17890] [--label village]
-```
-
-The page talks to the module, not the other way round (it POSTs its state every half second and picks up queued actions), so
-the same browser rules apply as for Companion itself: Chrome and Edge need the local-network prompt allowed, and the offline copy always works.
-For several departments, give each Companion the module with its own tribe and list all addresses, comma separated.
-
-| | |
-|---|---|
-| **Actions** | add years · attack · make peace · send gift · send caravan · offer friendship · festival · make any of 30 events happen · instant invention · give resources · camera (follow / map / tribe / zoom) · show/hide overlay · view as tribe · pause / speed · time of day · war, events, AI pace and day length settings · on-screen message banner |
-| **Feedbacks** | connected · at war · under attack · army on the march · allied · stance between two tribes · event happening · era reached · tribe in the lead · screen viewing tribe · night · paused · tribe colour |
-| **Variables** | `my_*` for this Companion's tribe and `pixels_*` / `noises_*` / `lampys_*` for each tribe: year, pop, era, era_name, inventions, last/next invention, wood, stone, food, buildings, construction, wins, losses, prestige, status, event, raid. Plus `rel_a_b`, `stance_a_b`, `clock`, `phase`, `leader_name`, `news`, `events`, `paused`, `speed`, `camera`, `connected` |
-| **Presets** | years, live tribe tiles, war & diplomacy against each rival, every event, screen control, time of day, info |
-
-## 2. Open the village
+### 2. Open the village
 
 Open the live page, pick your tribe, then press **S** (Settings) → *Tribes & Companion* to enter your Companion address, e.g. `192.168.1.20:8000`.
 
-### Can a GitHub Pages site reach Companion on my network?
+#### Can a GitHub Pages site reach Companion on my network?
 
-Usually yes, but it depends on the browser. The page is **https** and Companion's API is plain **http**, so browsers apply
-their "secure page → local device" rules:
+Often not reliably. The page is **https** and Companion's API is plain **http**, so browsers apply their
+"secure page → local device" rules. **The module avoids all of this**, because it serves the page over http from Companion itself.
 
 | Where Companion runs | Chrome / Edge | Firefox | Safari / OBS browser source |
 |---|---|---|---|
-| Same computer (`localhost:…`) | ✅ (may ask to allow local network access) | ✅ | ⚠️ usually blocked |
+| Same computer (`localhost:…`) | ✅ after allowing local network access | ⚠️ depends on version | ⚠️ usually blocked |
 | Another machine (`192.168.x.x:…` or `name.local`) | ✅ after you allow the *"access devices on your local network"* prompt | ❌ blocked | ❌ blocked |
 
-**Works everywhere:** Settings → **⬇ Offline copy** downloads the whole app as one HTML file. Open that file directly
+**Also works everywhere:** Settings → **⬇ Offline copy** downloads the whole app as one HTML file. Open that file directly
 in any browser, or use it in OBS as a *Browser Source → Local file*. The offline copy has no https restrictions,
 works without internet, and is the best choice for a show machine.
 

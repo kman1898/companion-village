@@ -1,4 +1,4 @@
-import { params, SAVE_KEY, saveSettings, settings, type AiPace, type DayLength, type EventsMode, type Quality, type WarMode } from '../core/settings'
+import { params, SAVE_KEY, saveSettings, servedBy, settings, type AiPace, type DayLength, type EventsMode, type Quality, type WarMode } from '../core/settings'
 import { store } from '../core/util'
 import { TRIBES, TRIBE_IDS, type TribeId } from '../data/tribes'
 import { EVENTS, startEvent } from '../game/events'
@@ -102,6 +102,8 @@ export function openSettings() {
 	$<HTMLSelectElement>('s-ai').value = settings.aiPace
 	$<HTMLInputElement>('s-follow').checked = settings.followAction
 	$<HTMLInputElement>('s-modules').value = settings.modules
+	$('s-module-served').hidden = !servedBy
+	if (servedBy) $('s-module-host').textContent = servedBy.host
 	$<HTMLSelectElement>('s-event-tribe').value = settings.player
 	for (const id of TRIBE_IDS) {
 		const c = settings.tribes[id]

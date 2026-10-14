@@ -10,20 +10,18 @@ This module connects your Stream Deck to the game, in both directions:
 ### Setup
 
 1. Add this connection and pick **which tribe this Companion plays as**. The default port is `17890`.
-2. Open the village page (the [web version](https://mko1989.github.io/companion-village/), or its **offline copy** from Settings → ⬇ Offline copy).
-3. In the village, open **Settings → Companion module** and enter this computer's address and port, e.g. `localhost:17890`.
-   For a Companion on another machine, use its IP, e.g. `192.168.1.20:17890`. Set your tribe's **Driven by** to *Companion module*.
-4. The connection status turns green once the page syncs.
+2. Open **`http://<this computer>:17890/`** in any browser, or add it as an **OBS browser source**:
+   `http://localhost:17890/` on this machine, `http://192.168.1.20:17890/` (this machine's IP) from another one.
+   The address is also in the variable `$(village:url)` and in the connection status.
+3. That's it. The page is served by this module, links up by itself and plays as your tribe. The status turns green once it syncs.
 
 **Count every button press:** create a Trigger with the event **On any button press** and the action
 **Companion Village: Add years (and settlers) to a tribe**, with tribe set to *This Companion's tribe*.
 
-**Several departments:** give every operator's Companion this module, each set to its own tribe, and list all of them
-(comma separated) in the village's *Companion module* field.
+**Several departments:** give every operator's Companion this module, each set to its own tribe. Open the village from one of them
+and list the other modules' addresses (comma separated) under *Settings → Companion module*.
 
-### Browser notes
-
-The web version uses https, while this module uses plain http. Chrome and Edge show a one-time *"allow access to devices on your local network"* prompt; allow it. Safari and the OBS browser source block it. For those, use the **offline copy** of the village (a single HTML file), which always works.
+**Firewall:** if another computer can't open the page, allow incoming connections on port 17890 on the Companion machine.
 
 ### Actions
 
@@ -46,7 +44,7 @@ The web version uses https, while this module uses plain http. Chrome and Edge s
 
 `$(village:my_year)`, `$(village:my_pop)`, `$(village:my_era_name)`, `$(village:my_status)` … for this Companion's tribe.
 The same exist per tribe, e.g. `$(village:noises_pop)`, `$(village:lampys_wins)`. There are also relations such as
-`$(village:stance_pixels_noises)`, plus `$(village:clock)`, `$(village:leader_name)`, `$(village:news)`, `$(village:events)` and more.
+`$(village:stance_pixels_noises)`, plus `$(village:url)`, `$(village:clock)`, `$(village:leader_name)`, `$(village:news)`, `$(village:events)` and more.
 
 ### Feedbacks
 
