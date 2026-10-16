@@ -8,6 +8,7 @@ export type ModuleConfig = {
 	timeout: number
 	deskGap: number
 	deskTogether: number
+	deskRecall: number
 	deskRepeat: number
 	deskPerMinute: number
 }
@@ -68,7 +69,7 @@ export function GetConfigFields(): SomeCompanionConfigField[] {
 			value:
 				'Mixing and lighting desks score through the action <b>Desk activity (fair count)</b>, run by a trigger that watches ' +
 				'the desk module’s variables (see the help and <code>tools/desk-triggers.mjs</code>). ' +
-				'These rules make a fader move, a key press or a scene recall count as one action, the same for every desk.',
+				'These rules make every fader move or key press count as one action (three faders at once = 3) and a scene recall count once, the same for every desk.',
 		},
 		{
 			type: 'number',
@@ -82,11 +83,20 @@ export function GetConfigFields(): SomeCompanionConfigField[] {
 		{
 			type: 'number',
 			id: 'deskTogether',
-			label: 'Controls moving together within (ms) count once',
+			label: 'Changes within (ms) are judged together',
 			width: 6,
-			min: 0,
+			min: 50,
 			max: 5000,
 			default: 300,
+		},
+		{
+			type: 'number',
+			id: 'deskRecall',
+			label: 'More controls than this changing together is a scene recall (scores once)',
+			width: 6,
+			min: 2,
+			max: 500,
+			default: 8,
 		},
 		{
 			type: 'number',

@@ -22,10 +22,11 @@ This module connects your Stream Deck to the game, in both directions:
 and list the other modules' addresses (comma separated) under *Settings → Companion module*.
 
 **Desk competitions:** sound and lighting desks can score too. A trigger watches your desk module's variables
-(X32, WING, Yamaha RCP, MagicQ, or Generic OSC for grandMA3) and runs **Desk activity (fair count)**. A whole fader move,
-a key press or a scene recall counts as *one* action. The rules are in this connection's config: one gesture until the
-control is still for 800 ms, controls moving within 300 ms count once, the same control scores at most every 2 s, and each
-desk scores at most 30 per minute. The project's `tools/desk-triggers.mjs` builds and installs these triggers, e.g.
+(X32, WING, Yamaha RCP, MagicQ, or Generic OSC for grandMA3) and runs **Desk activity (fair count)**. A whole fader move
+or key press counts as *one* action and every control counts on its own (three faders at once = 3), while a scene recall
+counts once. The rules are in this connection's config: one gesture until the control is still for 800 ms, more than 8
+controls changing within 300 ms is a scene recall, the same control scores at most every 2 s, and each desk scores at most
+30 per minute. The project's `tools/desk-triggers.mjs` builds and installs these triggers, e.g.
 `node tools/desk-triggers.mjs x32 --install --name FOH`.
 
 **Firewall:** if another computer can't open the page, allow incoming connections on port 17890 on the Companion machine.

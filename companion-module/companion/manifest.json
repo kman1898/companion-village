@@ -5,7 +5,7 @@
 	"name": "companion-village",
 	"shortname": "village",
 	"description": "Drive Companion Village — three rival tribes (Pixels, Noises, Lampys) that grow with your button presses",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"license": "MIT",
 	"repository": "git+https://github.com/mko1989/companion-village.git",
 	"bugs": "https://github.com/mko1989/companion-village/issues",

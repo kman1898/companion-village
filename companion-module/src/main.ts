@@ -55,6 +55,7 @@ export default class ModuleInstance extends InstanceBase<ModuleSchema> {
 		() => ({
 			gapMs: this.config.deskGap,
 			togetherMs: this.config.deskTogether,
+			recallCount: this.config.deskRecall,
 			repeatMs: this.config.deskRepeat * 1000,
 			perMinute: this.config.deskPerMinute,
 		}),
@@ -169,6 +170,7 @@ export default class ModuleInstance extends InstanceBase<ModuleSchema> {
 			timeout: Number(c.timeout) || 5,
 			deskGap: num(c.deskGap, 800),
 			deskTogether: num(c.deskTogether, 300),
+			deskRecall: num(c.deskRecall, 8),
 			deskRepeat: num(c.deskRepeat, 2),
 			deskPerMinute: num(c.deskPerMinute, 30),
 		}
@@ -197,6 +199,7 @@ export default class ModuleInstance extends InstanceBase<ModuleSchema> {
 	}
 
 	#tick() {
+		if (this.desks.flush()) this.#dirty = true
 		const connected = this.isConnected()
 		if (connected !== this.#wasConnected) {
 			this.#wasConnected = connected

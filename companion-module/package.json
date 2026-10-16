@@ -1,6 +1,6 @@
 {
 	"name": "companion-module-companion-village",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"main": "dist/main.js",
 	"type": "module",
 	"scripts": {

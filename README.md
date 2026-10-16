@@ -83,14 +83,18 @@ Operators score by working their desks. Every fader move, mute, key press or pla
 department's tribe. Companion already talks to the desks through their own modules, so a **trigger** watches the desk module's
 variables and runs **Companion Village: Desk activity (fair count)**.
 
-Counting is fair: a whole fader move, a key press with its release, or a scene recall that changes 100 values counts as **one** action.
+Counting is fair: a whole fader move or a key press with its release counts as **one** action, every control counts on its own
+(push up three faders at once = 3), and a scene recall that changes 100 values counts **once**.
 
 | Rule (module config) | Default | Stops |
 |---|---|---|
 | One gesture until the control is still for | 800 ms | a fader move scoring once per value |
-| Controls moving together count once | 300 ms | stereo links, both hands, scene / cue recalls |
+| Changes within this window are judged together | 300 ms | (scores arrive this long after the move) |
+| More controls than this changing together is a scene recall | 8 | recalls scoring for every value they change |
 | Same control scores at most every | 2 s | wiggling one fader for points |
 | Max actions per desk per minute | 30 | button mashing; busy desks can't run away |
+
+Linked channels (stereo pairs) move two values, so they count as two faders.
 
 Build the trigger for your desk and install it into Companion (on the Companion computer):
 

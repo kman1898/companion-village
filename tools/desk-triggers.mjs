@@ -10,11 +10,13 @@
 //
 //   desks:  x32          Behringer X32 / Midas M32        (module behringer-x32)
 //           wing         Behringer WING                   (module behringer-wing)
-//           yamaha-cl    Yamaha CL5 / CL3 / CL1 / QL      (module yamaha-rcp 4.x)
-//           yamaha-dm3   Yamaha DM3                       (module yamaha-rcp 4.x)
+//           yamaha-cl    Yamaha CL5 / CL3 / CL1 / QL      (module yamaha-rcp)
+//           yamaha-dm3   Yamaha DM3                       (module yamaha-rcp)
 //           magicq       ChamSys MagicQ, playbacks 1-10   (module chamsys-magicq-osc, "feedback" enabled)
 //           gma3         grandMA3 OSC output              (module generic-osc, "Listen for Feedback" enabled)
 //           osc          any desk sending OSC             (module generic-osc), e.g. MagicQ OSC transmit
+//           presses      every button press on this Companion (Stream Deck, web buttons …), --tribe defaults to
+//                        the village connection's own tribe
 //
 //   --install [host:port]  import the trigger into Companion (default localhost:8888); connections are found by module
 //   --connection <label>   label of the desk connection (default: the one found, or x32 / wing / yamaha / magicq / osc)
@@ -135,6 +137,11 @@ const RECIPES = {
 		tribe: 'lampys',
 		event: true,
 	},
+	presses: {
+		title: 'button presses',
+		tribe: 'self',
+		presses: true,
+	},
 	osc: {
 		title: 'OSC desk',
 		module: 'generic-osc',
@@ -144,14 +151,30 @@ const RECIPES = {
 	},
 }
 
-/** Yamaha RCP 4.x has a value feedback for every readable parameter: <address>_Value with the channel as X */
-function yamaha({ mutes }, counts) {
+/*
+ * Yamaha RCP 4.x has a value feedback for every readable parameter: <address>_Value with the channel as X.
+ * 3.x has only boolean feedbacks, whose "Auto-Create Variable" option keeps a module variable
+ * V_<Cmd>_Fader_Level_<X> up to date; the trigger subscribes the feedback and watches that variable.
+ */
+function yamaha({ mutes, version }, counts) {
+	const legacy = version && version !== 'dev' && parseInt(version, 10) < 4
 	const out = []
+	const add = (name, cmd, param, x) => {
+		const address = `MIXER_Current/${cmd}/Fader/${param}`
+		if (legacy)
+			out.push({
+				name,
+				variable: `V_${cmd}_Fader_${param}_${x}`,
+				feedback: address,
+				options: { X: x, Val: 0, createVariable: true },
+			})
+		else out.push({ name, feedback: `${address}_Value`, options: { X: x } })
+	}
 	for (const [cmd, n] of Object.entries(counts)) {
 		for (const x of range(n)) {
 			const name = `${cmd.toLowerCase()}${x}`
-			out.push({ name: `${name}_level`, feedback: `MIXER_Current/${cmd}/Fader/Level_Value`, options: { X: x } })
-			if (mutes) out.push({ name: `${name}_on`, feedback: `MIXER_Current/${cmd}/Fader/On_Value`, options: { X: x } })
+			add(`${name}_level`, cmd, 'Level', x)
+			if (mutes) add(`${name}_on`, cmd, 'On', x)
 		}
 	}
 	return out
@@ -194,7 +217,12 @@ function buildConfig({ deskLabel, villageLabel, version }) {
 			ignore: opt(''),
 		},
 	}
-	if (recipe.event) {
+	if (recipe.presses) {
+		trigger.options.name = `Village: button presses → ${tribe === 'self' ? 'own tribe' : tribe}`
+		trigger.events.push({ id: uid(), type: 'button_press', enabled: true, options: {} })
+		action.definitionId = 'add_years'
+		action.options = { tribe: opt(tribe), amount: opt(1) }
+	} else if (recipe.event) {
 		// Generic OSC updates these on every message it receives
 		trigger.events.push({
 			id: uid(),
@@ -207,10 +235,9 @@ function buildConfig({ deskLabel, villageLabel, version }) {
 		const controls = recipe.build({ channels, mutes: !has('--no-mutes'), version })
 		const lines = []
 		for (const c of controls) {
-			let ref
-			if (c.variable) ref = `${deskLabel}:${c.variable}`
-			else {
-				ref = `local:${c.name}`
+			// a feedback is either the watched value itself, or (with a variable) only keeps that variable updated
+			const ref = c.variable ? `${deskLabel}:${c.variable}` : `local:${c.name}`
+			if (c.feedback) {
 				trigger.localVariables.push({
 					id: uid(),
 					type: 'feedback',
@@ -237,7 +264,9 @@ function buildConfig({ deskLabel, villageLabel, version }) {
 			triggers: { [triggerId]: trigger },
 			instances: {
 				[VILLAGE_ID]: { moduleInstanceType: 'connection', moduleId: 'companion-village', label: villageLabel, config: {}, enabled: true },
-				[DESK_ID]: { moduleInstanceType: 'connection', moduleId: recipe.module, label: deskLabel, config: {}, enabled: true },
+				...(recipe.module && {
+					[DESK_ID]: { moduleInstanceType: 'connection', moduleId: recipe.module, label: deskLabel, config: {}, enabled: true },
+				}),
 			},
 		},
 	}
@@ -259,7 +288,9 @@ if (installArg < 0) {
 	mkdirSync(path.dirname(out), { recursive: true })
 	writeFileSync(out, JSON.stringify(config, null, '\t') + '\n')
 	console.log(`Wrote ${out}: trigger "${trigger.options.name}", ${summary(trigger)}.`)
-	console.log(`Import it in Companion → Import / Export. It expects the desk connection to be labelled "${flag('--connection') || recipe.label}".`)
+	if (recipe.module)
+		console.log(`Import it in Companion → Import / Export. It expects the desk connection to be labelled "${flag('--connection') || recipe.label}".`)
+	else console.log('Import it in Companion → Import / Export.')
 	process.exit(0)
 }
 
@@ -317,14 +348,12 @@ ws.addEventListener('open', async () => {
 	try {
 		const { list, triggers } = await connections()
 		const [villageId, village] = pick(list, 'companion-village', flag('--village'), 'village')
-		const [deskId, deskConn] = pick(list, recipe.module, flag('--connection'), 'desk')
-		if (!deskConn.enabled) console.warn(`Note: the connection "${deskConn.label}" is disabled; enable it so its variables update.`)
+		const [deskId, deskConn] = recipe.module ? pick(list, recipe.module, flag('--connection'), 'desk') : [undefined, {}]
+		if (recipe.module && !deskConn.enabled) console.warn(`Note: the connection "${deskConn.label}" is disabled; enable it so its variables update.`)
 		if (recipe.module === 'generic-osc' && !deskConn.config?.listen)
 			console.warn(`Note: turn on "Listen for Feedback" in the "${deskConn.label}" connection and point the desk's OSC output at its port.`)
 		if (recipe.module === 'chamsys-magicq-osc' && !deskConn.config?.enableFeedback)
 			console.warn(`Note: enable feedback in the "${deskConn.label}" connection, or its playback variables stay empty.`)
-		if (recipe.module === 'yamaha-rcp' && parseInt(deskConn.moduleVersionId, 10) < 4)
-			console.warn(`Note: yamaha-rcp ${deskConn.moduleVersionId} has no value feedbacks; update the module to 4.x.`)
 
 		const { triggerId, trigger, config } = buildConfig({
 			deskLabel: deskConn.label,
@@ -347,10 +376,11 @@ ws.addEventListener('open', async () => {
 		if (Array.isArray(prepared) && prepared[0]) throw new Error(`Import rejected: ${prepared[0]}`)
 		await call('importExport.importTriggers', {
 			selectedTriggerIds: [triggerId],
-			connectionIdRemapping: { [VILLAGE_ID]: villageId, [DESK_ID]: deskId },
+			connectionIdRemapping: { [VILLAGE_ID]: villageId, ...(deskId && { [DESK_ID]: deskId }) },
 			replaceExisting: false,
 		})
-		console.log(`Installed trigger "${trigger.options.name}" (${summary(trigger)}) for "${deskConn.label}" → ${flag('--tribe') || recipe.tribe}.`)
+		if (recipe.presses) console.log(`Installed trigger "${trigger.options.name}": every button press adds a year.`)
+		else console.log(`Installed trigger "${trigger.options.name}" (${summary(trigger)}) for "${deskConn.label}" → ${flag('--tribe') || recipe.tribe}.`)
 		process.exit(0)
 	} catch (e) {
 		console.error('Install failed:', e.message)
