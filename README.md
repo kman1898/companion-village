@@ -77,6 +77,43 @@ Buttons then control the whole game, and the village sends live variables and fe
 others' addresses (comma separated) under Settings → *Companion module*. If another computer can't open the page, allow port 17890
 through the Companion machine's firewall.
 
+### Desk competitions: sound and lighting desks score too
+
+Operators score by working their desks. Every fader move, mute, key press or playback adds a villager and a year to their
+department's tribe. Companion already talks to the desks through their own modules, so a **trigger** watches the desk module's
+variables and runs **Companion Village: Desk activity (fair count)**.
+
+Counting is fair: a whole fader move, a key press with its release, or a scene recall that changes 100 values counts as **one** action.
+
+| Rule (module config) | Default | Stops |
+|---|---|---|
+| One gesture until the control is still for | 800 ms | a fader move scoring once per value |
+| Controls moving together count once | 300 ms | stereo links, both hands, scene / cue recalls |
+| Same control scores at most every | 2 s | wiggling one fader for points |
+| Max actions per desk per minute | 30 | button mashing; busy desks can't run away |
+
+Build the trigger for your desk and install it into Companion (on the Companion computer):
+
+```
+node tools/desk-triggers.mjs x32 --install --name FOH          # Behringer X32 / Midas M32: faders, mutes, selection
+node tools/desk-triggers.mjs wing --install --name FOH         # Behringer WING: level + mute of channels, aux, bus, main, matrix, DCA
+node tools/desk-triggers.mjs yamaha-cl --install --name FOH    # Yamaha CL / QL (yamaha-rcp module 4.x): fader level + on
+node tools/desk-triggers.mjs yamaha-dm3 --install --name MON   # Yamaha DM3
+node tools/desk-triggers.mjs magicq --install --name LX        # ChamSys MagicQ module: playbacks 1-10 (enable its feedback)
+node tools/desk-triggers.mjs gma3 --install --name LX          # grandMA3 → Generic OSC (any OSC desk, also MagicQ OSC transmit)
+```
+
+Options: `--tribe noises|lampys|pixels` (default noises for sound, lampys for lighting) · `--connection <label>` when you have
+several connections of that module · `--channels 24` · `--no-mutes` · `--replace` · `--out file.companionconfig`.
+Ready-made files for the default connection labels (`x32`, `wing`, `yamaha`, `magicq`, `osc`, `village`) are in
+[`tools/desk-triggers/`](tools/desk-triggers/) to import with Companion → Import / Export.
+
+- **grandMA3:** add a Generic OSC connection with *Listen for Feedback* on, then in MA3 *Setup → In & Out → OSC* add a line
+  that sends to the Companion computer on that port, with *Enable Output* and *Send* on. The fader and key changes MA3 sends then score.
+- **MagicQ:** either the ChamSys MagicQ OSC module with feedback enabled (`magicq`) or MagicQ's OSC transmit into Generic OSC (`gma3`/`osc`).
+- Turn scoring off for soundcheck or programming with **Desk activity: scoring on / off**. Watch `$(village:desk_last)`,
+  `$(village:noises_desk_actions)` and `$(village:desks)` to see it work.
+
 ## Without the module: plain Companion variables
 
 The village can also just count presses through Companion's HTTP API, with no module installed. It's simpler, but one-way.

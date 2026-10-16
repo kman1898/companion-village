@@ -6,6 +6,10 @@ export type ModuleConfig = {
 	bind: string
 	tribe: TribeId
 	timeout: number
+	deskGap: number
+	deskTogether: number
+	deskRepeat: number
+	deskPerMinute: number
 }
 
 export const DEFAULT_PORT = 17890
@@ -55,6 +59,52 @@ export function GetConfigFields(): SomeCompanionConfigField[] {
 			min: 2,
 			max: 120,
 			default: 5,
+		},
+		{
+			type: 'static-text',
+			id: 'deskInfo',
+			label: 'Desk competitions',
+			width: 12,
+			value:
+				'Mixing and lighting desks score through the action <b>Desk activity (fair count)</b>, run by a trigger that watches ' +
+				'the desk module’s variables (see the help and <code>tools/desk-triggers.mjs</code>). ' +
+				'These rules make a fader move, a key press or a scene recall count as one action, the same for every desk.',
+		},
+		{
+			type: 'number',
+			id: 'deskGap',
+			label: 'One gesture until the control is still for (ms)',
+			width: 6,
+			min: 100,
+			max: 10000,
+			default: 800,
+		},
+		{
+			type: 'number',
+			id: 'deskTogether',
+			label: 'Controls moving together within (ms) count once',
+			width: 6,
+			min: 0,
+			max: 5000,
+			default: 300,
+		},
+		{
+			type: 'number',
+			id: 'deskRepeat',
+			label: 'Same control scores at most every (seconds)',
+			width: 6,
+			min: 0,
+			max: 600,
+			default: 2,
+		},
+		{
+			type: 'number',
+			id: 'deskPerMinute',
+			label: 'Max actions per desk per minute (0 = no limit)',
+			width: 6,
+			min: 0,
+			max: 1000,
+			default: 30,
 		},
 	]
 }

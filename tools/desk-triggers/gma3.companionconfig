@@ -1,0 +1,76 @@
+{
+	"type": "trigger_list",
+	"version": 12,
+	"triggers": {
+		"djXb_2e4JjOtqKQE": {
+			"type": "trigger",
+			"options": {
+				"name": "Village desk: grandMA3",
+				"enabled": true,
+				"sortOrder": 0
+			},
+			"actions": [
+				{
+					"id": "0EQKyCvjnhseVNjd",
+					"definitionId": "desk_activity",
+					"connectionId": "villageConnection",
+					"type": "action",
+					"options": {
+						"tribe": {
+							"isExpression": false,
+							"value": "lampys"
+						},
+						"desk": {
+							"isExpression": false,
+							"value": "grandMA3"
+						},
+						"mode": {
+							"isExpression": false,
+							"value": "event"
+						},
+						"values": {
+							"isExpression": false,
+							"value": ""
+						},
+						"control": {
+							"isExpression": false,
+							"value": "$(osc:latest_received_path)"
+						},
+						"ignore": {
+							"isExpression": false,
+							"value": ""
+						}
+					}
+				}
+			],
+			"condition": [],
+			"events": [
+				{
+					"id": "3hQx0-IXREJQak2D",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "osc:latest_received_timestamp"
+					}
+				}
+			],
+			"localVariables": []
+		}
+	},
+	"instances": {
+		"villageConnection": {
+			"moduleInstanceType": "connection",
+			"moduleId": "companion-village",
+			"label": "village",
+			"config": {},
+			"enabled": true
+		},
+		"deskConnection": {
+			"moduleInstanceType": "connection",
+			"moduleId": "generic-osc",
+			"label": "osc",
+			"config": {},
+			"enabled": true
+		}
+	}
+}

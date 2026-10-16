@@ -1,0 +1,1540 @@
+{
+	"type": "trigger_list",
+	"version": 12,
+	"triggers": {
+		"Hew10lGJjL7Q2lQE": {
+			"type": "trigger",
+			"options": {
+				"name": "Village desk: Behringer WING",
+				"enabled": true,
+				"sortOrder": 0
+			},
+			"actions": [
+				{
+					"id": "VkUfjTrbxz33aEFY",
+					"definitionId": "desk_activity",
+					"connectionId": "villageConnection",
+					"type": "action",
+					"options": {
+						"tribe": {
+							"isExpression": false,
+							"value": "noises"
+						},
+						"desk": {
+							"isExpression": false,
+							"value": "Behringer WING"
+						},
+						"mode": {
+							"isExpression": false,
+							"value": "values"
+						},
+						"values": {
+							"isExpression": false,
+							"value": "ch1_level=$(wing:ch1_level)\nch1_mute=$(wing:ch1_mute)\nch2_level=$(wing:ch2_level)\nch2_mute=$(wing:ch2_mute)\nch3_level=$(wing:ch3_level)\nch3_mute=$(wing:ch3_mute)\nch4_level=$(wing:ch4_level)\nch4_mute=$(wing:ch4_mute)\nch5_level=$(wing:ch5_level)\nch5_mute=$(wing:ch5_mute)\nch6_level=$(wing:ch6_level)\nch6_mute=$(wing:ch6_mute)\nch7_level=$(wing:ch7_level)\nch7_mute=$(wing:ch7_mute)\nch8_level=$(wing:ch8_level)\nch8_mute=$(wing:ch8_mute)\nch9_level=$(wing:ch9_level)\nch9_mute=$(wing:ch9_mute)\nch10_level=$(wing:ch10_level)\nch10_mute=$(wing:ch10_mute)\nch11_level=$(wing:ch11_level)\nch11_mute=$(wing:ch11_mute)\nch12_level=$(wing:ch12_level)\nch12_mute=$(wing:ch12_mute)\nch13_level=$(wing:ch13_level)\nch13_mute=$(wing:ch13_mute)\nch14_level=$(wing:ch14_level)\nch14_mute=$(wing:ch14_mute)\nch15_level=$(wing:ch15_level)\nch15_mute=$(wing:ch15_mute)\nch16_level=$(wing:ch16_level)\nch16_mute=$(wing:ch16_mute)\nch17_level=$(wing:ch17_level)\nch17_mute=$(wing:ch17_mute)\nch18_level=$(wing:ch18_level)\nch18_mute=$(wing:ch18_mute)\nch19_level=$(wing:ch19_level)\nch19_mute=$(wing:ch19_mute)\nch20_level=$(wing:ch20_level)\nch20_mute=$(wing:ch20_mute)\nch21_level=$(wing:ch21_level)\nch21_mute=$(wing:ch21_mute)\nch22_level=$(wing:ch22_level)\nch22_mute=$(wing:ch22_mute)\nch23_level=$(wing:ch23_level)\nch23_mute=$(wing:ch23_mute)\nch24_level=$(wing:ch24_level)\nch24_mute=$(wing:ch24_mute)\nch25_level=$(wing:ch25_level)\nch25_mute=$(wing:ch25_mute)\nch26_level=$(wing:ch26_level)\nch26_mute=$(wing:ch26_mute)\nch27_level=$(wing:ch27_level)\nch27_mute=$(wing:ch27_mute)\nch28_level=$(wing:ch28_level)\nch28_mute=$(wing:ch28_mute)\nch29_level=$(wing:ch29_level)\nch29_mute=$(wing:ch29_mute)\nch30_level=$(wing:ch30_level)\nch30_mute=$(wing:ch30_mute)\nch31_level=$(wing:ch31_level)\nch31_mute=$(wing:ch31_mute)\nch32_level=$(wing:ch32_level)\nch32_mute=$(wing:ch32_mute)\nch33_level=$(wing:ch33_level)\nch33_mute=$(wing:ch33_mute)\nch34_level=$(wing:ch34_level)\nch34_mute=$(wing:ch34_mute)\nch35_level=$(wing:ch35_level)\nch35_mute=$(wing:ch35_mute)\nch36_level=$(wing:ch36_level)\nch36_mute=$(wing:ch36_mute)\nch37_level=$(wing:ch37_level)\nch37_mute=$(wing:ch37_mute)\nch38_level=$(wing:ch38_level)\nch38_mute=$(wing:ch38_mute)\nch39_level=$(wing:ch39_level)\nch39_mute=$(wing:ch39_mute)\nch40_level=$(wing:ch40_level)\nch40_mute=$(wing:ch40_mute)\naux1_level=$(wing:aux1_level)\naux1_mute=$(wing:aux1_mute)\naux2_level=$(wing:aux2_level)\naux2_mute=$(wing:aux2_mute)\naux3_level=$(wing:aux3_level)\naux3_mute=$(wing:aux3_mute)\naux4_level=$(wing:aux4_level)\naux4_mute=$(wing:aux4_mute)\naux5_level=$(wing:aux5_level)\naux5_mute=$(wing:aux5_mute)\naux6_level=$(wing:aux6_level)\naux6_mute=$(wing:aux6_mute)\naux7_level=$(wing:aux7_level)\naux7_mute=$(wing:aux7_mute)\naux8_level=$(wing:aux8_level)\naux8_mute=$(wing:aux8_mute)\nbus1_level=$(wing:bus1_level)\nbus1_mute=$(wing:bus1_mute)\nbus2_level=$(wing:bus2_level)\nbus2_mute=$(wing:bus2_mute)\nbus3_level=$(wing:bus3_level)\nbus3_mute=$(wing:bus3_mute)\nbus4_level=$(wing:bus4_level)\nbus4_mute=$(wing:bus4_mute)\nbus5_level=$(wing:bus5_level)\nbus5_mute=$(wing:bus5_mute)\nbus6_level=$(wing:bus6_level)\nbus6_mute=$(wing:bus6_mute)\nbus7_level=$(wing:bus7_level)\nbus7_mute=$(wing:bus7_mute)\nbus8_level=$(wing:bus8_level)\nbus8_mute=$(wing:bus8_mute)\nbus9_level=$(wing:bus9_level)\nbus9_mute=$(wing:bus9_mute)\nbus10_level=$(wing:bus10_level)\nbus10_mute=$(wing:bus10_mute)\nbus11_level=$(wing:bus11_level)\nbus11_mute=$(wing:bus11_mute)\nbus12_level=$(wing:bus12_level)\nbus12_mute=$(wing:bus12_mute)\nbus13_level=$(wing:bus13_level)\nbus13_mute=$(wing:bus13_mute)\nbus14_level=$(wing:bus14_level)\nbus14_mute=$(wing:bus14_mute)\nbus15_level=$(wing:bus15_level)\nbus15_mute=$(wing:bus15_mute)\nbus16_level=$(wing:bus16_level)\nbus16_mute=$(wing:bus16_mute)\nmain1_level=$(wing:main1_level)\nmain1_mute=$(wing:main1_mute)\nmain2_level=$(wing:main2_level)\nmain2_mute=$(wing:main2_mute)\nmain3_level=$(wing:main3_level)\nmain3_mute=$(wing:main3_mute)\nmain4_level=$(wing:main4_level)\nmain4_mute=$(wing:main4_mute)\nmtx1_level=$(wing:mtx1_level)\nmtx1_mute=$(wing:mtx1_mute)\nmtx2_level=$(wing:mtx2_level)\nmtx2_mute=$(wing:mtx2_mute)\nmtx3_level=$(wing:mtx3_level)\nmtx3_mute=$(wing:mtx3_mute)\nmtx4_level=$(wing:mtx4_level)\nmtx4_mute=$(wing:mtx4_mute)\nmtx5_level=$(wing:mtx5_level)\nmtx5_mute=$(wing:mtx5_mute)\nmtx6_level=$(wing:mtx6_level)\nmtx6_mute=$(wing:mtx6_mute)\nmtx7_level=$(wing:mtx7_level)\nmtx7_mute=$(wing:mtx7_mute)\nmtx8_level=$(wing:mtx8_level)\nmtx8_mute=$(wing:mtx8_mute)\ndca1_level=$(wing:dca1_level)\ndca1_mute=$(wing:dca1_mute)\ndca2_level=$(wing:dca2_level)\ndca2_mute=$(wing:dca2_mute)\ndca3_level=$(wing:dca3_level)\ndca3_mute=$(wing:dca3_mute)\ndca4_level=$(wing:dca4_level)\ndca4_mute=$(wing:dca4_mute)\ndca5_level=$(wing:dca5_level)\ndca5_mute=$(wing:dca5_mute)\ndca6_level=$(wing:dca6_level)\ndca6_mute=$(wing:dca6_mute)\ndca7_level=$(wing:dca7_level)\ndca7_mute=$(wing:dca7_mute)\ndca8_level=$(wing:dca8_level)\ndca8_mute=$(wing:dca8_mute)\ndca9_level=$(wing:dca9_level)\ndca9_mute=$(wing:dca9_mute)\ndca10_level=$(wing:dca10_level)\ndca10_mute=$(wing:dca10_mute)\ndca11_level=$(wing:dca11_level)\ndca11_mute=$(wing:dca11_mute)\ndca12_level=$(wing:dca12_level)\ndca12_mute=$(wing:dca12_mute)\ndca13_level=$(wing:dca13_level)\ndca13_mute=$(wing:dca13_mute)\ndca14_level=$(wing:dca14_level)\ndca14_mute=$(wing:dca14_mute)\ndca15_level=$(wing:dca15_level)\ndca15_mute=$(wing:dca15_mute)\ndca16_level=$(wing:dca16_level)\ndca16_mute=$(wing:dca16_mute)"
+						},
+						"control": {
+							"isExpression": false,
+							"value": ""
+						},
+						"ignore": {
+							"isExpression": false,
+							"value": ""
+						}
+					}
+				}
+			],
+			"condition": [],
+			"events": [
+				{
+					"id": "Hkllr5XGL5HCnxKh",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch1_level"
+					}
+				},
+				{
+					"id": "6tn6-nDz9IyQXO3A",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch1_mute"
+					}
+				},
+				{
+					"id": "9Yv7p9z_GIUithoX",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch2_level"
+					}
+				},
+				{
+					"id": "5ZWFXQCMR92zzL7M",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch2_mute"
+					}
+				},
+				{
+					"id": "tBXmfKPx2U0usJTU",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch3_level"
+					}
+				},
+				{
+					"id": "qrLdsWXq5AKYWnYa",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch3_mute"
+					}
+				},
+				{
+					"id": "Uc79mMLrK7kxn7RD",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch4_level"
+					}
+				},
+				{
+					"id": "keDrw6mS-VE3Dxu9",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch4_mute"
+					}
+				},
+				{
+					"id": "2ufLH5ObLCJluhPb",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch5_level"
+					}
+				},
+				{
+					"id": "cLdNU_VVGQ-uBkCh",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch5_mute"
+					}
+				},
+				{
+					"id": "9FfB3PO2gxhf0RsL",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch6_level"
+					}
+				},
+				{
+					"id": "P9MsAuVmYyIMiA_S",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch6_mute"
+					}
+				},
+				{
+					"id": "mALPU5ZwFiK2VBTg",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch7_level"
+					}
+				},
+				{
+					"id": "tzuDWlayyIhcROMT",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch7_mute"
+					}
+				},
+				{
+					"id": "Fm2fNJhT_wX_p1kj",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch8_level"
+					}
+				},
+				{
+					"id": "KJDQ8VPumj8Co1vF",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch8_mute"
+					}
+				},
+				{
+					"id": "Y1og577dT5x-gIv9",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch9_level"
+					}
+				},
+				{
+					"id": "eN30eSBlvLWxVxsN",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch9_mute"
+					}
+				},
+				{
+					"id": "jZF0KGFKzVwbkZEr",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch10_level"
+					}
+				},
+				{
+					"id": "RpyfuFaMSUbe53c2",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch10_mute"
+					}
+				},
+				{
+					"id": "-DhmZQNKvUth-9OL",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch11_level"
+					}
+				},
+				{
+					"id": "3VKNRUWjqpQFegpS",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch11_mute"
+					}
+				},
+				{
+					"id": "6gwuztMiIuXTN5h5",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch12_level"
+					}
+				},
+				{
+					"id": "hQleA39ZVnVkMJBr",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch12_mute"
+					}
+				},
+				{
+					"id": "bYX2EdFtewE8nLQl",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch13_level"
+					}
+				},
+				{
+					"id": "2Qe75KE4aJZ2Dieb",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch13_mute"
+					}
+				},
+				{
+					"id": "jZeV5Y5XvoWCKQM_",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch14_level"
+					}
+				},
+				{
+					"id": "OnGZT-_FqWtbqov1",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch14_mute"
+					}
+				},
+				{
+					"id": "R8yjKmSY78HEud3g",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch15_level"
+					}
+				},
+				{
+					"id": "jHD2gWKEeN6cL-DU",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch15_mute"
+					}
+				},
+				{
+					"id": "WmIh-o-7J5RbCXoC",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch16_level"
+					}
+				},
+				{
+					"id": "pQLiI4c8zEK_a1T1",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch16_mute"
+					}
+				},
+				{
+					"id": "IgviCJrgJNs8ePga",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch17_level"
+					}
+				},
+				{
+					"id": "W1XG6SzEoC5st7DC",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch17_mute"
+					}
+				},
+				{
+					"id": "nLbvHaJ9C34cx5ze",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch18_level"
+					}
+				},
+				{
+					"id": "PaJIkdqF2l6M56k7",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch18_mute"
+					}
+				},
+				{
+					"id": "HcUfjmIsTy6dQnI0",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch19_level"
+					}
+				},
+				{
+					"id": "_MbuNy0bdFP_jZmY",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch19_mute"
+					}
+				},
+				{
+					"id": "O9SNTHnRyrkHce8L",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch20_level"
+					}
+				},
+				{
+					"id": "L09FU9mbW6CDMHlq",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch20_mute"
+					}
+				},
+				{
+					"id": "JfNpc9ClnEgHQhAf",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch21_level"
+					}
+				},
+				{
+					"id": "7O4cV8pAXtOzfEbe",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch21_mute"
+					}
+				},
+				{
+					"id": "dOzZJSS8Zk6beZgc",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch22_level"
+					}
+				},
+				{
+					"id": "aBYPaJsHhJzqmnQD",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch22_mute"
+					}
+				},
+				{
+					"id": "5QjvXLGtItJabMvw",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch23_level"
+					}
+				},
+				{
+					"id": "nIh80j_xAxZH2Dc4",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch23_mute"
+					}
+				},
+				{
+					"id": "IznAkD8lwDGaw8S0",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch24_level"
+					}
+				},
+				{
+					"id": "s8mYalv9_f59tLr0",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch24_mute"
+					}
+				},
+				{
+					"id": "9qzok_Q3wJI0JU_h",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch25_level"
+					}
+				},
+				{
+					"id": "WaGVK0fEeSqaFO1-",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch25_mute"
+					}
+				},
+				{
+					"id": "gVC5WP1HSBfQF54r",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch26_level"
+					}
+				},
+				{
+					"id": "dnZh01sMyQZXrVum",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch26_mute"
+					}
+				},
+				{
+					"id": "rDzP8Xrurd5wHySm",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch27_level"
+					}
+				},
+				{
+					"id": "AxqyT3uiqbf8XZOC",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch27_mute"
+					}
+				},
+				{
+					"id": "T4RwTzJPllV5NJax",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch28_level"
+					}
+				},
+				{
+					"id": "52kaq35by2D_ds0d",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch28_mute"
+					}
+				},
+				{
+					"id": "y8UQ0ENXzeC26rtg",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch29_level"
+					}
+				},
+				{
+					"id": "tLxTmgaMX5mZ15FQ",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch29_mute"
+					}
+				},
+				{
+					"id": "pzldrh12V7Esx0zA",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch30_level"
+					}
+				},
+				{
+					"id": "EzCwzjoFNwgH7Ss9",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch30_mute"
+					}
+				},
+				{
+					"id": "eu8eGB0JLQMkpnzN",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch31_level"
+					}
+				},
+				{
+					"id": "jouNNdknIh8BEsju",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch31_mute"
+					}
+				},
+				{
+					"id": "Iqnf9iCjeSZrlmXi",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch32_level"
+					}
+				},
+				{
+					"id": "ZNFSABzj3B7JHqn_",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch32_mute"
+					}
+				},
+				{
+					"id": "9rYgaZcv41A6YyW7",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch33_level"
+					}
+				},
+				{
+					"id": "LbGa5VMB3sfpom6V",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch33_mute"
+					}
+				},
+				{
+					"id": "jpZ9uhRI2_jgQONZ",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch34_level"
+					}
+				},
+				{
+					"id": "eg-63PhQm4kwDtLL",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch34_mute"
+					}
+				},
+				{
+					"id": "kgKrALEYXJ4L1znc",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch35_level"
+					}
+				},
+				{
+					"id": "aVCM4hQ8KOxaCR_Z",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch35_mute"
+					}
+				},
+				{
+					"id": "jdUUSbderfh65yyX",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch36_level"
+					}
+				},
+				{
+					"id": "Kelc4bvxH0YzUV81",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch36_mute"
+					}
+				},
+				{
+					"id": "c8nowiKlOq_U8I4J",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch37_level"
+					}
+				},
+				{
+					"id": "IWv4gECCgUal_Lh2",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch37_mute"
+					}
+				},
+				{
+					"id": "BYYzN6XHujEMLmvD",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch38_level"
+					}
+				},
+				{
+					"id": "Pva1AtKSGT1CuYbi",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch38_mute"
+					}
+				},
+				{
+					"id": "a5UdjI2OPn-inPLJ",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch39_level"
+					}
+				},
+				{
+					"id": "yYkMwRKfn9oXiHlp",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch39_mute"
+					}
+				},
+				{
+					"id": "il-NCAjJmSNJiuP7",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch40_level"
+					}
+				},
+				{
+					"id": "3vuqxbmd93yd6t9D",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:ch40_mute"
+					}
+				},
+				{
+					"id": "cOMWRE9zyIr2R_Z-",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:aux1_level"
+					}
+				},
+				{
+					"id": "O2m9v1zFzYudfuue",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:aux1_mute"
+					}
+				},
+				{
+					"id": "O5UOmkVSS_0hAWMZ",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:aux2_level"
+					}
+				},
+				{
+					"id": "2F7Q-xD0XqeSNh30",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:aux2_mute"
+					}
+				},
+				{
+					"id": "R7Mt65vGql1dwfJB",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:aux3_level"
+					}
+				},
+				{
+					"id": "bAK1Lglr4ke4Q7hI",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:aux3_mute"
+					}
+				},
+				{
+					"id": "4KjEvjrgwuu9nWQ2",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:aux4_level"
+					}
+				},
+				{
+					"id": "4dzA0ms5dZDO0Z_x",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:aux4_mute"
+					}
+				},
+				{
+					"id": "DXwWwz8ifv4K-tGE",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:aux5_level"
+					}
+				},
+				{
+					"id": "lj0T07X9oUgAObBB",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:aux5_mute"
+					}
+				},
+				{
+					"id": "J6jnkn2G2afRwgcg",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:aux6_level"
+					}
+				},
+				{
+					"id": "d2t5ExNIzEDUT-B0",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:aux6_mute"
+					}
+				},
+				{
+					"id": "3C_Vo9cbyS7ifEqG",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:aux7_level"
+					}
+				},
+				{
+					"id": "gPXidbmdOyNd377U",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:aux7_mute"
+					}
+				},
+				{
+					"id": "e5cQyAhqLvAl77jl",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:aux8_level"
+					}
+				},
+				{
+					"id": "CL6C5p2E7PqWZTTq",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:aux8_mute"
+					}
+				},
+				{
+					"id": "mr78rW5v168vKbjO",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus1_level"
+					}
+				},
+				{
+					"id": "RMPlmHMyLW3ocmtA",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus1_mute"
+					}
+				},
+				{
+					"id": "svQZWy3UYURtovV0",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus2_level"
+					}
+				},
+				{
+					"id": "pBvy_34OVHbBmXiE",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus2_mute"
+					}
+				},
+				{
+					"id": "xKGa-JQJz4QWrcgl",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus3_level"
+					}
+				},
+				{
+					"id": "rs1KXMh9Cp7eWWZL",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus3_mute"
+					}
+				},
+				{
+					"id": "l1sRhjtU5xguxIOS",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus4_level"
+					}
+				},
+				{
+					"id": "ZMJyWmlG5c91rWPa",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus4_mute"
+					}
+				},
+				{
+					"id": "SNw3aPqWfBqefYnO",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus5_level"
+					}
+				},
+				{
+					"id": "vuysKdO8wgmVZbIO",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus5_mute"
+					}
+				},
+				{
+					"id": "YDiYVNSHGxRRYTet",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus6_level"
+					}
+				},
+				{
+					"id": "yyUmv-goshLgaZAC",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus6_mute"
+					}
+				},
+				{
+					"id": "fyL9X3Hoxqyhov7a",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus7_level"
+					}
+				},
+				{
+					"id": "_ooQf5SqRhGKa_WS",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus7_mute"
+					}
+				},
+				{
+					"id": "xHskiqx8NFDkHr3S",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus8_level"
+					}
+				},
+				{
+					"id": "Ai3mEXOySFySpYIh",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus8_mute"
+					}
+				},
+				{
+					"id": "mIoLJ7fF1Wya4kJt",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus9_level"
+					}
+				},
+				{
+					"id": "2k2fHwZwJ2R3F8Gu",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus9_mute"
+					}
+				},
+				{
+					"id": "za5WrPa6lhsMJmaj",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus10_level"
+					}
+				},
+				{
+					"id": "fTzGd9C-wbDRe7oV",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus10_mute"
+					}
+				},
+				{
+					"id": "S81gYIDGB5Pe5BFR",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus11_level"
+					}
+				},
+				{
+					"id": "cinsZx4X8jT2YopE",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus11_mute"
+					}
+				},
+				{
+					"id": "XVrTieBUqOeAMfhI",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus12_level"
+					}
+				},
+				{
+					"id": "INUdT54ZWyhIgCWZ",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus12_mute"
+					}
+				},
+				{
+					"id": "IJVbiCmS8YMKW-Fq",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus13_level"
+					}
+				},
+				{
+					"id": "v94S7zbf9ZA5TpX_",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus13_mute"
+					}
+				},
+				{
+					"id": "450YhA6fJJxs2w5Q",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus14_level"
+					}
+				},
+				{
+					"id": "yIj4epR6_LRqfriw",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus14_mute"
+					}
+				},
+				{
+					"id": "2YZX4l2V9HfxuFI5",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus15_level"
+					}
+				},
+				{
+					"id": "jWiiWs4uygkrRXla",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus15_mute"
+					}
+				},
+				{
+					"id": "lBuY9Qx8LgmBAnss",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus16_level"
+					}
+				},
+				{
+					"id": "hvHXiXJxLzq2heKf",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:bus16_mute"
+					}
+				},
+				{
+					"id": "P18gkX93gmOb9LOV",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:main1_level"
+					}
+				},
+				{
+					"id": "y5u3wWb2JrQTMJBl",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:main1_mute"
+					}
+				},
+				{
+					"id": "Lg_ycMtJ6zs_XCKp",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:main2_level"
+					}
+				},
+				{
+					"id": "B15869pcazq63gTC",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:main2_mute"
+					}
+				},
+				{
+					"id": "8BXX51IsLR22URkE",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:main3_level"
+					}
+				},
+				{
+					"id": "OndALhVk25p9SWo9",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:main3_mute"
+					}
+				},
+				{
+					"id": "jC72Xn1fsaEvlsRm",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:main4_level"
+					}
+				},
+				{
+					"id": "R9DvIGCYslxKHS6O",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:main4_mute"
+					}
+				},
+				{
+					"id": "7lstFEVxohDN5kYD",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:mtx1_level"
+					}
+				},
+				{
+					"id": "4_r1DyQCFyfmUce1",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:mtx1_mute"
+					}
+				},
+				{
+					"id": "M5IfjzNug_lBDTc1",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:mtx2_level"
+					}
+				},
+				{
+					"id": "S_qjzWeuTleMgAwc",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:mtx2_mute"
+					}
+				},
+				{
+					"id": "PkK9bR8pR66j_HST",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:mtx3_level"
+					}
+				},
+				{
+					"id": "r9LrlBhYmYaCLS7D",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:mtx3_mute"
+					}
+				},
+				{
+					"id": "Qxw89zzj61BRS7H0",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:mtx4_level"
+					}
+				},
+				{
+					"id": "h_dL3dEHPiXnw8fO",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:mtx4_mute"
+					}
+				},
+				{
+					"id": "O1E3O36p-7Q38_Fu",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:mtx5_level"
+					}
+				},
+				{
+					"id": "IKJK0L2muzssJcnh",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:mtx5_mute"
+					}
+				},
+				{
+					"id": "lD3xZpsnLMJXc_6A",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:mtx6_level"
+					}
+				},
+				{
+					"id": "eMw03yDyeBmFK12h",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:mtx6_mute"
+					}
+				},
+				{
+					"id": "6ddJ-3pHF2Ngk5Ym",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:mtx7_level"
+					}
+				},
+				{
+					"id": "3_tt0-z6uFb9maOe",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:mtx7_mute"
+					}
+				},
+				{
+					"id": "lilg4ISUaLJL_gla",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:mtx8_level"
+					}
+				},
+				{
+					"id": "fAggXlyTbIBNsxiY",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:mtx8_mute"
+					}
+				},
+				{
+					"id": "V4Ad3QjJTnX5Iueq",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca1_level"
+					}
+				},
+				{
+					"id": "SCBivEEqswgcZ2yR",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca1_mute"
+					}
+				},
+				{
+					"id": "5etwltzTxjB-Chu0",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca2_level"
+					}
+				},
+				{
+					"id": "_iYG38Lr5e9m4SIs",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca2_mute"
+					}
+				},
+				{
+					"id": "YW7mYsHk6YQQjg7z",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca3_level"
+					}
+				},
+				{
+					"id": "J5DXt70ZIpd8bxQ0",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca3_mute"
+					}
+				},
+				{
+					"id": "wzXLeaH55ib0MISY",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca4_level"
+					}
+				},
+				{
+					"id": "4l6odnyn9L6HJ_db",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca4_mute"
+					}
+				},
+				{
+					"id": "jgFdoyu_0hc-jIhv",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca5_level"
+					}
+				},
+				{
+					"id": "wRXQ_6W1UkDsCqw5",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca5_mute"
+					}
+				},
+				{
+					"id": "vN3DjsJwC-QhYzUz",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca6_level"
+					}
+				},
+				{
+					"id": "hpOwmGCh0cC_If4F",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca6_mute"
+					}
+				},
+				{
+					"id": "Yuajjbu1wG1rTxHo",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca7_level"
+					}
+				},
+				{
+					"id": "94-bjOjPXmJz481j",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca7_mute"
+					}
+				},
+				{
+					"id": "uxm6amCa40-Z4a2M",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca8_level"
+					}
+				},
+				{
+					"id": "uJQlNL5e-1IxHOHT",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca8_mute"
+					}
+				},
+				{
+					"id": "5_axZgQ-Oj1_d48X",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca9_level"
+					}
+				},
+				{
+					"id": "YYgl7wwSNuNPf-N3",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca9_mute"
+					}
+				},
+				{
+					"id": "aLdCvP_MsRWDWKlH",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca10_level"
+					}
+				},
+				{
+					"id": "h0AMBjATYFjEKphY",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca10_mute"
+					}
+				},
+				{
+					"id": "GhfwiidplzSk9Ixh",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca11_level"
+					}
+				},
+				{
+					"id": "719rA_Oxd1VISy4q",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca11_mute"
+					}
+				},
+				{
+					"id": "h0NsBsN56wD9PB-N",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca12_level"
+					}
+				},
+				{
+					"id": "aQIADBTd0ygASPD5",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca12_mute"
+					}
+				},
+				{
+					"id": "Zh4tbHhA-DRs94cj",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca13_level"
+					}
+				},
+				{
+					"id": "TwT_0RFA_7da5HFx",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca13_mute"
+					}
+				},
+				{
+					"id": "YsF3C90QwQjZBAor",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca14_level"
+					}
+				},
+				{
+					"id": "BpWpPylWbKMc0P-a",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca14_mute"
+					}
+				},
+				{
+					"id": "qD-vTVCWo0aomVsh",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca15_level"
+					}
+				},
+				{
+					"id": "jMIYiPUysEJCUFpR",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca15_mute"
+					}
+				},
+				{
+					"id": "mUJ1wQ3V5AbT5B3D",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca16_level"
+					}
+				},
+				{
+					"id": "hmO__2XJZdqtISHg",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "wing:dca16_mute"
+					}
+				}
+			],
+			"localVariables": []
+		}
+	},
+	"instances": {
+		"villageConnection": {
+			"moduleInstanceType": "connection",
+			"moduleId": "companion-village",
+			"label": "village",
+			"config": {},
+			"enabled": true
+		},
+		"deskConnection": {
+			"moduleInstanceType": "connection",
+			"moduleId": "behringer-wing",
+			"label": "wing",
+			"config": {},
+			"enabled": true
+		}
+	}
+}

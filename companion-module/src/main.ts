@@ -7,6 +7,7 @@ import { UpdateActions, type ActionsSchema } from './actions.js'
 import { UpdateFeedbacks, type FeedbacksSchema } from './feedbacks.js'
 import { UpdatePresets } from './presets.js'
 import { VillageServer } from './server.js'
+import { DeskCounter } from './desks.js'
 import { TRIBES, type TribeId, type VillageAction, type VillageState, type VillageTribeState } from './protocol.js'
 
 export type ModuleSchema = {
@@ -33,7 +34,12 @@ const ALL_FEEDBACKS = [
 	'night',
 	'paused',
 	'tribe_color',
+	'desk_scoring',
 ] as const
+
+/** a number from the config, where 0 is a valid value */
+const num = (v: unknown, def: number): number =>
+	v === '' || v === undefined || v === null || isNaN(Number(v)) ? def : Number(v)
 
 export default class ModuleInstance extends InstanceBase<ModuleSchema> {
 	config!: ModuleConfig
@@ -45,6 +51,19 @@ export default class ModuleInstance extends InstanceBase<ModuleSchema> {
 		tribe: () => this.config.tribe,
 		label: () => this.label,
 	})
+	readonly desks = new DeskCounter(
+		() => ({
+			gapMs: this.config.deskGap,
+			togetherMs: this.config.deskTogether,
+			repeatMs: this.config.deskRepeat * 1000,
+			perMinute: this.config.deskPerMinute,
+		}),
+		(desk, control) => {
+			this.send({ type: 'press', tribe: desk.tribe, n: 1 })
+			this.log('debug', `Desk ${desk.name}: ${control} → +1 year for ${desk.tribe}`)
+			this.#dirty = true
+		},
+	)
 	#timer: NodeJS.Timeout | null = null
 	#dirty = false
 	#wasConnected = false
@@ -131,6 +150,11 @@ export default class ModuleInstance extends InstanceBase<ModuleSchema> {
 		return Date.now() - this.lastSync < this.config.timeout * 1000
 	}
 
+	/** Something changed on the variables of the desk monitor (refresh them soon) */
+	deskChanged(): void {
+		this.#dirty = true
+	}
+
 	/** Queue an action for the village page(s) */
 	send(action: VillageAction): void {
 		this.server.push(action)
@@ -143,6 +167,10 @@ export default class ModuleInstance extends InstanceBase<ModuleSchema> {
 			bind: c.bind || '',
 			tribe: (TRIBES.some((t) => t.id === c.tribe) ? c.tribe : 'pixels') as TribeId,
 			timeout: Number(c.timeout) || 5,
+			deskGap: num(c.deskGap, 800),
+			deskTogether: num(c.deskTogether, 300),
+			deskRepeat: num(c.deskRepeat, 2),
+			deskPerMinute: num(c.deskPerMinute, 30),
 		}
 	}
 

@@ -1,0 +1,2477 @@
+{
+	"type": "trigger_list",
+	"version": 12,
+	"triggers": {
+		"XJQ1AkYBbFlsGl-S": {
+			"type": "trigger",
+			"options": {
+				"name": "Village desk: Behringer X32 / M32",
+				"enabled": true,
+				"sortOrder": 0
+			},
+			"actions": [
+				{
+					"id": "zHSmekra62TK1KbE",
+					"definitionId": "desk_activity",
+					"connectionId": "villageConnection",
+					"type": "action",
+					"options": {
+						"tribe": {
+							"isExpression": false,
+							"value": "noises"
+						},
+						"desk": {
+							"isExpression": false,
+							"value": "Behringer X32 / M32"
+						},
+						"mode": {
+							"isExpression": false,
+							"value": "values"
+						},
+						"values": {
+							"isExpression": false,
+							"value": "ch1_fader=$(x32:fader_ch_01)\nch1_mute=$(local:ch1_mute)\nch2_fader=$(x32:fader_ch_02)\nch2_mute=$(local:ch2_mute)\nch3_fader=$(x32:fader_ch_03)\nch3_mute=$(local:ch3_mute)\nch4_fader=$(x32:fader_ch_04)\nch4_mute=$(local:ch4_mute)\nch5_fader=$(x32:fader_ch_05)\nch5_mute=$(local:ch5_mute)\nch6_fader=$(x32:fader_ch_06)\nch6_mute=$(local:ch6_mute)\nch7_fader=$(x32:fader_ch_07)\nch7_mute=$(local:ch7_mute)\nch8_fader=$(x32:fader_ch_08)\nch8_mute=$(local:ch8_mute)\nch9_fader=$(x32:fader_ch_09)\nch9_mute=$(local:ch9_mute)\nch10_fader=$(x32:fader_ch_10)\nch10_mute=$(local:ch10_mute)\nch11_fader=$(x32:fader_ch_11)\nch11_mute=$(local:ch11_mute)\nch12_fader=$(x32:fader_ch_12)\nch12_mute=$(local:ch12_mute)\nch13_fader=$(x32:fader_ch_13)\nch13_mute=$(local:ch13_mute)\nch14_fader=$(x32:fader_ch_14)\nch14_mute=$(local:ch14_mute)\nch15_fader=$(x32:fader_ch_15)\nch15_mute=$(local:ch15_mute)\nch16_fader=$(x32:fader_ch_16)\nch16_mute=$(local:ch16_mute)\nch17_fader=$(x32:fader_ch_17)\nch17_mute=$(local:ch17_mute)\nch18_fader=$(x32:fader_ch_18)\nch18_mute=$(local:ch18_mute)\nch19_fader=$(x32:fader_ch_19)\nch19_mute=$(local:ch19_mute)\nch20_fader=$(x32:fader_ch_20)\nch20_mute=$(local:ch20_mute)\nch21_fader=$(x32:fader_ch_21)\nch21_mute=$(local:ch21_mute)\nch22_fader=$(x32:fader_ch_22)\nch22_mute=$(local:ch22_mute)\nch23_fader=$(x32:fader_ch_23)\nch23_mute=$(local:ch23_mute)\nch24_fader=$(x32:fader_ch_24)\nch24_mute=$(local:ch24_mute)\nch25_fader=$(x32:fader_ch_25)\nch25_mute=$(local:ch25_mute)\nch26_fader=$(x32:fader_ch_26)\nch26_mute=$(local:ch26_mute)\nch27_fader=$(x32:fader_ch_27)\nch27_mute=$(local:ch27_mute)\nch28_fader=$(x32:fader_ch_28)\nch28_mute=$(local:ch28_mute)\nch29_fader=$(x32:fader_ch_29)\nch29_mute=$(local:ch29_mute)\nch30_fader=$(x32:fader_ch_30)\nch30_mute=$(local:ch30_mute)\nch31_fader=$(x32:fader_ch_31)\nch31_mute=$(local:ch31_mute)\nch32_fader=$(x32:fader_ch_32)\nch32_mute=$(local:ch32_mute)\naux1_fader=$(x32:fader_auxin_01)\naux1_mute=$(local:aux1_mute)\naux2_fader=$(x32:fader_auxin_02)\naux2_mute=$(local:aux2_mute)\naux3_fader=$(x32:fader_auxin_03)\naux3_mute=$(local:aux3_mute)\naux4_fader=$(x32:fader_auxin_04)\naux4_mute=$(local:aux4_mute)\naux5_fader=$(x32:fader_auxin_05)\naux5_mute=$(local:aux5_mute)\naux6_fader=$(x32:fader_auxin_06)\naux6_mute=$(local:aux6_mute)\naux7_fader=$(x32:fader_auxin_07)\naux7_mute=$(local:aux7_mute)\naux8_fader=$(x32:fader_auxin_08)\naux8_mute=$(local:aux8_mute)\nfx1_fader=$(x32:fader_fxrtn_01)\nfx1_mute=$(local:fx1_mute)\nfx2_fader=$(x32:fader_fxrtn_02)\nfx2_mute=$(local:fx2_mute)\nfx3_fader=$(x32:fader_fxrtn_03)\nfx3_mute=$(local:fx3_mute)\nfx4_fader=$(x32:fader_fxrtn_04)\nfx4_mute=$(local:fx4_mute)\nfx5_fader=$(x32:fader_fxrtn_05)\nfx5_mute=$(local:fx5_mute)\nfx6_fader=$(x32:fader_fxrtn_06)\nfx6_mute=$(local:fx6_mute)\nfx7_fader=$(x32:fader_fxrtn_07)\nfx7_mute=$(local:fx7_mute)\nfx8_fader=$(x32:fader_fxrtn_08)\nfx8_mute=$(local:fx8_mute)\nbus1_fader=$(x32:fader_bus_01)\nbus1_mute=$(local:bus1_mute)\nbus2_fader=$(x32:fader_bus_02)\nbus2_mute=$(local:bus2_mute)\nbus3_fader=$(x32:fader_bus_03)\nbus3_mute=$(local:bus3_mute)\nbus4_fader=$(x32:fader_bus_04)\nbus4_mute=$(local:bus4_mute)\nbus5_fader=$(x32:fader_bus_05)\nbus5_mute=$(local:bus5_mute)\nbus6_fader=$(x32:fader_bus_06)\nbus6_mute=$(local:bus6_mute)\nbus7_fader=$(x32:fader_bus_07)\nbus7_mute=$(local:bus7_mute)\nbus8_fader=$(x32:fader_bus_08)\nbus8_mute=$(local:bus8_mute)\nbus9_fader=$(x32:fader_bus_09)\nbus9_mute=$(local:bus9_mute)\nbus10_fader=$(x32:fader_bus_10)\nbus10_mute=$(local:bus10_mute)\nbus11_fader=$(x32:fader_bus_11)\nbus11_mute=$(local:bus11_mute)\nbus12_fader=$(x32:fader_bus_12)\nbus12_mute=$(local:bus12_mute)\nbus13_fader=$(x32:fader_bus_13)\nbus13_mute=$(local:bus13_mute)\nbus14_fader=$(x32:fader_bus_14)\nbus14_mute=$(local:bus14_mute)\nbus15_fader=$(x32:fader_bus_15)\nbus15_mute=$(local:bus15_mute)\nbus16_fader=$(x32:fader_bus_16)\nbus16_mute=$(local:bus16_mute)\nmtx1_fader=$(x32:fader_mtx_01)\nmtx1_mute=$(local:mtx1_mute)\nmtx2_fader=$(x32:fader_mtx_02)\nmtx2_mute=$(local:mtx2_mute)\nmtx3_fader=$(x32:fader_mtx_03)\nmtx3_mute=$(local:mtx3_mute)\nmtx4_fader=$(x32:fader_mtx_04)\nmtx4_mute=$(local:mtx4_mute)\nmtx5_fader=$(x32:fader_mtx_05)\nmtx5_mute=$(local:mtx5_mute)\nmtx6_fader=$(x32:fader_mtx_06)\nmtx6_mute=$(local:mtx6_mute)\ndca1_fader=$(x32:fader_dca_1)\ndca1_mute=$(local:dca1_mute)\ndca2_fader=$(x32:fader_dca_2)\ndca2_mute=$(local:dca2_mute)\ndca3_fader=$(x32:fader_dca_3)\ndca3_mute=$(local:dca3_mute)\ndca4_fader=$(x32:fader_dca_4)\ndca4_mute=$(local:dca4_mute)\ndca5_fader=$(x32:fader_dca_5)\ndca5_mute=$(local:dca5_mute)\ndca6_fader=$(x32:fader_dca_6)\ndca6_mute=$(local:dca6_mute)\ndca7_fader=$(x32:fader_dca_7)\ndca7_mute=$(local:dca7_mute)\ndca8_fader=$(x32:fader_dca_8)\ndca8_mute=$(local:dca8_mute)\nmain_fader=$(x32:fader_main_st)\nmain_mute=$(local:main_mute)\nmono_fader=$(x32:fader_main_m)\nmono_mute=$(local:mono_mute)\nselect=$(x32:selected_channel)"
+						},
+						"control": {
+							"isExpression": false,
+							"value": ""
+						},
+						"ignore": {
+							"isExpression": false,
+							"value": ""
+						}
+					}
+				}
+			],
+			"condition": [],
+			"events": [
+				{
+					"id": "ykQ1CDFUrqdyq_QA",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_01"
+					}
+				},
+				{
+					"id": "TsnH2ib0FtRoUmg3",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch1_mute"
+					}
+				},
+				{
+					"id": "4DIOT6Y4jV11j__L",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_02"
+					}
+				},
+				{
+					"id": "xej5GI7hHXBugYhi",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch2_mute"
+					}
+				},
+				{
+					"id": "bnXrRTwUMRA4AeaU",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_03"
+					}
+				},
+				{
+					"id": "TXzP6fZcPydKrlFS",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch3_mute"
+					}
+				},
+				{
+					"id": "epa7jtojlvzfiivP",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_04"
+					}
+				},
+				{
+					"id": "EqB77Kb6XMFfTpA8",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch4_mute"
+					}
+				},
+				{
+					"id": "SQ3g2AV-Kh6wBXk5",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_05"
+					}
+				},
+				{
+					"id": "FmFWChO5sBrq0Cux",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch5_mute"
+					}
+				},
+				{
+					"id": "_pP3aHz9kbgar5In",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_06"
+					}
+				},
+				{
+					"id": "Cv0j7FhY8uLTU3gy",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch6_mute"
+					}
+				},
+				{
+					"id": "K9DL46waaQFIMnEA",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_07"
+					}
+				},
+				{
+					"id": "AkNLARgSHEVFBb4N",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch7_mute"
+					}
+				},
+				{
+					"id": "y-jeUSjXVtSMRfKw",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_08"
+					}
+				},
+				{
+					"id": "KUH-8nVfOig0wbeb",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch8_mute"
+					}
+				},
+				{
+					"id": "EpJQ13tDgvPdxWAb",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_09"
+					}
+				},
+				{
+					"id": "wBPpEVhFcn4-Wkcm",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch9_mute"
+					}
+				},
+				{
+					"id": "u8EzbPUWhKPKtLts",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_10"
+					}
+				},
+				{
+					"id": "wDNsi3DFwY2VtMEh",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch10_mute"
+					}
+				},
+				{
+					"id": "cL9TZW5cGbyrZzEg",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_11"
+					}
+				},
+				{
+					"id": "gyKyiu0sk_E6-jwq",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch11_mute"
+					}
+				},
+				{
+					"id": "xeX_7DK7zhdAH1r1",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_12"
+					}
+				},
+				{
+					"id": "jcJnqqqPLiGL7_75",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch12_mute"
+					}
+				},
+				{
+					"id": "U2mwY_bL1e9I4sf7",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_13"
+					}
+				},
+				{
+					"id": "kaypbzb-vVpqKtSH",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch13_mute"
+					}
+				},
+				{
+					"id": "dN4pPlJnZjkndxUS",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_14"
+					}
+				},
+				{
+					"id": "sgMPF8n2t803_QZw",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch14_mute"
+					}
+				},
+				{
+					"id": "zAXQN-SrzXl5gLaS",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_15"
+					}
+				},
+				{
+					"id": "efe8HiXt0EgSDGbj",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch15_mute"
+					}
+				},
+				{
+					"id": "4s5dCnsEX65zdO34",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_16"
+					}
+				},
+				{
+					"id": "-Uy_jrsyZlOuW_Vf",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch16_mute"
+					}
+				},
+				{
+					"id": "EhkOFPOQoJ7J6kV-",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_17"
+					}
+				},
+				{
+					"id": "Jx4P7CdezQHO3Se4",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch17_mute"
+					}
+				},
+				{
+					"id": "y7zWCTo5dQL90mcF",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_18"
+					}
+				},
+				{
+					"id": "kuIKvA6brHkmmOTe",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch18_mute"
+					}
+				},
+				{
+					"id": "lfE5HBwYxVd8qTuC",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_19"
+					}
+				},
+				{
+					"id": "jAJwx4w8ZjxJSQLt",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch19_mute"
+					}
+				},
+				{
+					"id": "4_TkIs5XNKaVhYBA",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_20"
+					}
+				},
+				{
+					"id": "ENA5LEbT6PreEsL3",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch20_mute"
+					}
+				},
+				{
+					"id": "j_nNxocIt-yml5P-",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_21"
+					}
+				},
+				{
+					"id": "gbQsAzJuHzWn94Jf",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch21_mute"
+					}
+				},
+				{
+					"id": "Lfr1baDRWIawf2Iu",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_22"
+					}
+				},
+				{
+					"id": "N9lxzGhUoZQ7zdKA",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch22_mute"
+					}
+				},
+				{
+					"id": "IswhrfSrr2u6A6yE",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_23"
+					}
+				},
+				{
+					"id": "x8qUdmtOsmb9WqIu",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch23_mute"
+					}
+				},
+				{
+					"id": "FqX0xAZ-7ophQQKG",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_24"
+					}
+				},
+				{
+					"id": "zKyXF7vlq_-f5IOu",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch24_mute"
+					}
+				},
+				{
+					"id": "3i0k0rJaF9uKZmP1",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_25"
+					}
+				},
+				{
+					"id": "kQfncKUVobYqadiT",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch25_mute"
+					}
+				},
+				{
+					"id": "9KQMqv2tN-a4_RTe",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_26"
+					}
+				},
+				{
+					"id": "ltI-t9jy4X9O6wfT",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch26_mute"
+					}
+				},
+				{
+					"id": "jfRbqGwcUT4OprIN",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_27"
+					}
+				},
+				{
+					"id": "ra-XwaoEjteJJ8_D",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch27_mute"
+					}
+				},
+				{
+					"id": "DaW_iX_ibP7KEag5",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_28"
+					}
+				},
+				{
+					"id": "BS31Hw1iwLS7rq0W",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch28_mute"
+					}
+				},
+				{
+					"id": "jiS5yeeYndO97mvK",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_29"
+					}
+				},
+				{
+					"id": "VOe_MuFyhsOqI0N_",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch29_mute"
+					}
+				},
+				{
+					"id": "2iSFhv792DXwZqV0",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_30"
+					}
+				},
+				{
+					"id": "Yp4RVtKbuOzKHPAE",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch30_mute"
+					}
+				},
+				{
+					"id": "MRqF1vjpocYAMRZS",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_31"
+					}
+				},
+				{
+					"id": "kERtrpVjHkxO6MfM",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch31_mute"
+					}
+				},
+				{
+					"id": "nmMaC1TUUczcw0zl",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_ch_32"
+					}
+				},
+				{
+					"id": "k3_cEQXk4Al82njK",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:ch32_mute"
+					}
+				},
+				{
+					"id": "vqLJs2iqOIITOlfI",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_auxin_01"
+					}
+				},
+				{
+					"id": "sqS3emvZ9JBJF8En",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:aux1_mute"
+					}
+				},
+				{
+					"id": "conWA7dThLzmf6Ek",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_auxin_02"
+					}
+				},
+				{
+					"id": "LdU_K58BmIuIi5-j",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:aux2_mute"
+					}
+				},
+				{
+					"id": "GR5TSQ7WJ8vh7gHJ",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_auxin_03"
+					}
+				},
+				{
+					"id": "CS9DGDcWWs89onxz",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:aux3_mute"
+					}
+				},
+				{
+					"id": "AFSc5VGqcnwwmeSf",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_auxin_04"
+					}
+				},
+				{
+					"id": "ExIZqioczTDIgDU2",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:aux4_mute"
+					}
+				},
+				{
+					"id": "9-xM4SLtHEisYdX2",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_auxin_05"
+					}
+				},
+				{
+					"id": "KoC18nDIpoiZPU5c",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:aux5_mute"
+					}
+				},
+				{
+					"id": "MpjGL9mKgYeeSDSO",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_auxin_06"
+					}
+				},
+				{
+					"id": "f2VqKRuax8b1ZKxP",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:aux6_mute"
+					}
+				},
+				{
+					"id": "S4la6tDFyF5r4Npt",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_auxin_07"
+					}
+				},
+				{
+					"id": "qBw1QWTAdLENkJkx",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:aux7_mute"
+					}
+				},
+				{
+					"id": "C-3w1AdJQQ1z5yNS",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_auxin_08"
+					}
+				},
+				{
+					"id": "TQ0H0CkmaU3KNeQO",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:aux8_mute"
+					}
+				},
+				{
+					"id": "JFEtGsXGG25x4qNp",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_fxrtn_01"
+					}
+				},
+				{
+					"id": "PtKvEQ2y7xrDGjvC",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:fx1_mute"
+					}
+				},
+				{
+					"id": "Dc0nEj4p9wfskE_4",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_fxrtn_02"
+					}
+				},
+				{
+					"id": "P_d3O2gaGY_EUzV6",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:fx2_mute"
+					}
+				},
+				{
+					"id": "p9dDYMaJ5b7KN7uo",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_fxrtn_03"
+					}
+				},
+				{
+					"id": "spjccnN5LpuBGlk4",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:fx3_mute"
+					}
+				},
+				{
+					"id": "XrJdMF0hijTW4ZTr",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_fxrtn_04"
+					}
+				},
+				{
+					"id": "uZsdn9vc5nwH4hCZ",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:fx4_mute"
+					}
+				},
+				{
+					"id": "77QMpmWBmoNBz1g2",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_fxrtn_05"
+					}
+				},
+				{
+					"id": "E_Qp-WxVOtz_2tVp",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:fx5_mute"
+					}
+				},
+				{
+					"id": "4LyaukLstulfQBQ5",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_fxrtn_06"
+					}
+				},
+				{
+					"id": "4bXXU0IbQ0oRPaOL",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:fx6_mute"
+					}
+				},
+				{
+					"id": "-bgkWm5GoFNoSkJe",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_fxrtn_07"
+					}
+				},
+				{
+					"id": "yNPYyZMhSK-Cpxpc",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:fx7_mute"
+					}
+				},
+				{
+					"id": "N18uPCp5rVR6drDT",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_fxrtn_08"
+					}
+				},
+				{
+					"id": "saL4wc-LOniOdj-m",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:fx8_mute"
+					}
+				},
+				{
+					"id": "L3_lLfWQ2z66yHVU",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_bus_01"
+					}
+				},
+				{
+					"id": "PDdW71xdncGa44U3",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:bus1_mute"
+					}
+				},
+				{
+					"id": "JvS2f321GpMit7oN",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_bus_02"
+					}
+				},
+				{
+					"id": "zlX18p6Ex-1sXRNq",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:bus2_mute"
+					}
+				},
+				{
+					"id": "3z9nnJ0Q-W1CRv9p",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_bus_03"
+					}
+				},
+				{
+					"id": "A1eHYCM3wPz8dM_Q",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:bus3_mute"
+					}
+				},
+				{
+					"id": "soyqTe6EEaBenlZx",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_bus_04"
+					}
+				},
+				{
+					"id": "s4r_MH8nkz0R8f6I",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:bus4_mute"
+					}
+				},
+				{
+					"id": "tT--Jqle3s-9Juup",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_bus_05"
+					}
+				},
+				{
+					"id": "Ihj4dM7udcyJFIwF",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:bus5_mute"
+					}
+				},
+				{
+					"id": "hR01b7dxP6kyTJ8l",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_bus_06"
+					}
+				},
+				{
+					"id": "4CYj3ueRUnuf_3rv",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:bus6_mute"
+					}
+				},
+				{
+					"id": "c9TiJ8K93Tc_9JvP",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_bus_07"
+					}
+				},
+				{
+					"id": "Mu9opOY0G8DCAD2q",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:bus7_mute"
+					}
+				},
+				{
+					"id": "UGZaIQzM7FUlS0hr",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_bus_08"
+					}
+				},
+				{
+					"id": "bGgnKS1cJH6pPzZ0",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:bus8_mute"
+					}
+				},
+				{
+					"id": "mb91tTW3PXkYczxO",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_bus_09"
+					}
+				},
+				{
+					"id": "0l2cdMo7zN6uLfEl",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:bus9_mute"
+					}
+				},
+				{
+					"id": "aX7J9Q4xb7xyT8--",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_bus_10"
+					}
+				},
+				{
+					"id": "DjT53De7JWcmdv80",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:bus10_mute"
+					}
+				},
+				{
+					"id": "hW4FLP804y4wLBqV",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_bus_11"
+					}
+				},
+				{
+					"id": "V2A935uSzNAdCod3",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:bus11_mute"
+					}
+				},
+				{
+					"id": "Tdtgr6Zp-Fz6AY0Z",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_bus_12"
+					}
+				},
+				{
+					"id": "_20WWSgi1Yn9f7X3",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:bus12_mute"
+					}
+				},
+				{
+					"id": "GmfJXbF63gLX01kd",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_bus_13"
+					}
+				},
+				{
+					"id": "jiryzohPnGq7sqn2",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:bus13_mute"
+					}
+				},
+				{
+					"id": "GFwlTChbjRnJ1FgL",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_bus_14"
+					}
+				},
+				{
+					"id": "0Z1po2tXkiHtdo0N",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:bus14_mute"
+					}
+				},
+				{
+					"id": "B2EIh4DjEOYTqJAf",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_bus_15"
+					}
+				},
+				{
+					"id": "g3OXqfg3znNb_jia",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:bus15_mute"
+					}
+				},
+				{
+					"id": "mmCZlxdl3qlqbIDt",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_bus_16"
+					}
+				},
+				{
+					"id": "oeiZ1rvIbXEGk_gz",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:bus16_mute"
+					}
+				},
+				{
+					"id": "RN9VgGQQMbgag2uL",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_mtx_01"
+					}
+				},
+				{
+					"id": "mmjswSHSrizvEJ1C",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mtx1_mute"
+					}
+				},
+				{
+					"id": "oRWOit5HN4XxqBoc",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_mtx_02"
+					}
+				},
+				{
+					"id": "CfE3WkXjVP1BUOeg",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mtx2_mute"
+					}
+				},
+				{
+					"id": "T3V6vDrmC4QF_6xn",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_mtx_03"
+					}
+				},
+				{
+					"id": "7qUNGwrUkqE99rH1",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mtx3_mute"
+					}
+				},
+				{
+					"id": "_CzDHW7npkj_1Cyk",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_mtx_04"
+					}
+				},
+				{
+					"id": "LJFR-B3zn67HVhoK",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mtx4_mute"
+					}
+				},
+				{
+					"id": "wqlrmEBRj9pIDLfE",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_mtx_05"
+					}
+				},
+				{
+					"id": "8Kiw-OxnfJTUC50Q",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mtx5_mute"
+					}
+				},
+				{
+					"id": "Lx9fsKYjb_8GctV7",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_mtx_06"
+					}
+				},
+				{
+					"id": "KiQR-Md8mVm8U82i",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mtx6_mute"
+					}
+				},
+				{
+					"id": "vDivHI0GAT1AtxwT",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_dca_1"
+					}
+				},
+				{
+					"id": "9lbMFHSIV03G0lbL",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca1_mute"
+					}
+				},
+				{
+					"id": "3OX_njeMwu3OvlSw",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_dca_2"
+					}
+				},
+				{
+					"id": "oeNh0XXxuOogfS1q",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca2_mute"
+					}
+				},
+				{
+					"id": "eB36PKsQsAtihcxN",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_dca_3"
+					}
+				},
+				{
+					"id": "RQ_HwMqFdqPkQ7Ib",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca3_mute"
+					}
+				},
+				{
+					"id": "8XD7jBq8lP3a_d76",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_dca_4"
+					}
+				},
+				{
+					"id": "RkDxdPpICeAkkLFV",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca4_mute"
+					}
+				},
+				{
+					"id": "jjbP3uQxcLoePRAU",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_dca_5"
+					}
+				},
+				{
+					"id": "bvLHJXjtqjhxD7kk",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca5_mute"
+					}
+				},
+				{
+					"id": "D-w7Zy5pzAHhABf2",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_dca_6"
+					}
+				},
+				{
+					"id": "Gx3LSRusZ6i1ufR9",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca6_mute"
+					}
+				},
+				{
+					"id": "i7ZdmmxWpDX7W2M_",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_dca_7"
+					}
+				},
+				{
+					"id": "FR_FDBRgg-BVFcdD",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca7_mute"
+					}
+				},
+				{
+					"id": "lnIzkq8elk4eGjTF",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_dca_8"
+					}
+				},
+				{
+					"id": "D7D51MRYLb8M3Jni",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca8_mute"
+					}
+				},
+				{
+					"id": "JYyCfmjLPjA0GqXS",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_main_st"
+					}
+				},
+				{
+					"id": "fWRybIZDjuBph6EZ",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:main_mute"
+					}
+				},
+				{
+					"id": "P6FKjD87HjG9Dd_r",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:fader_main_m"
+					}
+				},
+				{
+					"id": "yBgdsv93zNhz2V4E",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mono_mute"
+					}
+				},
+				{
+					"id": "IpohKPKrify8py5G",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "x32:selected_channel"
+					}
+				}
+			],
+			"localVariables": [
+				{
+					"id": "PcNbyjx11SCM5QqQ",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel1"
+						}
+					},
+					"variableName": "ch1_mute",
+					"isInverted": false
+				},
+				{
+					"id": "wR4Y7An8uLfoBlud",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel2"
+						}
+					},
+					"variableName": "ch2_mute",
+					"isInverted": false
+				},
+				{
+					"id": "BYdVmYl6zfbkxiMC",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel3"
+						}
+					},
+					"variableName": "ch3_mute",
+					"isInverted": false
+				},
+				{
+					"id": "qMZU6z6hMmp15LVi",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel4"
+						}
+					},
+					"variableName": "ch4_mute",
+					"isInverted": false
+				},
+				{
+					"id": "gZ-tESWz9pwMhwCM",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel5"
+						}
+					},
+					"variableName": "ch5_mute",
+					"isInverted": false
+				},
+				{
+					"id": "_6n2CCwktd1Ckekl",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel6"
+						}
+					},
+					"variableName": "ch6_mute",
+					"isInverted": false
+				},
+				{
+					"id": "guQTNONB61ECUSM3",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel7"
+						}
+					},
+					"variableName": "ch7_mute",
+					"isInverted": false
+				},
+				{
+					"id": "7jCkTjIM_L9Nuod3",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel8"
+						}
+					},
+					"variableName": "ch8_mute",
+					"isInverted": false
+				},
+				{
+					"id": "_YprvUBaNXlU7ucW",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel9"
+						}
+					},
+					"variableName": "ch9_mute",
+					"isInverted": false
+				},
+				{
+					"id": "Lw1hiHfEG1aEbuKc",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel10"
+						}
+					},
+					"variableName": "ch10_mute",
+					"isInverted": false
+				},
+				{
+					"id": "ZpNEKy9_lAbIrWFr",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel11"
+						}
+					},
+					"variableName": "ch11_mute",
+					"isInverted": false
+				},
+				{
+					"id": "ckyEGkIeZ85rmsVK",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel12"
+						}
+					},
+					"variableName": "ch12_mute",
+					"isInverted": false
+				},
+				{
+					"id": "NbeiuSNS_ujmEI0L",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel13"
+						}
+					},
+					"variableName": "ch13_mute",
+					"isInverted": false
+				},
+				{
+					"id": "ChPDgwiDPfLaSxuW",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel14"
+						}
+					},
+					"variableName": "ch14_mute",
+					"isInverted": false
+				},
+				{
+					"id": "ukXrrwBsJ5yym6JT",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel15"
+						}
+					},
+					"variableName": "ch15_mute",
+					"isInverted": false
+				},
+				{
+					"id": "cWusFUBDwg9XPJu_",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel16"
+						}
+					},
+					"variableName": "ch16_mute",
+					"isInverted": false
+				},
+				{
+					"id": "PIUxwX2i_TJ6JlQi",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel17"
+						}
+					},
+					"variableName": "ch17_mute",
+					"isInverted": false
+				},
+				{
+					"id": "AXmwC6DPVf0t77Kd",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel18"
+						}
+					},
+					"variableName": "ch18_mute",
+					"isInverted": false
+				},
+				{
+					"id": "PDNrYX9avOmqRKzi",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel19"
+						}
+					},
+					"variableName": "ch19_mute",
+					"isInverted": false
+				},
+				{
+					"id": "kapCIalJpTRGV1za",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel20"
+						}
+					},
+					"variableName": "ch20_mute",
+					"isInverted": false
+				},
+				{
+					"id": "K4S1FiOWcEqerFcO",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel21"
+						}
+					},
+					"variableName": "ch21_mute",
+					"isInverted": false
+				},
+				{
+					"id": "HNMBmt7rJ-pCzxbS",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel22"
+						}
+					},
+					"variableName": "ch22_mute",
+					"isInverted": false
+				},
+				{
+					"id": "-ydhaYTCoumQrE-9",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel23"
+						}
+					},
+					"variableName": "ch23_mute",
+					"isInverted": false
+				},
+				{
+					"id": "5AQzVi9_R1r0LzWq",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel24"
+						}
+					},
+					"variableName": "ch24_mute",
+					"isInverted": false
+				},
+				{
+					"id": "HRHrA3oW9xUAsQOO",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel25"
+						}
+					},
+					"variableName": "ch25_mute",
+					"isInverted": false
+				},
+				{
+					"id": "XWghXeB81Z0lAMaI",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel26"
+						}
+					},
+					"variableName": "ch26_mute",
+					"isInverted": false
+				},
+				{
+					"id": "9lSSbaUH12_qM3ot",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel27"
+						}
+					},
+					"variableName": "ch27_mute",
+					"isInverted": false
+				},
+				{
+					"id": "dpBAV0hXisNZ84Fk",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel28"
+						}
+					},
+					"variableName": "ch28_mute",
+					"isInverted": false
+				},
+				{
+					"id": "uYMY-WwzLntBid38",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel29"
+						}
+					},
+					"variableName": "ch29_mute",
+					"isInverted": false
+				},
+				{
+					"id": "jM9Iy_l0fR2DIbGw",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel30"
+						}
+					},
+					"variableName": "ch30_mute",
+					"isInverted": false
+				},
+				{
+					"id": "SDdaoRv0lUv4eabQ",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel31"
+						}
+					},
+					"variableName": "ch31_mute",
+					"isInverted": false
+				},
+				{
+					"id": "6lguLh_Ple4wfbCl",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "channel32"
+						}
+					},
+					"variableName": "ch32_mute",
+					"isInverted": false
+				},
+				{
+					"id": "yOiTmzMe_Z1vhhTH",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "aux1"
+						}
+					},
+					"variableName": "aux1_mute",
+					"isInverted": false
+				},
+				{
+					"id": "6J-FmC_3zKwRt1wk",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "aux2"
+						}
+					},
+					"variableName": "aux2_mute",
+					"isInverted": false
+				},
+				{
+					"id": "2ErldZDYg4yOcCWQ",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "aux3"
+						}
+					},
+					"variableName": "aux3_mute",
+					"isInverted": false
+				},
+				{
+					"id": "wZjOt73kmkwDnCRz",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "aux4"
+						}
+					},
+					"variableName": "aux4_mute",
+					"isInverted": false
+				},
+				{
+					"id": "rNJa04pVzzR4NilT",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "aux5"
+						}
+					},
+					"variableName": "aux5_mute",
+					"isInverted": false
+				},
+				{
+					"id": "8y1l_ERLqaHn-XB5",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "aux6"
+						}
+					},
+					"variableName": "aux6_mute",
+					"isInverted": false
+				},
+				{
+					"id": "gpqVg3vlWdFwogou",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "aux7"
+						}
+					},
+					"variableName": "aux7_mute",
+					"isInverted": false
+				},
+				{
+					"id": "514MiAXMViOF2ZJ5",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "aux8"
+						}
+					},
+					"variableName": "aux8_mute",
+					"isInverted": false
+				},
+				{
+					"id": "JkPsjj1OTe2IeyDr",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "fx1"
+						}
+					},
+					"variableName": "fx1_mute",
+					"isInverted": false
+				},
+				{
+					"id": "4wS-MLhbxWZnrPnt",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "fx2"
+						}
+					},
+					"variableName": "fx2_mute",
+					"isInverted": false
+				},
+				{
+					"id": "1zIig1Z2F8XkiP66",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "fx3"
+						}
+					},
+					"variableName": "fx3_mute",
+					"isInverted": false
+				},
+				{
+					"id": "5IkaqgYUVdhyZXID",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "fx4"
+						}
+					},
+					"variableName": "fx4_mute",
+					"isInverted": false
+				},
+				{
+					"id": "c7nU3qQ0968U-Kaz",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "fx5"
+						}
+					},
+					"variableName": "fx5_mute",
+					"isInverted": false
+				},
+				{
+					"id": "zMWgP3hvJH2SyMgC",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "fx6"
+						}
+					},
+					"variableName": "fx6_mute",
+					"isInverted": false
+				},
+				{
+					"id": "6fYxZ4NG7GTExJGp",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "fx7"
+						}
+					},
+					"variableName": "fx7_mute",
+					"isInverted": false
+				},
+				{
+					"id": "si4A8uM36a87vbRl",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "fx8"
+						}
+					},
+					"variableName": "fx8_mute",
+					"isInverted": false
+				},
+				{
+					"id": "Urm9lfO0ZA3-jlHX",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "bus1"
+						}
+					},
+					"variableName": "bus1_mute",
+					"isInverted": false
+				},
+				{
+					"id": "tAMbW_2-eRHrkx4k",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "bus2"
+						}
+					},
+					"variableName": "bus2_mute",
+					"isInverted": false
+				},
+				{
+					"id": "JMz7VK0hjnCWtTAf",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "bus3"
+						}
+					},
+					"variableName": "bus3_mute",
+					"isInverted": false
+				},
+				{
+					"id": "aYl3FR_7D5cmVLBS",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "bus4"
+						}
+					},
+					"variableName": "bus4_mute",
+					"isInverted": false
+				},
+				{
+					"id": "CxPkxn3coCdnU6qz",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "bus5"
+						}
+					},
+					"variableName": "bus5_mute",
+					"isInverted": false
+				},
+				{
+					"id": "sQTkscwWSQKhNSxU",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "bus6"
+						}
+					},
+					"variableName": "bus6_mute",
+					"isInverted": false
+				},
+				{
+					"id": "NGbjhyHyAkb-t3Y2",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "bus7"
+						}
+					},
+					"variableName": "bus7_mute",
+					"isInverted": false
+				},
+				{
+					"id": "ns5nBvnSbhbSpTn6",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "bus8"
+						}
+					},
+					"variableName": "bus8_mute",
+					"isInverted": false
+				},
+				{
+					"id": "peJu2nbj8JchgoSR",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "bus9"
+						}
+					},
+					"variableName": "bus9_mute",
+					"isInverted": false
+				},
+				{
+					"id": "KCZKQ3WefoSFYSaP",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "bus10"
+						}
+					},
+					"variableName": "bus10_mute",
+					"isInverted": false
+				},
+				{
+					"id": "LMVj-UfP9Tyw76vY",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "bus11"
+						}
+					},
+					"variableName": "bus11_mute",
+					"isInverted": false
+				},
+				{
+					"id": "OzI6wst2hFQEsTcX",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "bus12"
+						}
+					},
+					"variableName": "bus12_mute",
+					"isInverted": false
+				},
+				{
+					"id": "s5GwNkUANbOJwDwg",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "bus13"
+						}
+					},
+					"variableName": "bus13_mute",
+					"isInverted": false
+				},
+				{
+					"id": "TIlOK4VDuvhIa53h",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "bus14"
+						}
+					},
+					"variableName": "bus14_mute",
+					"isInverted": false
+				},
+				{
+					"id": "MFAgR9xmS1S1_11D",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "bus15"
+						}
+					},
+					"variableName": "bus15_mute",
+					"isInverted": false
+				},
+				{
+					"id": "z0SLLkA6l4kAiZde",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "bus16"
+						}
+					},
+					"variableName": "bus16_mute",
+					"isInverted": false
+				},
+				{
+					"id": "pnJmUV94mPDlXZU_",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "matrix1"
+						}
+					},
+					"variableName": "mtx1_mute",
+					"isInverted": false
+				},
+				{
+					"id": "z9H99iNb18lkrox_",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "matrix2"
+						}
+					},
+					"variableName": "mtx2_mute",
+					"isInverted": false
+				},
+				{
+					"id": "0ZEeCKTtq3cktUGA",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "matrix3"
+						}
+					},
+					"variableName": "mtx3_mute",
+					"isInverted": false
+				},
+				{
+					"id": "0-AF9OquOFZDVBQn",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "matrix4"
+						}
+					},
+					"variableName": "mtx4_mute",
+					"isInverted": false
+				},
+				{
+					"id": "j9orZTYGtJmj4Rya",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "matrix5"
+						}
+					},
+					"variableName": "mtx5_mute",
+					"isInverted": false
+				},
+				{
+					"id": "y_BCTEZs1dg_x9Xr",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "matrix6"
+						}
+					},
+					"variableName": "mtx6_mute",
+					"isInverted": false
+				},
+				{
+					"id": "gMnBlv26WfR_jiJF",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "dca1"
+						}
+					},
+					"variableName": "dca1_mute",
+					"isInverted": false
+				},
+				{
+					"id": "J2W-y5UVtgAl7Uz6",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "dca2"
+						}
+					},
+					"variableName": "dca2_mute",
+					"isInverted": false
+				},
+				{
+					"id": "TXeCOq-_uG49DADr",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "dca3"
+						}
+					},
+					"variableName": "dca3_mute",
+					"isInverted": false
+				},
+				{
+					"id": "e7Yi44Tt2jZuGalj",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "dca4"
+						}
+					},
+					"variableName": "dca4_mute",
+					"isInverted": false
+				},
+				{
+					"id": "K6PeZ5w5QR7XlQFq",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "dca5"
+						}
+					},
+					"variableName": "dca5_mute",
+					"isInverted": false
+				},
+				{
+					"id": "eBvxA9Z9pIHBehL0",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "dca6"
+						}
+					},
+					"variableName": "dca6_mute",
+					"isInverted": false
+				},
+				{
+					"id": "ecjA70ITRvzzVlc2",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "dca7"
+						}
+					},
+					"variableName": "dca7_mute",
+					"isInverted": false
+				},
+				{
+					"id": "xzfSXIAbzaewG9Mq",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "dca8"
+						}
+					},
+					"variableName": "dca8_mute",
+					"isInverted": false
+				},
+				{
+					"id": "OlulVYivRQvoTAdQ",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "stereo"
+						}
+					},
+					"variableName": "main_mute",
+					"isInverted": false
+				},
+				{
+					"id": "CgizWMm4yV0-wHjC",
+					"type": "feedback",
+					"definitionId": "mute",
+					"connectionId": "deskConnection",
+					"options": {
+						"target": {
+							"isExpression": false,
+							"value": "mono"
+						}
+					},
+					"variableName": "mono_mute",
+					"isInverted": false
+				}
+			]
+		}
+	},
+	"instances": {
+		"villageConnection": {
+			"moduleInstanceType": "connection",
+			"moduleId": "companion-village",
+			"label": "village",
+			"config": {},
+			"enabled": true
+		},
+		"deskConnection": {
+			"moduleInstanceType": "connection",
+			"moduleId": "behringer-x32",
+			"label": "x32",
+			"config": {},
+			"enabled": true
+		}
+	}
+}

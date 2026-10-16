@@ -47,7 +47,13 @@ export function UpdateVariableDefinitions(self: ModuleInstance): void {
 		events: { name: 'Events happening right now' },
 		event_count: { name: 'Number of events happening right now' },
 		camera: { name: 'Camera mode' },
+		desk_scoring: { name: 'Desk scoring on (yes/no)' },
+		desk_actions: { name: 'Desk actions scored, all desks' },
+		desk_last: { name: 'Last desk action that scored (desk · control)' },
+		desk_result: { name: 'What happened to the last desk change (scored / gesture / together / repeat / capped …)' },
+		desks: { name: 'Desk actions per desk' },
 	}
+	for (const t of TRIBES) defs[`${t.id}_desk_actions`] = { name: `${t.name}: desk actions scored` }
 	for (const t of TRIBES) for (const [k, label] of TRIBE_FIELDS) defs[`${t.id}_${k}`] = { name: `${t.name}: ${label}` }
 	for (const [k, label] of TRIBE_FIELDS) defs[`my_${k}`] = { name: `This Companion’s tribe: ${label}` }
 	for (const [a, b] of PAIRS) {
@@ -88,6 +94,19 @@ function tribeValues(t: VillageTribeState): Record<string, CompanionVariableValu
 	}
 }
 
+function deskValues(self: ModuleInstance): Record<string, CompanionVariableValue> {
+	const d = self.desks
+	const vals: Record<string, CompanionVariableValue> = {
+		desk_scoring: d.enabled ? 'yes' : 'no',
+		desk_actions: d.scored,
+		desk_last: d.last,
+		desk_result: d.lastResult,
+		desks: [...d.desks.values()].map((x) => `${x.name} ${x.total}`).join(' · '),
+	}
+	for (const t of TRIBES) vals[`${t.id}_desk_actions`] = d.totalFor(t.id)
+	return vals
+}
+
 export function UpdateVariableValues(self: ModuleInstance, st: VillageState | null): void {
 	const vals: Record<string, CompanionVariableValue> = {
 		connected: self.isConnected() ? 'yes' : 'no',
@@ -95,6 +114,7 @@ export function UpdateVariableValues(self: ModuleInstance, st: VillageState | nu
 		url: self.villageUrl(),
 		my_tribe: self.config.tribe,
 		my_name: tribeName(self.config.tribe),
+		...deskValues(self),
 	}
 	if (st) {
 		Object.assign(vals, {

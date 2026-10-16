@@ -1,6 +1,7 @@
 import type { DropdownChoice, SomeCompanionActionInputField } from '@companion-module/base'
 import type ModuleInstance from './main.js'
 import { EVENTS, TRIBES, type TribeId } from './protocol.js'
+import { ignorePattern } from './desks.js'
 
 type TribeOpt = { tribe: string }
 type PairOpt = { from: string; target: string }
@@ -26,6 +27,11 @@ export type ActionsSchema = {
 	day_length: { options: { value: string } }
 	view_as: { options: TribeOpt }
 	message: { options: { text: string; sub: string } }
+	desk_activity: {
+		options: { tribe: string; desk: string; mode: string; values: string; control: string; ignore: string }
+	}
+	desk_scoring: { options: { value: string } }
+	desk_reset: { options: Record<string, never> }
 }
 
 /** "This Companion's tribe" or a specific one */
@@ -33,8 +39,8 @@ export const TRIBE_CHOICES: DropdownChoice<string>[] = [
 	{ id: 'self', label: '⭐ This Companion’s tribe' },
 	...TRIBES.map((t) => ({ id: t.id, label: `${t.icon} ${t.name}` })),
 ]
-function tribeField<K extends string>(id: K, label = 'Tribe'): SomeCompanionActionInputField<K> {
-	return { type: 'dropdown', id, label, default: 'self', choices: TRIBE_CHOICES }
+function tribeField<K extends string>(id: K, label = 'Tribe', def = 'self'): SomeCompanionActionInputField<K> {
+	return { type: 'dropdown', id, label, default: def, choices: TRIBE_CHOICES }
 }
 const targetField: SomeCompanionActionInputField<'target'> = {
 	type: 'dropdown',
@@ -298,6 +304,96 @@ export function UpdateActions(self: ModuleInstance): void {
 					text: String(e.options.text).slice(0, 120),
 					sub: String(e.options.sub).slice(0, 200),
 				}),
+		},
+		desk_activity: {
+			name: 'Desk activity (fair count) — for desk triggers',
+			description:
+				'Run this from a trigger that watches a mixing or lighting desk module. A fader move, a key press or a scene ' +
+				'recall counts as one action (+1 year and settler), however many values it changes. ' +
+				'tools/desk-triggers.mjs builds these triggers for X32, WING, Yamaha, MagicQ and grandMA3.',
+			options: [
+				tribeField('tribe', 'Department (tribe)', 'noises'),
+				{
+					type: 'textinput',
+					id: 'desk',
+					label: 'Desk name (each desk is counted and limited on its own)',
+					default: 'FOH',
+				},
+				{
+					type: 'dropdown',
+					id: 'mode',
+					label: 'What the trigger passes',
+					default: 'values',
+					choices: [
+						{ id: 'values', label: 'Values of the desk’s controls (count the ones that change)' },
+						{ id: 'event', label: 'One control that was just used (e.g. the latest OSC path)' },
+					],
+				},
+				{
+					type: 'textinput',
+					id: 'values',
+					label: 'Controls, one per line or separated by | as name=$(desk:variable)',
+					default: 'ch1=$(x32:fader_ch_01)\nch2=$(x32:fader_ch_02)',
+					multiline: true,
+					useVariables: true,
+					isVisibleExpression: '$(options:mode) == "values"',
+				},
+				{
+					type: 'textinput',
+					id: 'control',
+					label: 'Control that was used',
+					default: '$(osc:latest_received_path)',
+					useVariables: true,
+					isVisibleExpression: '$(options:mode) == "event"',
+				},
+				{
+					type: 'textinput',
+					id: 'ignore',
+					label: 'Ignore controls matching (regular expression, optional)',
+					default: '',
+				},
+			],
+			callback: (e) => {
+				const tribe = T(e.options.tribe)
+				const desk = String(e.options.desk || 'Desk').slice(0, 40)
+				const ignore = ignorePattern(String(e.options.ignore ?? ''))
+				if (e.options.mode === 'event') self.desks.touch(desk, tribe, String(e.options.control ?? ''), ignore)
+				else self.desks.observe(desk, tribe, String(e.options.values ?? ''), ignore)
+				self.deskChanged()
+			},
+		},
+		desk_scoring: {
+			name: 'Desk activity: scoring on / off',
+			description:
+				'Turn desk scoring off during soundcheck or programming. Desks are still watched, they just don’t score.',
+			options: [
+				{
+					type: 'dropdown',
+					id: 'value',
+					label: 'Scoring',
+					default: 'toggle',
+					choices: [
+						{ id: 'toggle', label: 'Toggle' },
+						{ id: 'on', label: 'On' },
+						{ id: 'off', label: 'Off' },
+					],
+				},
+			],
+			callback: (e) => {
+				const v = e.options.value
+				self.desks.enabled = v === 'toggle' ? !self.desks.enabled : v === 'on'
+				self.log('info', `Desk scoring ${self.desks.enabled ? 'on' : 'off'}`)
+				self.deskChanged()
+			},
+		},
+		desk_reset: {
+			name: 'Desk activity: reset the desk counters',
+			description: 'Zeroes the desk_* variables. Years already given to the village stay.',
+			options: [],
+			callback: () => {
+				self.desks.reset()
+				self.deskChanged()
+			},
 		},
 	})
 }

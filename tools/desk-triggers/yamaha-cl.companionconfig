@@ -1,0 +1,6185 @@
+{
+	"type": "trigger_list",
+	"version": 12,
+	"triggers": {
+		"ZpB74Nwq69VIpTzg": {
+			"type": "trigger",
+			"options": {
+				"name": "Village desk: Yamaha CL / QL",
+				"enabled": true,
+				"sortOrder": 0
+			},
+			"actions": [
+				{
+					"id": "vnq___Rgqlnx8JwI",
+					"definitionId": "desk_activity",
+					"connectionId": "villageConnection",
+					"type": "action",
+					"options": {
+						"tribe": {
+							"isExpression": false,
+							"value": "noises"
+						},
+						"desk": {
+							"isExpression": false,
+							"value": "Yamaha CL / QL"
+						},
+						"mode": {
+							"isExpression": false,
+							"value": "values"
+						},
+						"values": {
+							"isExpression": false,
+							"value": "inch1_level=$(local:inch1_level)\ninch1_on=$(local:inch1_on)\ninch2_level=$(local:inch2_level)\ninch2_on=$(local:inch2_on)\ninch3_level=$(local:inch3_level)\ninch3_on=$(local:inch3_on)\ninch4_level=$(local:inch4_level)\ninch4_on=$(local:inch4_on)\ninch5_level=$(local:inch5_level)\ninch5_on=$(local:inch5_on)\ninch6_level=$(local:inch6_level)\ninch6_on=$(local:inch6_on)\ninch7_level=$(local:inch7_level)\ninch7_on=$(local:inch7_on)\ninch8_level=$(local:inch8_level)\ninch8_on=$(local:inch8_on)\ninch9_level=$(local:inch9_level)\ninch9_on=$(local:inch9_on)\ninch10_level=$(local:inch10_level)\ninch10_on=$(local:inch10_on)\ninch11_level=$(local:inch11_level)\ninch11_on=$(local:inch11_on)\ninch12_level=$(local:inch12_level)\ninch12_on=$(local:inch12_on)\ninch13_level=$(local:inch13_level)\ninch13_on=$(local:inch13_on)\ninch14_level=$(local:inch14_level)\ninch14_on=$(local:inch14_on)\ninch15_level=$(local:inch15_level)\ninch15_on=$(local:inch15_on)\ninch16_level=$(local:inch16_level)\ninch16_on=$(local:inch16_on)\ninch17_level=$(local:inch17_level)\ninch17_on=$(local:inch17_on)\ninch18_level=$(local:inch18_level)\ninch18_on=$(local:inch18_on)\ninch19_level=$(local:inch19_level)\ninch19_on=$(local:inch19_on)\ninch20_level=$(local:inch20_level)\ninch20_on=$(local:inch20_on)\ninch21_level=$(local:inch21_level)\ninch21_on=$(local:inch21_on)\ninch22_level=$(local:inch22_level)\ninch22_on=$(local:inch22_on)\ninch23_level=$(local:inch23_level)\ninch23_on=$(local:inch23_on)\ninch24_level=$(local:inch24_level)\ninch24_on=$(local:inch24_on)\ninch25_level=$(local:inch25_level)\ninch25_on=$(local:inch25_on)\ninch26_level=$(local:inch26_level)\ninch26_on=$(local:inch26_on)\ninch27_level=$(local:inch27_level)\ninch27_on=$(local:inch27_on)\ninch28_level=$(local:inch28_level)\ninch28_on=$(local:inch28_on)\ninch29_level=$(local:inch29_level)\ninch29_on=$(local:inch29_on)\ninch30_level=$(local:inch30_level)\ninch30_on=$(local:inch30_on)\ninch31_level=$(local:inch31_level)\ninch31_on=$(local:inch31_on)\ninch32_level=$(local:inch32_level)\ninch32_on=$(local:inch32_on)\ninch33_level=$(local:inch33_level)\ninch33_on=$(local:inch33_on)\ninch34_level=$(local:inch34_level)\ninch34_on=$(local:inch34_on)\ninch35_level=$(local:inch35_level)\ninch35_on=$(local:inch35_on)\ninch36_level=$(local:inch36_level)\ninch36_on=$(local:inch36_on)\ninch37_level=$(local:inch37_level)\ninch37_on=$(local:inch37_on)\ninch38_level=$(local:inch38_level)\ninch38_on=$(local:inch38_on)\ninch39_level=$(local:inch39_level)\ninch39_on=$(local:inch39_on)\ninch40_level=$(local:inch40_level)\ninch40_on=$(local:inch40_on)\ninch41_level=$(local:inch41_level)\ninch41_on=$(local:inch41_on)\ninch42_level=$(local:inch42_level)\ninch42_on=$(local:inch42_on)\ninch43_level=$(local:inch43_level)\ninch43_on=$(local:inch43_on)\ninch44_level=$(local:inch44_level)\ninch44_on=$(local:inch44_on)\ninch45_level=$(local:inch45_level)\ninch45_on=$(local:inch45_on)\ninch46_level=$(local:inch46_level)\ninch46_on=$(local:inch46_on)\ninch47_level=$(local:inch47_level)\ninch47_on=$(local:inch47_on)\ninch48_level=$(local:inch48_level)\ninch48_on=$(local:inch48_on)\ninch49_level=$(local:inch49_level)\ninch49_on=$(local:inch49_on)\ninch50_level=$(local:inch50_level)\ninch50_on=$(local:inch50_on)\ninch51_level=$(local:inch51_level)\ninch51_on=$(local:inch51_on)\ninch52_level=$(local:inch52_level)\ninch52_on=$(local:inch52_on)\ninch53_level=$(local:inch53_level)\ninch53_on=$(local:inch53_on)\ninch54_level=$(local:inch54_level)\ninch54_on=$(local:inch54_on)\ninch55_level=$(local:inch55_level)\ninch55_on=$(local:inch55_on)\ninch56_level=$(local:inch56_level)\ninch56_on=$(local:inch56_on)\ninch57_level=$(local:inch57_level)\ninch57_on=$(local:inch57_on)\ninch58_level=$(local:inch58_level)\ninch58_on=$(local:inch58_on)\ninch59_level=$(local:inch59_level)\ninch59_on=$(local:inch59_on)\ninch60_level=$(local:inch60_level)\ninch60_on=$(local:inch60_on)\ninch61_level=$(local:inch61_level)\ninch61_on=$(local:inch61_on)\ninch62_level=$(local:inch62_level)\ninch62_on=$(local:inch62_on)\ninch63_level=$(local:inch63_level)\ninch63_on=$(local:inch63_on)\ninch64_level=$(local:inch64_level)\ninch64_on=$(local:inch64_on)\ninch65_level=$(local:inch65_level)\ninch65_on=$(local:inch65_on)\ninch66_level=$(local:inch66_level)\ninch66_on=$(local:inch66_on)\ninch67_level=$(local:inch67_level)\ninch67_on=$(local:inch67_on)\ninch68_level=$(local:inch68_level)\ninch68_on=$(local:inch68_on)\ninch69_level=$(local:inch69_level)\ninch69_on=$(local:inch69_on)\ninch70_level=$(local:inch70_level)\ninch70_on=$(local:inch70_on)\ninch71_level=$(local:inch71_level)\ninch71_on=$(local:inch71_on)\ninch72_level=$(local:inch72_level)\ninch72_on=$(local:inch72_on)\nstinch1_level=$(local:stinch1_level)\nstinch1_on=$(local:stinch1_on)\nstinch2_level=$(local:stinch2_level)\nstinch2_on=$(local:stinch2_on)\nstinch3_level=$(local:stinch3_level)\nstinch3_on=$(local:stinch3_on)\nstinch4_level=$(local:stinch4_level)\nstinch4_on=$(local:stinch4_on)\nstinch5_level=$(local:stinch5_level)\nstinch5_on=$(local:stinch5_on)\nstinch6_level=$(local:stinch6_level)\nstinch6_on=$(local:stinch6_on)\nstinch7_level=$(local:stinch7_level)\nstinch7_on=$(local:stinch7_on)\nstinch8_level=$(local:stinch8_level)\nstinch8_on=$(local:stinch8_on)\nstinch9_level=$(local:stinch9_level)\nstinch9_on=$(local:stinch9_on)\nstinch10_level=$(local:stinch10_level)\nstinch10_on=$(local:stinch10_on)\nstinch11_level=$(local:stinch11_level)\nstinch11_on=$(local:stinch11_on)\nstinch12_level=$(local:stinch12_level)\nstinch12_on=$(local:stinch12_on)\nstinch13_level=$(local:stinch13_level)\nstinch13_on=$(local:stinch13_on)\nstinch14_level=$(local:stinch14_level)\nstinch14_on=$(local:stinch14_on)\nstinch15_level=$(local:stinch15_level)\nstinch15_on=$(local:stinch15_on)\nstinch16_level=$(local:stinch16_level)\nstinch16_on=$(local:stinch16_on)\nmix1_level=$(local:mix1_level)\nmix1_on=$(local:mix1_on)\nmix2_level=$(local:mix2_level)\nmix2_on=$(local:mix2_on)\nmix3_level=$(local:mix3_level)\nmix3_on=$(local:mix3_on)\nmix4_level=$(local:mix4_level)\nmix4_on=$(local:mix4_on)\nmix5_level=$(local:mix5_level)\nmix5_on=$(local:mix5_on)\nmix6_level=$(local:mix6_level)\nmix6_on=$(local:mix6_on)\nmix7_level=$(local:mix7_level)\nmix7_on=$(local:mix7_on)\nmix8_level=$(local:mix8_level)\nmix8_on=$(local:mix8_on)\nmix9_level=$(local:mix9_level)\nmix9_on=$(local:mix9_on)\nmix10_level=$(local:mix10_level)\nmix10_on=$(local:mix10_on)\nmix11_level=$(local:mix11_level)\nmix11_on=$(local:mix11_on)\nmix12_level=$(local:mix12_level)\nmix12_on=$(local:mix12_on)\nmix13_level=$(local:mix13_level)\nmix13_on=$(local:mix13_on)\nmix14_level=$(local:mix14_level)\nmix14_on=$(local:mix14_on)\nmix15_level=$(local:mix15_level)\nmix15_on=$(local:mix15_on)\nmix16_level=$(local:mix16_level)\nmix16_on=$(local:mix16_on)\nmix17_level=$(local:mix17_level)\nmix17_on=$(local:mix17_on)\nmix18_level=$(local:mix18_level)\nmix18_on=$(local:mix18_on)\nmix19_level=$(local:mix19_level)\nmix19_on=$(local:mix19_on)\nmix20_level=$(local:mix20_level)\nmix20_on=$(local:mix20_on)\nmix21_level=$(local:mix21_level)\nmix21_on=$(local:mix21_on)\nmix22_level=$(local:mix22_level)\nmix22_on=$(local:mix22_on)\nmix23_level=$(local:mix23_level)\nmix23_on=$(local:mix23_on)\nmix24_level=$(local:mix24_level)\nmix24_on=$(local:mix24_on)\nmtrx1_level=$(local:mtrx1_level)\nmtrx1_on=$(local:mtrx1_on)\nmtrx2_level=$(local:mtrx2_level)\nmtrx2_on=$(local:mtrx2_on)\nmtrx3_level=$(local:mtrx3_level)\nmtrx3_on=$(local:mtrx3_on)\nmtrx4_level=$(local:mtrx4_level)\nmtrx4_on=$(local:mtrx4_on)\nmtrx5_level=$(local:mtrx5_level)\nmtrx5_on=$(local:mtrx5_on)\nmtrx6_level=$(local:mtrx6_level)\nmtrx6_on=$(local:mtrx6_on)\nmtrx7_level=$(local:mtrx7_level)\nmtrx7_on=$(local:mtrx7_on)\nmtrx8_level=$(local:mtrx8_level)\nmtrx8_on=$(local:mtrx8_on)\nst1_level=$(local:st1_level)\nst1_on=$(local:st1_on)\nst2_level=$(local:st2_level)\nst2_on=$(local:st2_on)\nst3_level=$(local:st3_level)\nst3_on=$(local:st3_on)\ndca1_level=$(local:dca1_level)\ndca1_on=$(local:dca1_on)\ndca2_level=$(local:dca2_level)\ndca2_on=$(local:dca2_on)\ndca3_level=$(local:dca3_level)\ndca3_on=$(local:dca3_on)\ndca4_level=$(local:dca4_level)\ndca4_on=$(local:dca4_on)\ndca5_level=$(local:dca5_level)\ndca5_on=$(local:dca5_on)\ndca6_level=$(local:dca6_level)\ndca6_on=$(local:dca6_on)\ndca7_level=$(local:dca7_level)\ndca7_on=$(local:dca7_on)\ndca8_level=$(local:dca8_level)\ndca8_on=$(local:dca8_on)\ndca9_level=$(local:dca9_level)\ndca9_on=$(local:dca9_on)\ndca10_level=$(local:dca10_level)\ndca10_on=$(local:dca10_on)\ndca11_level=$(local:dca11_level)\ndca11_on=$(local:dca11_on)\ndca12_level=$(local:dca12_level)\ndca12_on=$(local:dca12_on)\ndca13_level=$(local:dca13_level)\ndca13_on=$(local:dca13_on)\ndca14_level=$(local:dca14_level)\ndca14_on=$(local:dca14_on)\ndca15_level=$(local:dca15_level)\ndca15_on=$(local:dca15_on)\ndca16_level=$(local:dca16_level)\ndca16_on=$(local:dca16_on)"
+						},
+						"control": {
+							"isExpression": false,
+							"value": ""
+						},
+						"ignore": {
+							"isExpression": false,
+							"value": ""
+						}
+					}
+				}
+			],
+			"condition": [],
+			"events": [
+				{
+					"id": "RZOCC5SGL_vjuljp",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch1_level"
+					}
+				},
+				{
+					"id": "7paiheLAKOs4giPO",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch1_on"
+					}
+				},
+				{
+					"id": "rV74_crmQZv8S0w9",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch2_level"
+					}
+				},
+				{
+					"id": "E5WYYeG0kAqVxF6T",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch2_on"
+					}
+				},
+				{
+					"id": "Y8BK_QCU7zpdSsbs",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch3_level"
+					}
+				},
+				{
+					"id": "tLsZQ04yz1PRLbVq",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch3_on"
+					}
+				},
+				{
+					"id": "z82coIx95L-iON6D",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch4_level"
+					}
+				},
+				{
+					"id": "neD0c7TxlP5N7dkw",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch4_on"
+					}
+				},
+				{
+					"id": "ihXTJeagZ7Z77krm",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch5_level"
+					}
+				},
+				{
+					"id": "rdy905ZwUqT7JFSb",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch5_on"
+					}
+				},
+				{
+					"id": "su2vgpLfoYzz-HzN",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch6_level"
+					}
+				},
+				{
+					"id": "hN96TbbmhbuIhIQU",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch6_on"
+					}
+				},
+				{
+					"id": "rsVw23k531GO9nEi",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch7_level"
+					}
+				},
+				{
+					"id": "9tVH34XmLL454Qm2",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch7_on"
+					}
+				},
+				{
+					"id": "tnQUD6iVoWzULfy1",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch8_level"
+					}
+				},
+				{
+					"id": "Z9F-kqMbrsz-uV0_",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch8_on"
+					}
+				},
+				{
+					"id": "XYfmkHRVEdl1UHSH",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch9_level"
+					}
+				},
+				{
+					"id": "JC4GkMLevdUehIcw",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch9_on"
+					}
+				},
+				{
+					"id": "iRvm2whznDXRE5Nq",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch10_level"
+					}
+				},
+				{
+					"id": "bXYgmvDud6KFZxPE",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch10_on"
+					}
+				},
+				{
+					"id": "vWtsYmUgk-MCX-Mj",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch11_level"
+					}
+				},
+				{
+					"id": "YdcHIGUlWR-9H30x",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch11_on"
+					}
+				},
+				{
+					"id": "wvhGLRidJcRzOMOT",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch12_level"
+					}
+				},
+				{
+					"id": "aVT1AvBjHQvR3YUF",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch12_on"
+					}
+				},
+				{
+					"id": "yRdCge0kAi9-GlCb",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch13_level"
+					}
+				},
+				{
+					"id": "vmMHL1bs418WYIKY",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch13_on"
+					}
+				},
+				{
+					"id": "PYPg_ydI_EPRj6rl",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch14_level"
+					}
+				},
+				{
+					"id": "xq5DUdBNKccPV6gz",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch14_on"
+					}
+				},
+				{
+					"id": "qlWzLXbmXQvyfbGQ",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch15_level"
+					}
+				},
+				{
+					"id": "wrgVaWb3ZxaVihGP",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch15_on"
+					}
+				},
+				{
+					"id": "c4DuhkbvFHOrqxXi",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch16_level"
+					}
+				},
+				{
+					"id": "V_CCBYbECIGJoYeM",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch16_on"
+					}
+				},
+				{
+					"id": "PS8wgSrj8xgWZVTB",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch17_level"
+					}
+				},
+				{
+					"id": "MspC0aSHQtskYKVA",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch17_on"
+					}
+				},
+				{
+					"id": "FQj2u3YxmnvE1srN",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch18_level"
+					}
+				},
+				{
+					"id": "4Z9Kqc4vYcPRuqjB",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch18_on"
+					}
+				},
+				{
+					"id": "yjgVX0w3oO59T5ti",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch19_level"
+					}
+				},
+				{
+					"id": "W3pqTdq4maV2svtx",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch19_on"
+					}
+				},
+				{
+					"id": "R7Tbepxjn5FFHugH",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch20_level"
+					}
+				},
+				{
+					"id": "t_zTQ22rRaOzGGT1",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch20_on"
+					}
+				},
+				{
+					"id": "8JcQKJcOZVq9wh5e",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch21_level"
+					}
+				},
+				{
+					"id": "eDlf7DakAnCDAgWG",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch21_on"
+					}
+				},
+				{
+					"id": "J6IWB2tw6Q-nlCvm",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch22_level"
+					}
+				},
+				{
+					"id": "8c-UjSmEa5KfCWS3",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch22_on"
+					}
+				},
+				{
+					"id": "OlIGdlizg6g7Dnne",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch23_level"
+					}
+				},
+				{
+					"id": "fJ0TRMfskCYSWvxr",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch23_on"
+					}
+				},
+				{
+					"id": "WGmkKzETw92mFv_R",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch24_level"
+					}
+				},
+				{
+					"id": "5Tjqqf_l7NQl9Sn9",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch24_on"
+					}
+				},
+				{
+					"id": "q7Xne3qMbTViFSLC",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch25_level"
+					}
+				},
+				{
+					"id": "amAxrTtzQLiGk8US",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch25_on"
+					}
+				},
+				{
+					"id": "ZRH_3quaTR0GTXJF",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch26_level"
+					}
+				},
+				{
+					"id": "cbf9jIQonBQvqMLT",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch26_on"
+					}
+				},
+				{
+					"id": "zJqucw8a6F2GJId4",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch27_level"
+					}
+				},
+				{
+					"id": "bMA2UjsM2U9OEd60",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch27_on"
+					}
+				},
+				{
+					"id": "6VaKpX4eB22EXJby",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch28_level"
+					}
+				},
+				{
+					"id": "iU484nBPxyI9IM-x",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch28_on"
+					}
+				},
+				{
+					"id": "3-O4uEZ8vaasTxe9",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch29_level"
+					}
+				},
+				{
+					"id": "TCkYVVsT7Qk0rNwn",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch29_on"
+					}
+				},
+				{
+					"id": "eJGTIsm_GuUqANQs",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch30_level"
+					}
+				},
+				{
+					"id": "qrP0VeZE628NTfQ_",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch30_on"
+					}
+				},
+				{
+					"id": "eZqE_73wht1NHhX-",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch31_level"
+					}
+				},
+				{
+					"id": "aKR6_juzCymaDGjq",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch31_on"
+					}
+				},
+				{
+					"id": "4r1l6t-RKYL6AWvP",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch32_level"
+					}
+				},
+				{
+					"id": "dlEn1MJw-sqrb8-K",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch32_on"
+					}
+				},
+				{
+					"id": "z1IsYuh_jm9dNI5i",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch33_level"
+					}
+				},
+				{
+					"id": "asGc5kypoVu2ad9S",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch33_on"
+					}
+				},
+				{
+					"id": "gqyv9h_Dmvb_Ks2j",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch34_level"
+					}
+				},
+				{
+					"id": "V5WNk45XRDsPWvvv",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch34_on"
+					}
+				},
+				{
+					"id": "gLPdJrRKGsn3G7Jo",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch35_level"
+					}
+				},
+				{
+					"id": "OKnfhMb738QaKDCi",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch35_on"
+					}
+				},
+				{
+					"id": "TNok5iGSA_lOE1hN",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch36_level"
+					}
+				},
+				{
+					"id": "WcfpRg9wJi_35AY6",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch36_on"
+					}
+				},
+				{
+					"id": "QWRlKNA5xIfSkh2S",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch37_level"
+					}
+				},
+				{
+					"id": "Y1Nzan9H5ZCkzn6C",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch37_on"
+					}
+				},
+				{
+					"id": "roBtbNpZf3qcfzOF",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch38_level"
+					}
+				},
+				{
+					"id": "DDhS9SYzn1lPx2_R",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch38_on"
+					}
+				},
+				{
+					"id": "flGeqPJkg4TQqhqo",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch39_level"
+					}
+				},
+				{
+					"id": "9a_G-USbXujrgK0f",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch39_on"
+					}
+				},
+				{
+					"id": "OhQkmI-OvZKhwwrO",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch40_level"
+					}
+				},
+				{
+					"id": "h6DnlU9YIRjDSWyI",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch40_on"
+					}
+				},
+				{
+					"id": "fLwmC1XhsjVHV_QF",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch41_level"
+					}
+				},
+				{
+					"id": "GFmcwiLdYSIJ1Uvk",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch41_on"
+					}
+				},
+				{
+					"id": "5-k58X3qBXWKkXqR",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch42_level"
+					}
+				},
+				{
+					"id": "MUllRWRiYxDTk5lW",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch42_on"
+					}
+				},
+				{
+					"id": "eil37YWvMxmAjGOL",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch43_level"
+					}
+				},
+				{
+					"id": "0Eybus6MxM-MwWBI",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch43_on"
+					}
+				},
+				{
+					"id": "AL0e43zmaR0lSZJQ",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch44_level"
+					}
+				},
+				{
+					"id": "VsizUUh4H1plE133",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch44_on"
+					}
+				},
+				{
+					"id": "k9Ulz3d5xyXC6Lqm",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch45_level"
+					}
+				},
+				{
+					"id": "f01GURzrfqnC5Fa2",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch45_on"
+					}
+				},
+				{
+					"id": "zrgNi3xyjIesCoLz",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch46_level"
+					}
+				},
+				{
+					"id": "A4hWLqWa00vFIRzt",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch46_on"
+					}
+				},
+				{
+					"id": "HMnewNS6pJYCLoM3",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch47_level"
+					}
+				},
+				{
+					"id": "7e-PxXxUyS4ul2xZ",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch47_on"
+					}
+				},
+				{
+					"id": "W6Ol4O-yrYIXrDTM",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch48_level"
+					}
+				},
+				{
+					"id": "xyo28hIzp0jeITPW",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch48_on"
+					}
+				},
+				{
+					"id": "l8FPaV3OSwi6RpsJ",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch49_level"
+					}
+				},
+				{
+					"id": "CVjCzXf0q8_QeP6V",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch49_on"
+					}
+				},
+				{
+					"id": "vJ1JQGrXU6kJ7Ooq",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch50_level"
+					}
+				},
+				{
+					"id": "SnBTmTX3X__EJvE_",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch50_on"
+					}
+				},
+				{
+					"id": "9DshPypY5OMB_vJf",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch51_level"
+					}
+				},
+				{
+					"id": "btcmB0cHo5l1FjV8",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch51_on"
+					}
+				},
+				{
+					"id": "6LVB6TasNBr4h58h",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch52_level"
+					}
+				},
+				{
+					"id": "EiBjfv3Wj8xN-_2V",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch52_on"
+					}
+				},
+				{
+					"id": "OjmJA1N5Ceip4Wsk",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch53_level"
+					}
+				},
+				{
+					"id": "vXyyoIpF5PvV1x9J",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch53_on"
+					}
+				},
+				{
+					"id": "kXcitfkLPlHOU_QA",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch54_level"
+					}
+				},
+				{
+					"id": "BGGimQDiiiBNb8mt",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch54_on"
+					}
+				},
+				{
+					"id": "NozpStdScbD1Qkh_",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch55_level"
+					}
+				},
+				{
+					"id": "78beZ0YY4AZjFwyh",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch55_on"
+					}
+				},
+				{
+					"id": "3ZWE6uwaFN17VDFR",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch56_level"
+					}
+				},
+				{
+					"id": "Xa1hQiQfCunJimb8",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch56_on"
+					}
+				},
+				{
+					"id": "1UIVZbCER8Y9QakO",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch57_level"
+					}
+				},
+				{
+					"id": "KIbkzqfhAnlJeVAG",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch57_on"
+					}
+				},
+				{
+					"id": "i4fXN8bqxkXf3Jcg",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch58_level"
+					}
+				},
+				{
+					"id": "3ixHuwM0mX_6VuL1",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch58_on"
+					}
+				},
+				{
+					"id": "xcEz189n2nmdR_hH",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch59_level"
+					}
+				},
+				{
+					"id": "zrJkDBB6OmAy6xHv",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch59_on"
+					}
+				},
+				{
+					"id": "oQVpQNJD8SVJ50ab",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch60_level"
+					}
+				},
+				{
+					"id": "fQkGACFG6avyKJ3N",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch60_on"
+					}
+				},
+				{
+					"id": "g3GEqzezr2iXJT4C",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch61_level"
+					}
+				},
+				{
+					"id": "VJ9DX9LnKru1ss9F",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch61_on"
+					}
+				},
+				{
+					"id": "uO5mUCuXuNR21_t5",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch62_level"
+					}
+				},
+				{
+					"id": "LuacthQn7gzWXT6i",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch62_on"
+					}
+				},
+				{
+					"id": "l3Dosk6EOlQ26IDR",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch63_level"
+					}
+				},
+				{
+					"id": "-hZu6deKsQ1Q-FEh",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch63_on"
+					}
+				},
+				{
+					"id": "tCVxA-rmgXkR7Szw",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch64_level"
+					}
+				},
+				{
+					"id": "XPpM1znjsBVNLChM",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch64_on"
+					}
+				},
+				{
+					"id": "TtH1VQC3sXv2HOys",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch65_level"
+					}
+				},
+				{
+					"id": "Hvz59sQc3ShYjltK",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch65_on"
+					}
+				},
+				{
+					"id": "qVjAR5BGNb1c4JiN",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch66_level"
+					}
+				},
+				{
+					"id": "f8KLMpPof-VCitAz",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch66_on"
+					}
+				},
+				{
+					"id": "fksolsT6Iiv7YP2u",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch67_level"
+					}
+				},
+				{
+					"id": "X1V3gGmNA_XADlKj",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch67_on"
+					}
+				},
+				{
+					"id": "9QT33bZGlXEeeMXM",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch68_level"
+					}
+				},
+				{
+					"id": "eEDS6v_NFYaBvrPj",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch68_on"
+					}
+				},
+				{
+					"id": "JVvzqIX37ZpnLQDM",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch69_level"
+					}
+				},
+				{
+					"id": "vNielMxmtmAVQQPH",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch69_on"
+					}
+				},
+				{
+					"id": "s_er-d4TjQIKIUO_",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch70_level"
+					}
+				},
+				{
+					"id": "p0-mXtc19oDTJ2Lq",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch70_on"
+					}
+				},
+				{
+					"id": "tgd07xE0o0Mq7R_g",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch71_level"
+					}
+				},
+				{
+					"id": "ax_j69_DT9fyc82F",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch71_on"
+					}
+				},
+				{
+					"id": "lRLf8_Hif0KhQS2Y",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch72_level"
+					}
+				},
+				{
+					"id": "FmeIY41NcPp-0Lvu",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch72_on"
+					}
+				},
+				{
+					"id": "sVsa3TmVQOOUmOsZ",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch1_level"
+					}
+				},
+				{
+					"id": "lJ5a9pVV_QViVoYX",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch1_on"
+					}
+				},
+				{
+					"id": "nWXJFTxl1LKyO9e_",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch2_level"
+					}
+				},
+				{
+					"id": "VNQ4uSQpg2EP8hFW",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch2_on"
+					}
+				},
+				{
+					"id": "S1k3VCKD3mOOfqTO",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch3_level"
+					}
+				},
+				{
+					"id": "7gqnbJnDy4cUZ0Na",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch3_on"
+					}
+				},
+				{
+					"id": "JNcelfSsFzTQOcDT",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch4_level"
+					}
+				},
+				{
+					"id": "Dyjte6wAcTFNDypl",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch4_on"
+					}
+				},
+				{
+					"id": "ka0RfnfNF8PgDWHR",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch5_level"
+					}
+				},
+				{
+					"id": "e6jd-3uL0QygC7Nz",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch5_on"
+					}
+				},
+				{
+					"id": "dHFlVm8RihBIvYF5",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch6_level"
+					}
+				},
+				{
+					"id": "4bsUpmJAsIo-zGaW",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch6_on"
+					}
+				},
+				{
+					"id": "9rxN-0UqhCO_0dPM",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch7_level"
+					}
+				},
+				{
+					"id": "E5dppRQ3_upH3sxV",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch7_on"
+					}
+				},
+				{
+					"id": "QmXvnYptBrL1xZvX",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch8_level"
+					}
+				},
+				{
+					"id": "yJCWbLfXBzVOrM6I",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch8_on"
+					}
+				},
+				{
+					"id": "uUD4tJGQovlWfxJl",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch9_level"
+					}
+				},
+				{
+					"id": "XSXiBSstBxhnhkpk",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch9_on"
+					}
+				},
+				{
+					"id": "BStjZ4kL7h0HUB2j",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch10_level"
+					}
+				},
+				{
+					"id": "2zktR6LE4ZVufMpL",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch10_on"
+					}
+				},
+				{
+					"id": "cgs8BuznSqpqGOt0",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch11_level"
+					}
+				},
+				{
+					"id": "eWQy5IsvN045trqE",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch11_on"
+					}
+				},
+				{
+					"id": "N5AJS_vYt8OKW5ml",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch12_level"
+					}
+				},
+				{
+					"id": "iaLN4GDl-shKBVqi",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch12_on"
+					}
+				},
+				{
+					"id": "ImfjgVo_2lM30uoe",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch13_level"
+					}
+				},
+				{
+					"id": "xeyQz4_TXeTJMf67",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch13_on"
+					}
+				},
+				{
+					"id": "123ntRVb_ziiiSn8",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch14_level"
+					}
+				},
+				{
+					"id": "fpJDOk-WyyI4nEan",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch14_on"
+					}
+				},
+				{
+					"id": "av__7PFM6tmssvXM",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch15_level"
+					}
+				},
+				{
+					"id": "Y4nuqC_kJOz6Pfj6",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch15_on"
+					}
+				},
+				{
+					"id": "5L3pdonKJ6WpBRQ7",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch16_level"
+					}
+				},
+				{
+					"id": "Cz2IC0K6lpqrg-RF",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch16_on"
+					}
+				},
+				{
+					"id": "CbLKHyaGBzb6r5Su",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix1_level"
+					}
+				},
+				{
+					"id": "pflVWN_6Yc7ispMk",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix1_on"
+					}
+				},
+				{
+					"id": "UGa1fwVrfw-oVbxw",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix2_level"
+					}
+				},
+				{
+					"id": "dyLWkX_pksUOI0kr",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix2_on"
+					}
+				},
+				{
+					"id": "2-Bs71xTTigrIEDj",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix3_level"
+					}
+				},
+				{
+					"id": "fZVehMsrZPgIUTOm",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix3_on"
+					}
+				},
+				{
+					"id": "__31YaU_4h37rtUy",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix4_level"
+					}
+				},
+				{
+					"id": "pc3_zhSh6TFaEU_S",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix4_on"
+					}
+				},
+				{
+					"id": "GSIi7sbm9P7futpz",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix5_level"
+					}
+				},
+				{
+					"id": "EQ9pkLkQnpyceoTZ",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix5_on"
+					}
+				},
+				{
+					"id": "Vbhdvk96yTB0cEYh",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix6_level"
+					}
+				},
+				{
+					"id": "bXXkcoyA82ro05ya",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix6_on"
+					}
+				},
+				{
+					"id": "cex7u1pxpu-2-fKh",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix7_level"
+					}
+				},
+				{
+					"id": "xa0Lomagnbf3z89b",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix7_on"
+					}
+				},
+				{
+					"id": "5tlPAB_mSizThSv3",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix8_level"
+					}
+				},
+				{
+					"id": "3At52k2fAI5O13f2",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix8_on"
+					}
+				},
+				{
+					"id": "nGRvF2UGN964jog9",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix9_level"
+					}
+				},
+				{
+					"id": "CNKk3t8oe6zElFS1",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix9_on"
+					}
+				},
+				{
+					"id": "GFD8v9dzAMWUgBF6",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix10_level"
+					}
+				},
+				{
+					"id": "RXagVFQ8-_ilzaYF",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix10_on"
+					}
+				},
+				{
+					"id": "hePyny_ovswaPwdz",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix11_level"
+					}
+				},
+				{
+					"id": "oFo04A4DRi_mkOF3",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix11_on"
+					}
+				},
+				{
+					"id": "IZ59XnZFQ6z8rYyl",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix12_level"
+					}
+				},
+				{
+					"id": "MlodnmcGJCchwEM2",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix12_on"
+					}
+				},
+				{
+					"id": "0wgBRwL4pbEW8a77",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix13_level"
+					}
+				},
+				{
+					"id": "gpkSsMl_UVtZhYpU",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix13_on"
+					}
+				},
+				{
+					"id": "g2QVyIydjAG1iDfH",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix14_level"
+					}
+				},
+				{
+					"id": "nrm_3amtdoTJ_LQ6",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix14_on"
+					}
+				},
+				{
+					"id": "xbrXgx5QBQHdoQXe",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix15_level"
+					}
+				},
+				{
+					"id": "Em0etN8pacKlu1Z6",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix15_on"
+					}
+				},
+				{
+					"id": "XBnziSoZzfEP8ekK",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix16_level"
+					}
+				},
+				{
+					"id": "1wazHXGfaeDtZpfu",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix16_on"
+					}
+				},
+				{
+					"id": "eyp2iZ9KzsYbSx_M",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix17_level"
+					}
+				},
+				{
+					"id": "jAL4ot7q3QHtF5ib",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix17_on"
+					}
+				},
+				{
+					"id": "QBPpXujZvOU0qMX2",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix18_level"
+					}
+				},
+				{
+					"id": "4ye8idZ1ZiieqozT",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix18_on"
+					}
+				},
+				{
+					"id": "9K_Jn51nwcQFot-E",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix19_level"
+					}
+				},
+				{
+					"id": "LCm5JAnnB2BXIZy1",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix19_on"
+					}
+				},
+				{
+					"id": "YtAFjPJqsD7xex6Q",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix20_level"
+					}
+				},
+				{
+					"id": "SW_TYvOEVUWr2uoX",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix20_on"
+					}
+				},
+				{
+					"id": "rFvR7tNPlS4OQos8",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix21_level"
+					}
+				},
+				{
+					"id": "Lr6_N1NnD85GTu0L",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix21_on"
+					}
+				},
+				{
+					"id": "f6AxZ8NnEt2KsdYM",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix22_level"
+					}
+				},
+				{
+					"id": "7cV08XHCsMX7C-y1",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix22_on"
+					}
+				},
+				{
+					"id": "Yt0l2oiadUv-QGW-",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix23_level"
+					}
+				},
+				{
+					"id": "dVteLe6rn_5aLCxU",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix23_on"
+					}
+				},
+				{
+					"id": "H4AU5okzuEI5YGFT",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix24_level"
+					}
+				},
+				{
+					"id": "YKt6Mmx9ucBYjOD7",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix24_on"
+					}
+				},
+				{
+					"id": "NSC1wESFmVRpcIpC",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mtrx1_level"
+					}
+				},
+				{
+					"id": "FBLf1DzWKK1RSb7h",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mtrx1_on"
+					}
+				},
+				{
+					"id": "A8T2lpUxcWgLauoY",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mtrx2_level"
+					}
+				},
+				{
+					"id": "aX07C-tRabj4Dtnw",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mtrx2_on"
+					}
+				},
+				{
+					"id": "244WF40DCO3X6jGo",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mtrx3_level"
+					}
+				},
+				{
+					"id": "MxTyWcjnrvOzDcwO",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mtrx3_on"
+					}
+				},
+				{
+					"id": "bD1GHxptXFG8kDRv",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mtrx4_level"
+					}
+				},
+				{
+					"id": "EkQIjdBSM9R0sfvt",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mtrx4_on"
+					}
+				},
+				{
+					"id": "-L9gGgofwyBH7uvp",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mtrx5_level"
+					}
+				},
+				{
+					"id": "kjlWRZcM3ewpIbr5",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mtrx5_on"
+					}
+				},
+				{
+					"id": "QJamj43_3fwK5d6x",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mtrx6_level"
+					}
+				},
+				{
+					"id": "TyCcmedxu168-C0s",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mtrx6_on"
+					}
+				},
+				{
+					"id": "MV61wxu5g5OwYhi8",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mtrx7_level"
+					}
+				},
+				{
+					"id": "Al6Gq43jZUlS4Bbw",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mtrx7_on"
+					}
+				},
+				{
+					"id": "dhYyXxn5f63CsKHJ",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mtrx8_level"
+					}
+				},
+				{
+					"id": "auNJGil-lFtD3k5i",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mtrx8_on"
+					}
+				},
+				{
+					"id": "pUhzTPc2yiY-kmsg",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:st1_level"
+					}
+				},
+				{
+					"id": "zZngwuKk9F5vtxA0",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:st1_on"
+					}
+				},
+				{
+					"id": "0Uz-XmaHTUwJDG1E",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:st2_level"
+					}
+				},
+				{
+					"id": "MGmMbKtKgbWZLWQJ",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:st2_on"
+					}
+				},
+				{
+					"id": "Qve86ldYgXm4woG7",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:st3_level"
+					}
+				},
+				{
+					"id": "lxirTyW_82URwFnP",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:st3_on"
+					}
+				},
+				{
+					"id": "f4pSXlzVmI4ZGTiV",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca1_level"
+					}
+				},
+				{
+					"id": "23lPN4WnWZztm4d4",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca1_on"
+					}
+				},
+				{
+					"id": "es5AdD8ovYinOb-X",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca2_level"
+					}
+				},
+				{
+					"id": "xcBaW_Vv96aH0fd-",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca2_on"
+					}
+				},
+				{
+					"id": "y6ss6ZVP4aezGkHD",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca3_level"
+					}
+				},
+				{
+					"id": "HIFBypKaYNFzdEBx",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca3_on"
+					}
+				},
+				{
+					"id": "fvApso6Rtm47sPx_",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca4_level"
+					}
+				},
+				{
+					"id": "kr4mNl8Rdiy5ahS2",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca4_on"
+					}
+				},
+				{
+					"id": "O2I7gpXkp8aYOFNN",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca5_level"
+					}
+				},
+				{
+					"id": "kTevfht51csqVO7K",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca5_on"
+					}
+				},
+				{
+					"id": "0w1v3CFjCnHfTtRT",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca6_level"
+					}
+				},
+				{
+					"id": "4HfC_xIJ_LK1l1lH",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca6_on"
+					}
+				},
+				{
+					"id": "vQCP7xSEskX7ZTIO",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca7_level"
+					}
+				},
+				{
+					"id": "ZlwN4MoPDQonS0Zt",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca7_on"
+					}
+				},
+				{
+					"id": "iM65Qv3JljRogcC_",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca8_level"
+					}
+				},
+				{
+					"id": "q5J9NH0pNLfHhxLw",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca8_on"
+					}
+				},
+				{
+					"id": "iOxRussxfG8nHzmW",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca9_level"
+					}
+				},
+				{
+					"id": "NQGphT5CmMHV9s5W",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca9_on"
+					}
+				},
+				{
+					"id": "QDTFAIjg0rMoNQgw",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca10_level"
+					}
+				},
+				{
+					"id": "nWvt6TB3U6jZd1hU",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca10_on"
+					}
+				},
+				{
+					"id": "izVbdddFzjoN1Yh-",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca11_level"
+					}
+				},
+				{
+					"id": "sM6rBmvzoTSiWei9",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca11_on"
+					}
+				},
+				{
+					"id": "vKS087Fm7QDrNgPx",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca12_level"
+					}
+				},
+				{
+					"id": "Qy-ZnNyNJtn3UJ2u",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca12_on"
+					}
+				},
+				{
+					"id": "06989k7msw7HNYN1",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca13_level"
+					}
+				},
+				{
+					"id": "vdCm0_ZRjWZY_Daq",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca13_on"
+					}
+				},
+				{
+					"id": "MchoL9Mvpcf1VH4e",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca14_level"
+					}
+				},
+				{
+					"id": "2ABgh1VTymOX_5Dv",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca14_on"
+					}
+				},
+				{
+					"id": "HcyolvqWF4BA1BoV",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca15_level"
+					}
+				},
+				{
+					"id": "wR78BSibxFngK51m",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca15_on"
+					}
+				},
+				{
+					"id": "aWYtfepQWjude8cY",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca16_level"
+					}
+				},
+				{
+					"id": "QjZ6apoBmRqnLWAa",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:dca16_on"
+					}
+				}
+			],
+			"localVariables": [
+				{
+					"id": "Svl0KObILTxoeEVb",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 1
+						}
+					},
+					"variableName": "inch1_level",
+					"isInverted": false
+				},
+				{
+					"id": "XWGo_6MuCTBWR5Ww",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 1
+						}
+					},
+					"variableName": "inch1_on",
+					"isInverted": false
+				},
+				{
+					"id": "9tKDEJ51DCTnY2Dq",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 2
+						}
+					},
+					"variableName": "inch2_level",
+					"isInverted": false
+				},
+				{
+					"id": "Xw_rff24uUEcZkGA",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 2
+						}
+					},
+					"variableName": "inch2_on",
+					"isInverted": false
+				},
+				{
+					"id": "5dXShxZlt1n2r-x1",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 3
+						}
+					},
+					"variableName": "inch3_level",
+					"isInverted": false
+				},
+				{
+					"id": "6EJ9Yv5QV1J0YAe8",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 3
+						}
+					},
+					"variableName": "inch3_on",
+					"isInverted": false
+				},
+				{
+					"id": "cCXxlsHA3JjBbiGJ",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 4
+						}
+					},
+					"variableName": "inch4_level",
+					"isInverted": false
+				},
+				{
+					"id": "ziEpz88rRlVYjrPs",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 4
+						}
+					},
+					"variableName": "inch4_on",
+					"isInverted": false
+				},
+				{
+					"id": "vJwN9_KMrRtR7VpV",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 5
+						}
+					},
+					"variableName": "inch5_level",
+					"isInverted": false
+				},
+				{
+					"id": "LfqB3BWN-Ah67vLS",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 5
+						}
+					},
+					"variableName": "inch5_on",
+					"isInverted": false
+				},
+				{
+					"id": "RT1Uy0t-dJYJxZVY",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 6
+						}
+					},
+					"variableName": "inch6_level",
+					"isInverted": false
+				},
+				{
+					"id": "A-21q1mQ-YNH1kYb",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 6
+						}
+					},
+					"variableName": "inch6_on",
+					"isInverted": false
+				},
+				{
+					"id": "1ZsXWj_ggo70GCvT",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 7
+						}
+					},
+					"variableName": "inch7_level",
+					"isInverted": false
+				},
+				{
+					"id": "34kZT85Z_Y1r9zSO",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 7
+						}
+					},
+					"variableName": "inch7_on",
+					"isInverted": false
+				},
+				{
+					"id": "rWfbTPIEnoGPHuEH",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 8
+						}
+					},
+					"variableName": "inch8_level",
+					"isInverted": false
+				},
+				{
+					"id": "Vpih_EEAX6N73S3j",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 8
+						}
+					},
+					"variableName": "inch8_on",
+					"isInverted": false
+				},
+				{
+					"id": "V4Q0Z5kChIkomicZ",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 9
+						}
+					},
+					"variableName": "inch9_level",
+					"isInverted": false
+				},
+				{
+					"id": "-3RPSFxVTmraBlC6",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 9
+						}
+					},
+					"variableName": "inch9_on",
+					"isInverted": false
+				},
+				{
+					"id": "k5MspbodH-TEQG-t",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 10
+						}
+					},
+					"variableName": "inch10_level",
+					"isInverted": false
+				},
+				{
+					"id": "wKzxxppT8XRxgl4-",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 10
+						}
+					},
+					"variableName": "inch10_on",
+					"isInverted": false
+				},
+				{
+					"id": "_Yk8SNbpz-oAN9gs",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 11
+						}
+					},
+					"variableName": "inch11_level",
+					"isInverted": false
+				},
+				{
+					"id": "kmq1pVL1i5W1UAkI",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 11
+						}
+					},
+					"variableName": "inch11_on",
+					"isInverted": false
+				},
+				{
+					"id": "X2DidmyFpIEFHfAm",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 12
+						}
+					},
+					"variableName": "inch12_level",
+					"isInverted": false
+				},
+				{
+					"id": "CPt1L0c5hBNcgkuP",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 12
+						}
+					},
+					"variableName": "inch12_on",
+					"isInverted": false
+				},
+				{
+					"id": "fRhtEyX-B8nTuNpZ",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 13
+						}
+					},
+					"variableName": "inch13_level",
+					"isInverted": false
+				},
+				{
+					"id": "Ve9n0-NfycDHBbss",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 13
+						}
+					},
+					"variableName": "inch13_on",
+					"isInverted": false
+				},
+				{
+					"id": "PJAGMudFkYhG_mIJ",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 14
+						}
+					},
+					"variableName": "inch14_level",
+					"isInverted": false
+				},
+				{
+					"id": "_ROn708PRmYKurA2",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 14
+						}
+					},
+					"variableName": "inch14_on",
+					"isInverted": false
+				},
+				{
+					"id": "8ik5gTAgdNZTZhu6",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 15
+						}
+					},
+					"variableName": "inch15_level",
+					"isInverted": false
+				},
+				{
+					"id": "DXZbt1TjQB8u6t6N",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 15
+						}
+					},
+					"variableName": "inch15_on",
+					"isInverted": false
+				},
+				{
+					"id": "uumWdvgfanu00-b8",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 16
+						}
+					},
+					"variableName": "inch16_level",
+					"isInverted": false
+				},
+				{
+					"id": "aCZJi5GNI--hWTa1",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 16
+						}
+					},
+					"variableName": "inch16_on",
+					"isInverted": false
+				},
+				{
+					"id": "s3n2N4AQhTJ9XV8N",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 17
+						}
+					},
+					"variableName": "inch17_level",
+					"isInverted": false
+				},
+				{
+					"id": "DS5GLrh3iqka9avp",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 17
+						}
+					},
+					"variableName": "inch17_on",
+					"isInverted": false
+				},
+				{
+					"id": "bEOAbqgsRAaULjHi",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 18
+						}
+					},
+					"variableName": "inch18_level",
+					"isInverted": false
+				},
+				{
+					"id": "nUp_xTmyl39snxLj",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 18
+						}
+					},
+					"variableName": "inch18_on",
+					"isInverted": false
+				},
+				{
+					"id": "3B0_JA9i-jaw8Ehn",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 19
+						}
+					},
+					"variableName": "inch19_level",
+					"isInverted": false
+				},
+				{
+					"id": "z7qAvgl7tk6nbV1z",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 19
+						}
+					},
+					"variableName": "inch19_on",
+					"isInverted": false
+				},
+				{
+					"id": "MgVkul34Hyau9oVH",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 20
+						}
+					},
+					"variableName": "inch20_level",
+					"isInverted": false
+				},
+				{
+					"id": "8MUJVvt8Alc84cA4",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 20
+						}
+					},
+					"variableName": "inch20_on",
+					"isInverted": false
+				},
+				{
+					"id": "8s2QCMYvESWi931H",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 21
+						}
+					},
+					"variableName": "inch21_level",
+					"isInverted": false
+				},
+				{
+					"id": "KjMZRSL5ytiSiFRe",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 21
+						}
+					},
+					"variableName": "inch21_on",
+					"isInverted": false
+				},
+				{
+					"id": "WvaYVRJnUezpJBmt",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 22
+						}
+					},
+					"variableName": "inch22_level",
+					"isInverted": false
+				},
+				{
+					"id": "Ei3Xr-xb_SOAgG4U",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 22
+						}
+					},
+					"variableName": "inch22_on",
+					"isInverted": false
+				},
+				{
+					"id": "TjJs8VB5bRXpLpMg",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 23
+						}
+					},
+					"variableName": "inch23_level",
+					"isInverted": false
+				},
+				{
+					"id": "gU-8njz9dLBbv0Ff",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 23
+						}
+					},
+					"variableName": "inch23_on",
+					"isInverted": false
+				},
+				{
+					"id": "p2E5lH0gsdAY_EBx",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 24
+						}
+					},
+					"variableName": "inch24_level",
+					"isInverted": false
+				},
+				{
+					"id": "YqrbC-TLCIH3155H",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 24
+						}
+					},
+					"variableName": "inch24_on",
+					"isInverted": false
+				},
+				{
+					"id": "9DKfXVOQJvLIySs9",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 25
+						}
+					},
+					"variableName": "inch25_level",
+					"isInverted": false
+				},
+				{
+					"id": "W9Cf8ylTBAcm-A2A",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 25
+						}
+					},
+					"variableName": "inch25_on",
+					"isInverted": false
+				},
+				{
+					"id": "AK3xcBTtOLEK_1Cq",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 26
+						}
+					},
+					"variableName": "inch26_level",
+					"isInverted": false
+				},
+				{
+					"id": "NPqhJxIp15FGUYqe",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 26
+						}
+					},
+					"variableName": "inch26_on",
+					"isInverted": false
+				},
+				{
+					"id": "AkR9HAran5FlFdvq",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 27
+						}
+					},
+					"variableName": "inch27_level",
+					"isInverted": false
+				},
+				{
+					"id": "IkXlw7o1W2kmzZIt",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 27
+						}
+					},
+					"variableName": "inch27_on",
+					"isInverted": false
+				},
+				{
+					"id": "0_lioHF4fGjvrfex",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 28
+						}
+					},
+					"variableName": "inch28_level",
+					"isInverted": false
+				},
+				{
+					"id": "v0NNNpFxB-r_G200",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 28
+						}
+					},
+					"variableName": "inch28_on",
+					"isInverted": false
+				},
+				{
+					"id": "XF0L5aTFThScASVY",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 29
+						}
+					},
+					"variableName": "inch29_level",
+					"isInverted": false
+				},
+				{
+					"id": "kba0cKiY2kc_stfg",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 29
+						}
+					},
+					"variableName": "inch29_on",
+					"isInverted": false
+				},
+				{
+					"id": "_RZWMd9jaKLGuNtu",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 30
+						}
+					},
+					"variableName": "inch30_level",
+					"isInverted": false
+				},
+				{
+					"id": "e25GamCFZ_NS_FHT",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 30
+						}
+					},
+					"variableName": "inch30_on",
+					"isInverted": false
+				},
+				{
+					"id": "8ZXnthx73ULGmukL",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 31
+						}
+					},
+					"variableName": "inch31_level",
+					"isInverted": false
+				},
+				{
+					"id": "BaaOhiZbhbN4Clpc",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 31
+						}
+					},
+					"variableName": "inch31_on",
+					"isInverted": false
+				},
+				{
+					"id": "n7HecgAibtcPwjJ6",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 32
+						}
+					},
+					"variableName": "inch32_level",
+					"isInverted": false
+				},
+				{
+					"id": "RsfPfhTzEhcmYgML",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 32
+						}
+					},
+					"variableName": "inch32_on",
+					"isInverted": false
+				},
+				{
+					"id": "v6MUu3h0_9lVS8iL",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 33
+						}
+					},
+					"variableName": "inch33_level",
+					"isInverted": false
+				},
+				{
+					"id": "Bjc9eVa2bi5-cu5D",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 33
+						}
+					},
+					"variableName": "inch33_on",
+					"isInverted": false
+				},
+				{
+					"id": "_IuOcGt1FGgoHlem",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 34
+						}
+					},
+					"variableName": "inch34_level",
+					"isInverted": false
+				},
+				{
+					"id": "jcaMt9sh64S5DO77",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 34
+						}
+					},
+					"variableName": "inch34_on",
+					"isInverted": false
+				},
+				{
+					"id": "DSXuLIqNLt6Y8h9x",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 35
+						}
+					},
+					"variableName": "inch35_level",
+					"isInverted": false
+				},
+				{
+					"id": "jxQb3lEmnTCUJptO",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 35
+						}
+					},
+					"variableName": "inch35_on",
+					"isInverted": false
+				},
+				{
+					"id": "belQGFbu-RJmR9Ee",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 36
+						}
+					},
+					"variableName": "inch36_level",
+					"isInverted": false
+				},
+				{
+					"id": "Hp04DLCkQ8aMUV-g",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 36
+						}
+					},
+					"variableName": "inch36_on",
+					"isInverted": false
+				},
+				{
+					"id": "asIuuazR6i1NzrA1",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 37
+						}
+					},
+					"variableName": "inch37_level",
+					"isInverted": false
+				},
+				{
+					"id": "aGmRhhJQJHyR_X0y",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 37
+						}
+					},
+					"variableName": "inch37_on",
+					"isInverted": false
+				},
+				{
+					"id": "wFAVeepppY0tP7VK",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 38
+						}
+					},
+					"variableName": "inch38_level",
+					"isInverted": false
+				},
+				{
+					"id": "Se9IfF7m4Yywq2ZK",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 38
+						}
+					},
+					"variableName": "inch38_on",
+					"isInverted": false
+				},
+				{
+					"id": "2NHBBMFtPkoh284l",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 39
+						}
+					},
+					"variableName": "inch39_level",
+					"isInverted": false
+				},
+				{
+					"id": "kWMZV3z79WFydlwf",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 39
+						}
+					},
+					"variableName": "inch39_on",
+					"isInverted": false
+				},
+				{
+					"id": "0oHC3Zm0tIVRnG96",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 40
+						}
+					},
+					"variableName": "inch40_level",
+					"isInverted": false
+				},
+				{
+					"id": "SRf0YmWkJm5688j3",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 40
+						}
+					},
+					"variableName": "inch40_on",
+					"isInverted": false
+				},
+				{
+					"id": "wqvREx4gqRm183ru",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 41
+						}
+					},
+					"variableName": "inch41_level",
+					"isInverted": false
+				},
+				{
+					"id": "LThy5kKLEWvs7gsp",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 41
+						}
+					},
+					"variableName": "inch41_on",
+					"isInverted": false
+				},
+				{
+					"id": "JeRJzvKxrZWd_0LI",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 42
+						}
+					},
+					"variableName": "inch42_level",
+					"isInverted": false
+				},
+				{
+					"id": "CrKthU7OgIJcF1G2",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 42
+						}
+					},
+					"variableName": "inch42_on",
+					"isInverted": false
+				},
+				{
+					"id": "lGD629Q-EDx-NE4m",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 43
+						}
+					},
+					"variableName": "inch43_level",
+					"isInverted": false
+				},
+				{
+					"id": "5Bari4s8yNZ_35si",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 43
+						}
+					},
+					"variableName": "inch43_on",
+					"isInverted": false
+				},
+				{
+					"id": "WyERXdud6urFfi-3",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 44
+						}
+					},
+					"variableName": "inch44_level",
+					"isInverted": false
+				},
+				{
+					"id": "WiHFZ7sxmWxeVhZW",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 44
+						}
+					},
+					"variableName": "inch44_on",
+					"isInverted": false
+				},
+				{
+					"id": "wVHK2AfZzDWwNUfm",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 45
+						}
+					},
+					"variableName": "inch45_level",
+					"isInverted": false
+				},
+				{
+					"id": "_x0GOE4H4LumV-aK",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 45
+						}
+					},
+					"variableName": "inch45_on",
+					"isInverted": false
+				},
+				{
+					"id": "ZzkRxQsDfZys-VlK",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 46
+						}
+					},
+					"variableName": "inch46_level",
+					"isInverted": false
+				},
+				{
+					"id": "tjR3QhMh_PnoQg-X",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 46
+						}
+					},
+					"variableName": "inch46_on",
+					"isInverted": false
+				},
+				{
+					"id": "ItjdO9s-q53KTaf6",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 47
+						}
+					},
+					"variableName": "inch47_level",
+					"isInverted": false
+				},
+				{
+					"id": "4wYPqNUoLcUhSnAa",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 47
+						}
+					},
+					"variableName": "inch47_on",
+					"isInverted": false
+				},
+				{
+					"id": "18Fv6IMR9TZZXdnb",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 48
+						}
+					},
+					"variableName": "inch48_level",
+					"isInverted": false
+				},
+				{
+					"id": "_H0GJid4gjpYfOWm",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 48
+						}
+					},
+					"variableName": "inch48_on",
+					"isInverted": false
+				},
+				{
+					"id": "66YquUlCczCXeTqs",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 49
+						}
+					},
+					"variableName": "inch49_level",
+					"isInverted": false
+				},
+				{
+					"id": "QlJUEGxXHjXaCJYj",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 49
+						}
+					},
+					"variableName": "inch49_on",
+					"isInverted": false
+				},
+				{
+					"id": "KtB_DQ1zqP1WLvMu",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 50
+						}
+					},
+					"variableName": "inch50_level",
+					"isInverted": false
+				},
+				{
+					"id": "jB051zPDAgzgrt5P",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 50
+						}
+					},
+					"variableName": "inch50_on",
+					"isInverted": false
+				},
+				{
+					"id": "DTiIY1r4RTu40EwG",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 51
+						}
+					},
+					"variableName": "inch51_level",
+					"isInverted": false
+				},
+				{
+					"id": "9fYjg92MmA804oI6",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 51
+						}
+					},
+					"variableName": "inch51_on",
+					"isInverted": false
+				},
+				{
+					"id": "t_HiyiWwRQ_ZEn3I",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 52
+						}
+					},
+					"variableName": "inch52_level",
+					"isInverted": false
+				},
+				{
+					"id": "m3mGmbmVMCnlbs3C",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 52
+						}
+					},
+					"variableName": "inch52_on",
+					"isInverted": false
+				},
+				{
+					"id": "B5gIAafGeHpzk7B_",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 53
+						}
+					},
+					"variableName": "inch53_level",
+					"isInverted": false
+				},
+				{
+					"id": "XGLvkRYBOnbaBr_0",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 53
+						}
+					},
+					"variableName": "inch53_on",
+					"isInverted": false
+				},
+				{
+					"id": "AAHPCo9eQZJFIZ-D",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 54
+						}
+					},
+					"variableName": "inch54_level",
+					"isInverted": false
+				},
+				{
+					"id": "B45z2YgwMAtyraN8",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 54
+						}
+					},
+					"variableName": "inch54_on",
+					"isInverted": false
+				},
+				{
+					"id": "NghZv9iFstigJxfV",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 55
+						}
+					},
+					"variableName": "inch55_level",
+					"isInverted": false
+				},
+				{
+					"id": "4C0-ifSLvtbnEjlu",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 55
+						}
+					},
+					"variableName": "inch55_on",
+					"isInverted": false
+				},
+				{
+					"id": "cS-ZkVBZIClj74PG",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 56
+						}
+					},
+					"variableName": "inch56_level",
+					"isInverted": false
+				},
+				{
+					"id": "-EhmPvlZ_U2yXimG",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 56
+						}
+					},
+					"variableName": "inch56_on",
+					"isInverted": false
+				},
+				{
+					"id": "OZzdv5Bh_y6UTDHg",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 57
+						}
+					},
+					"variableName": "inch57_level",
+					"isInverted": false
+				},
+				{
+					"id": "Ayokg_aGCRSDB0Vi",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 57
+						}
+					},
+					"variableName": "inch57_on",
+					"isInverted": false
+				},
+				{
+					"id": "Z_V-iNvrf7Oh4ZdN",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 58
+						}
+					},
+					"variableName": "inch58_level",
+					"isInverted": false
+				},
+				{
+					"id": "9UxGHrD9XFpWdRVK",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 58
+						}
+					},
+					"variableName": "inch58_on",
+					"isInverted": false
+				},
+				{
+					"id": "_3QBNWCpNCfP52ES",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 59
+						}
+					},
+					"variableName": "inch59_level",
+					"isInverted": false
+				},
+				{
+					"id": "8U0LOdH7snX2TP7T",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 59
+						}
+					},
+					"variableName": "inch59_on",
+					"isInverted": false
+				},
+				{
+					"id": "aArpT3KUE_TIrtCe",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 60
+						}
+					},
+					"variableName": "inch60_level",
+					"isInverted": false
+				},
+				{
+					"id": "MxQ1Daz-nVSyeRVZ",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 60
+						}
+					},
+					"variableName": "inch60_on",
+					"isInverted": false
+				},
+				{
+					"id": "J7QHOapxa5u-45_5",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 61
+						}
+					},
+					"variableName": "inch61_level",
+					"isInverted": false
+				},
+				{
+					"id": "mxmOY2xhU8XNkVDE",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 61
+						}
+					},
+					"variableName": "inch61_on",
+					"isInverted": false
+				},
+				{
+					"id": "OqvqGY4a5ac_2DBE",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 62
+						}
+					},
+					"variableName": "inch62_level",
+					"isInverted": false
+				},
+				{
+					"id": "lK2og0zyDZ8UXDJg",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 62
+						}
+					},
+					"variableName": "inch62_on",
+					"isInverted": false
+				},
+				{
+					"id": "ASwsm-Ys8LgsvBKc",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 63
+						}
+					},
+					"variableName": "inch63_level",
+					"isInverted": false
+				},
+				{
+					"id": "B8xvznYKy37WFWmR",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 63
+						}
+					},
+					"variableName": "inch63_on",
+					"isInverted": false
+				},
+				{
+					"id": "PTUXHPVFC2dOnNBW",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 64
+						}
+					},
+					"variableName": "inch64_level",
+					"isInverted": false
+				},
+				{
+					"id": "IGwPVLl1FOYPUdkJ",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 64
+						}
+					},
+					"variableName": "inch64_on",
+					"isInverted": false
+				},
+				{
+					"id": "V3MFhOaHGKdTjwaA",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 65
+						}
+					},
+					"variableName": "inch65_level",
+					"isInverted": false
+				},
+				{
+					"id": "U_UW-gxju0rSIcDV",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 65
+						}
+					},
+					"variableName": "inch65_on",
+					"isInverted": false
+				},
+				{
+					"id": "JTSprDWDs1qmdtOG",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 66
+						}
+					},
+					"variableName": "inch66_level",
+					"isInverted": false
+				},
+				{
+					"id": "Ha25atl947P8ckQ4",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 66
+						}
+					},
+					"variableName": "inch66_on",
+					"isInverted": false
+				},
+				{
+					"id": "o8TkT-T9ogh9cpM_",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 67
+						}
+					},
+					"variableName": "inch67_level",
+					"isInverted": false
+				},
+				{
+					"id": "hiE20TunfCRlmcMJ",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 67
+						}
+					},
+					"variableName": "inch67_on",
+					"isInverted": false
+				},
+				{
+					"id": "N4X3VLx18SYMOBB1",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 68
+						}
+					},
+					"variableName": "inch68_level",
+					"isInverted": false
+				},
+				{
+					"id": "GbXWAPHf23FPVzUA",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 68
+						}
+					},
+					"variableName": "inch68_on",
+					"isInverted": false
+				},
+				{
+					"id": "MMAsmSV0rTBGDZ2u",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 69
+						}
+					},
+					"variableName": "inch69_level",
+					"isInverted": false
+				},
+				{
+					"id": "rCd9svdvJ1pv2Lf4",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 69
+						}
+					},
+					"variableName": "inch69_on",
+					"isInverted": false
+				},
+				{
+					"id": "VUquMs3V_aE0qI66",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 70
+						}
+					},
+					"variableName": "inch70_level",
+					"isInverted": false
+				},
+				{
+					"id": "FVU3bu4YbprfG599",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 70
+						}
+					},
+					"variableName": "inch70_on",
+					"isInverted": false
+				},
+				{
+					"id": "hvBTaU851mKgUc93",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 71
+						}
+					},
+					"variableName": "inch71_level",
+					"isInverted": false
+				},
+				{
+					"id": "qVO113s6zY8obmR_",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 71
+						}
+					},
+					"variableName": "inch71_on",
+					"isInverted": false
+				},
+				{
+					"id": "JmUXIp8xmKWj4Mhl",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 72
+						}
+					},
+					"variableName": "inch72_level",
+					"isInverted": false
+				},
+				{
+					"id": "ceKOWLscGDkXlaRA",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 72
+						}
+					},
+					"variableName": "inch72_on",
+					"isInverted": false
+				},
+				{
+					"id": "0WznR0A-W85zUkyO",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 1
+						}
+					},
+					"variableName": "stinch1_level",
+					"isInverted": false
+				},
+				{
+					"id": "4e34xheL-mSxKs_A",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 1
+						}
+					},
+					"variableName": "stinch1_on",
+					"isInverted": false
+				},
+				{
+					"id": "wL4KOMKtMEKEVdDJ",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 2
+						}
+					},
+					"variableName": "stinch2_level",
+					"isInverted": false
+				},
+				{
+					"id": "oJaPvzItt3uijRwI",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 2
+						}
+					},
+					"variableName": "stinch2_on",
+					"isInverted": false
+				},
+				{
+					"id": "509z7KR_234pxv3C",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 3
+						}
+					},
+					"variableName": "stinch3_level",
+					"isInverted": false
+				},
+				{
+					"id": "gA2hhE9XimvZlLOm",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 3
+						}
+					},
+					"variableName": "stinch3_on",
+					"isInverted": false
+				},
+				{
+					"id": "vcERtjCWfGsSNj3A",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 4
+						}
+					},
+					"variableName": "stinch4_level",
+					"isInverted": false
+				},
+				{
+					"id": "qj6dX7nmKYnDid_i",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 4
+						}
+					},
+					"variableName": "stinch4_on",
+					"isInverted": false
+				},
+				{
+					"id": "NYLWqyVAWtQjIFBc",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 5
+						}
+					},
+					"variableName": "stinch5_level",
+					"isInverted": false
+				},
+				{
+					"id": "EnqnDK4mev4Mu3Dl",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 5
+						}
+					},
+					"variableName": "stinch5_on",
+					"isInverted": false
+				},
+				{
+					"id": "6OgnAYZKhdrjnevx",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 6
+						}
+					},
+					"variableName": "stinch6_level",
+					"isInverted": false
+				},
+				{
+					"id": "U7885ABzPZfAooeY",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 6
+						}
+					},
+					"variableName": "stinch6_on",
+					"isInverted": false
+				},
+				{
+					"id": "dN7S1_nT425oM1Xh",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 7
+						}
+					},
+					"variableName": "stinch7_level",
+					"isInverted": false
+				},
+				{
+					"id": "Dxvf6ktjXJOaopeD",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 7
+						}
+					},
+					"variableName": "stinch7_on",
+					"isInverted": false
+				},
+				{
+					"id": "IsKUQMIKAV5LXjq0",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 8
+						}
+					},
+					"variableName": "stinch8_level",
+					"isInverted": false
+				},
+				{
+					"id": "G9hn5FkkYU_Vs_jk",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 8
+						}
+					},
+					"variableName": "stinch8_on",
+					"isInverted": false
+				},
+				{
+					"id": "4LW5CQ989WzVhqzR",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 9
+						}
+					},
+					"variableName": "stinch9_level",
+					"isInverted": false
+				},
+				{
+					"id": "spYIuXbdGkIA0f5P",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 9
+						}
+					},
+					"variableName": "stinch9_on",
+					"isInverted": false
+				},
+				{
+					"id": "AgqQY5o39GTkiMw2",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 10
+						}
+					},
+					"variableName": "stinch10_level",
+					"isInverted": false
+				},
+				{
+					"id": "tg8OdNW1AbGeCusW",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 10
+						}
+					},
+					"variableName": "stinch10_on",
+					"isInverted": false
+				},
+				{
+					"id": "s-p4TGpMwF4GRdfP",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 11
+						}
+					},
+					"variableName": "stinch11_level",
+					"isInverted": false
+				},
+				{
+					"id": "vr-E1UwbdkRS5tDi",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 11
+						}
+					},
+					"variableName": "stinch11_on",
+					"isInverted": false
+				},
+				{
+					"id": "zyweSqxVonvqiPOx",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 12
+						}
+					},
+					"variableName": "stinch12_level",
+					"isInverted": false
+				},
+				{
+					"id": "10PWnFLU-UOzgVdU",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 12
+						}
+					},
+					"variableName": "stinch12_on",
+					"isInverted": false
+				},
+				{
+					"id": "BK5z7bHVYTmYCheT",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 13
+						}
+					},
+					"variableName": "stinch13_level",
+					"isInverted": false
+				},
+				{
+					"id": "pU5Kgr1lJlabSypT",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 13
+						}
+					},
+					"variableName": "stinch13_on",
+					"isInverted": false
+				},
+				{
+					"id": "fiCgoWzwW3Z_2nLZ",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 14
+						}
+					},
+					"variableName": "stinch14_level",
+					"isInverted": false
+				},
+				{
+					"id": "gjoBHrXmJJI3bnid",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 14
+						}
+					},
+					"variableName": "stinch14_on",
+					"isInverted": false
+				},
+				{
+					"id": "UXdl0-6Y0XvpoP2t",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 15
+						}
+					},
+					"variableName": "stinch15_level",
+					"isInverted": false
+				},
+				{
+					"id": "gDBzCad2dTzfRHeZ",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 15
+						}
+					},
+					"variableName": "stinch15_on",
+					"isInverted": false
+				},
+				{
+					"id": "3DblnCnbcvpyz48A",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 16
+						}
+					},
+					"variableName": "stinch16_level",
+					"isInverted": false
+				},
+				{
+					"id": "333q-3xtkU66gZFk",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 16
+						}
+					},
+					"variableName": "stinch16_on",
+					"isInverted": false
+				},
+				{
+					"id": "Tbq_b3vn3ntJq8qx",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 1
+						}
+					},
+					"variableName": "mix1_level",
+					"isInverted": false
+				},
+				{
+					"id": "UCp2wPTvpOarYrgj",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 1
+						}
+					},
+					"variableName": "mix1_on",
+					"isInverted": false
+				},
+				{
+					"id": "Rdfe6Sa7ILq2sYZy",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 2
+						}
+					},
+					"variableName": "mix2_level",
+					"isInverted": false
+				},
+				{
+					"id": "TzhJOO8-t_iQrtRH",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 2
+						}
+					},
+					"variableName": "mix2_on",
+					"isInverted": false
+				},
+				{
+					"id": "RIx3ztmqA2kM0yb1",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 3
+						}
+					},
+					"variableName": "mix3_level",
+					"isInverted": false
+				},
+				{
+					"id": "4Vr20hG3R6-Ya6mI",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 3
+						}
+					},
+					"variableName": "mix3_on",
+					"isInverted": false
+				},
+				{
+					"id": "Z5FnIFNwdlzMedr2",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 4
+						}
+					},
+					"variableName": "mix4_level",
+					"isInverted": false
+				},
+				{
+					"id": "6dgNaECs4CIOX4Yl",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 4
+						}
+					},
+					"variableName": "mix4_on",
+					"isInverted": false
+				},
+				{
+					"id": "r2KBDtchxlcZtZ7X",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 5
+						}
+					},
+					"variableName": "mix5_level",
+					"isInverted": false
+				},
+				{
+					"id": "DfbQBqejJw38csv_",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 5
+						}
+					},
+					"variableName": "mix5_on",
+					"isInverted": false
+				},
+				{
+					"id": "sCMCVLZAegDHLgrh",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 6
+						}
+					},
+					"variableName": "mix6_level",
+					"isInverted": false
+				},
+				{
+					"id": "tdg3UGfYcxajQx2Y",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 6
+						}
+					},
+					"variableName": "mix6_on",
+					"isInverted": false
+				},
+				{
+					"id": "UzthEh4JJ2Xhl5uV",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 7
+						}
+					},
+					"variableName": "mix7_level",
+					"isInverted": false
+				},
+				{
+					"id": "hq3bs8-6J0X5YdOg",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 7
+						}
+					},
+					"variableName": "mix7_on",
+					"isInverted": false
+				},
+				{
+					"id": "aIt5T7aeEz35ijvc",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 8
+						}
+					},
+					"variableName": "mix8_level",
+					"isInverted": false
+				},
+				{
+					"id": "a7xB-tOVRaCxCKAT",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 8
+						}
+					},
+					"variableName": "mix8_on",
+					"isInverted": false
+				},
+				{
+					"id": "l6rP4RjLNXMVkcpQ",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 9
+						}
+					},
+					"variableName": "mix9_level",
+					"isInverted": false
+				},
+				{
+					"id": "nJspIHtSDOsz3RzZ",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 9
+						}
+					},
+					"variableName": "mix9_on",
+					"isInverted": false
+				},
+				{
+					"id": "kMHlMFoo5qa0MK10",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 10
+						}
+					},
+					"variableName": "mix10_level",
+					"isInverted": false
+				},
+				{
+					"id": "iqcpSgWihvku0Nie",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 10
+						}
+					},
+					"variableName": "mix10_on",
+					"isInverted": false
+				},
+				{
+					"id": "hh28UVTm-WMjkxss",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 11
+						}
+					},
+					"variableName": "mix11_level",
+					"isInverted": false
+				},
+				{
+					"id": "74VPZI5Yk9ligBGS",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 11
+						}
+					},
+					"variableName": "mix11_on",
+					"isInverted": false
+				},
+				{
+					"id": "mJ2N2zt7VuQ9NaIM",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 12
+						}
+					},
+					"variableName": "mix12_level",
+					"isInverted": false
+				},
+				{
+					"id": "vGMASno3uqobeDU-",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 12
+						}
+					},
+					"variableName": "mix12_on",
+					"isInverted": false
+				},
+				{
+					"id": "k9x0TUSh_td3kWD7",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 13
+						}
+					},
+					"variableName": "mix13_level",
+					"isInverted": false
+				},
+				{
+					"id": "3ml-P9X3xD-uvCZk",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 13
+						}
+					},
+					"variableName": "mix13_on",
+					"isInverted": false
+				},
+				{
+					"id": "zNPh7Y_5uUMVavUv",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 14
+						}
+					},
+					"variableName": "mix14_level",
+					"isInverted": false
+				},
+				{
+					"id": "ufWkM4iu6taq1IGb",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 14
+						}
+					},
+					"variableName": "mix14_on",
+					"isInverted": false
+				},
+				{
+					"id": "q19ifURlN5aB8E_X",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 15
+						}
+					},
+					"variableName": "mix15_level",
+					"isInverted": false
+				},
+				{
+					"id": "loVfWtS63qtTaSAs",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 15
+						}
+					},
+					"variableName": "mix15_on",
+					"isInverted": false
+				},
+				{
+					"id": "F4mfM4sOhBtn_zwc",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 16
+						}
+					},
+					"variableName": "mix16_level",
+					"isInverted": false
+				},
+				{
+					"id": "8pYZ9ptMKGhsuL5N",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 16
+						}
+					},
+					"variableName": "mix16_on",
+					"isInverted": false
+				},
+				{
+					"id": "mbdUA0lL3Eq4kPrt",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 17
+						}
+					},
+					"variableName": "mix17_level",
+					"isInverted": false
+				},
+				{
+					"id": "B-2cd_M6ysb9p6eT",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 17
+						}
+					},
+					"variableName": "mix17_on",
+					"isInverted": false
+				},
+				{
+					"id": "7F7rOke1t5Ctph7a",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 18
+						}
+					},
+					"variableName": "mix18_level",
+					"isInverted": false
+				},
+				{
+					"id": "djY3nfQlsHcvXGTM",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 18
+						}
+					},
+					"variableName": "mix18_on",
+					"isInverted": false
+				},
+				{
+					"id": "d31QPnO8ce1945JS",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 19
+						}
+					},
+					"variableName": "mix19_level",
+					"isInverted": false
+				},
+				{
+					"id": "dhzLIXLyKTW979OA",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 19
+						}
+					},
+					"variableName": "mix19_on",
+					"isInverted": false
+				},
+				{
+					"id": "qaI-kUEDq3-tbNw3",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 20
+						}
+					},
+					"variableName": "mix20_level",
+					"isInverted": false
+				},
+				{
+					"id": "kIL2s5FSJ6mGX9wc",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 20
+						}
+					},
+					"variableName": "mix20_on",
+					"isInverted": false
+				},
+				{
+					"id": "Q3eO0nK9-bR8dVUa",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 21
+						}
+					},
+					"variableName": "mix21_level",
+					"isInverted": false
+				},
+				{
+					"id": "gZ9Glk9ZsYXZl5wG",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 21
+						}
+					},
+					"variableName": "mix21_on",
+					"isInverted": false
+				},
+				{
+					"id": "3mF12JMWj1RD8WhI",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 22
+						}
+					},
+					"variableName": "mix22_level",
+					"isInverted": false
+				},
+				{
+					"id": "q9i-ZNoYKBx-CqDB",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 22
+						}
+					},
+					"variableName": "mix22_on",
+					"isInverted": false
+				},
+				{
+					"id": "723KT6hRmKhPICj4",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 23
+						}
+					},
+					"variableName": "mix23_level",
+					"isInverted": false
+				},
+				{
+					"id": "yZpyJbepE_h17S9w",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 23
+						}
+					},
+					"variableName": "mix23_on",
+					"isInverted": false
+				},
+				{
+					"id": "lSVlryopeHSVlE1p",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 24
+						}
+					},
+					"variableName": "mix24_level",
+					"isInverted": false
+				},
+				{
+					"id": "qqsm3QR7EwMBahV4",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 24
+						}
+					},
+					"variableName": "mix24_on",
+					"isInverted": false
+				},
+				{
+					"id": "13OJAbrkzPzmRwIK",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mtrx/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 1
+						}
+					},
+					"variableName": "mtrx1_level",
+					"isInverted": false
+				},
+				{
+					"id": "3NMBbK8WtloJsl_J",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mtrx/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 1
+						}
+					},
+					"variableName": "mtrx1_on",
+					"isInverted": false
+				},
+				{
+					"id": "AqACgcCsHaup3-09",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mtrx/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 2
+						}
+					},
+					"variableName": "mtrx2_level",
+					"isInverted": false
+				},
+				{
+					"id": "04n5vd9_vVaBWvAX",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mtrx/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 2
+						}
+					},
+					"variableName": "mtrx2_on",
+					"isInverted": false
+				},
+				{
+					"id": "Q4BHG0aVU8UnYt6-",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mtrx/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 3
+						}
+					},
+					"variableName": "mtrx3_level",
+					"isInverted": false
+				},
+				{
+					"id": "X4Uj1De-PyVwVG-X",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mtrx/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 3
+						}
+					},
+					"variableName": "mtrx3_on",
+					"isInverted": false
+				},
+				{
+					"id": "MzEAWW8usXSAmnt9",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mtrx/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 4
+						}
+					},
+					"variableName": "mtrx4_level",
+					"isInverted": false
+				},
+				{
+					"id": "Knk06QGXdwuQWAuM",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mtrx/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 4
+						}
+					},
+					"variableName": "mtrx4_on",
+					"isInverted": false
+				},
+				{
+					"id": "5e7TxCb69qfxjdVP",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mtrx/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 5
+						}
+					},
+					"variableName": "mtrx5_level",
+					"isInverted": false
+				},
+				{
+					"id": "I6syDA4GpJSwDm6p",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mtrx/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 5
+						}
+					},
+					"variableName": "mtrx5_on",
+					"isInverted": false
+				},
+				{
+					"id": "xvCiF2F9UgLbyA7G",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mtrx/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 6
+						}
+					},
+					"variableName": "mtrx6_level",
+					"isInverted": false
+				},
+				{
+					"id": "-1EJhLVjCj7O-qT6",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mtrx/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 6
+						}
+					},
+					"variableName": "mtrx6_on",
+					"isInverted": false
+				},
+				{
+					"id": "q2by2AbXod2IPw6_",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mtrx/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 7
+						}
+					},
+					"variableName": "mtrx7_level",
+					"isInverted": false
+				},
+				{
+					"id": "uL0AkoSU5S3u3Yh9",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mtrx/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 7
+						}
+					},
+					"variableName": "mtrx7_on",
+					"isInverted": false
+				},
+				{
+					"id": "Dof-dD7VFT0JN2Uj",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mtrx/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 8
+						}
+					},
+					"variableName": "mtrx8_level",
+					"isInverted": false
+				},
+				{
+					"id": "JNPzElnE9MnIW2_J",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mtrx/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 8
+						}
+					},
+					"variableName": "mtrx8_on",
+					"isInverted": false
+				},
+				{
+					"id": "jreLNKWdwAGLR3f2",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/St/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 1
+						}
+					},
+					"variableName": "st1_level",
+					"isInverted": false
+				},
+				{
+					"id": "CdMg3v1oIq0MvV51",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/St/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 1
+						}
+					},
+					"variableName": "st1_on",
+					"isInverted": false
+				},
+				{
+					"id": "E8XOlVFaZLlrren_",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/St/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 2
+						}
+					},
+					"variableName": "st2_level",
+					"isInverted": false
+				},
+				{
+					"id": "26oSqmyxuNrjhGFC",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/St/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 2
+						}
+					},
+					"variableName": "st2_on",
+					"isInverted": false
+				},
+				{
+					"id": "jmQ8cfhIjH3f3dDT",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/St/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 3
+						}
+					},
+					"variableName": "st3_level",
+					"isInverted": false
+				},
+				{
+					"id": "VU44Y9GHEwTSpriE",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/St/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 3
+						}
+					},
+					"variableName": "st3_on",
+					"isInverted": false
+				},
+				{
+					"id": "SjwZ2JyaMRjc5cJO",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 1
+						}
+					},
+					"variableName": "dca1_level",
+					"isInverted": false
+				},
+				{
+					"id": "4vOQbZR-8HXxOkmo",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 1
+						}
+					},
+					"variableName": "dca1_on",
+					"isInverted": false
+				},
+				{
+					"id": "n266lpijYjw0d_lX",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 2
+						}
+					},
+					"variableName": "dca2_level",
+					"isInverted": false
+				},
+				{
+					"id": "1aJCLtPT-qrAWi-b",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 2
+						}
+					},
+					"variableName": "dca2_on",
+					"isInverted": false
+				},
+				{
+					"id": "ToLJFHeRe4HGQSoR",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 3
+						}
+					},
+					"variableName": "dca3_level",
+					"isInverted": false
+				},
+				{
+					"id": "whbACL2ishYGlrL_",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 3
+						}
+					},
+					"variableName": "dca3_on",
+					"isInverted": false
+				},
+				{
+					"id": "dcAJHD3Cszf4XvtP",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 4
+						}
+					},
+					"variableName": "dca4_level",
+					"isInverted": false
+				},
+				{
+					"id": "Gi58f3Px95vV6O0m",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 4
+						}
+					},
+					"variableName": "dca4_on",
+					"isInverted": false
+				},
+				{
+					"id": "sU5_hXx2czxfDhpl",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 5
+						}
+					},
+					"variableName": "dca5_level",
+					"isInverted": false
+				},
+				{
+					"id": "59l8e-jgxEdNnZPh",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 5
+						}
+					},
+					"variableName": "dca5_on",
+					"isInverted": false
+				},
+				{
+					"id": "PBh1UVP8oPZkBJt_",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 6
+						}
+					},
+					"variableName": "dca6_level",
+					"isInverted": false
+				},
+				{
+					"id": "sH3AgvkFegu-xqy1",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 6
+						}
+					},
+					"variableName": "dca6_on",
+					"isInverted": false
+				},
+				{
+					"id": "DTQboGMrTPo4W_v6",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 7
+						}
+					},
+					"variableName": "dca7_level",
+					"isInverted": false
+				},
+				{
+					"id": "kfVMDoIrEt4X9S7n",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 7
+						}
+					},
+					"variableName": "dca7_on",
+					"isInverted": false
+				},
+				{
+					"id": "j4-5c0_ulRMD2RXw",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 8
+						}
+					},
+					"variableName": "dca8_level",
+					"isInverted": false
+				},
+				{
+					"id": "3u_rVzHjOLxo0_dE",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 8
+						}
+					},
+					"variableName": "dca8_on",
+					"isInverted": false
+				},
+				{
+					"id": "0mjV7MouQMMd2-b2",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 9
+						}
+					},
+					"variableName": "dca9_level",
+					"isInverted": false
+				},
+				{
+					"id": "Sg1oZN_PMpOJGJGQ",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 9
+						}
+					},
+					"variableName": "dca9_on",
+					"isInverted": false
+				},
+				{
+					"id": "IUlZGtMJ18YtCKki",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 10
+						}
+					},
+					"variableName": "dca10_level",
+					"isInverted": false
+				},
+				{
+					"id": "TJdwDGfS8j1UOKIX",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 10
+						}
+					},
+					"variableName": "dca10_on",
+					"isInverted": false
+				},
+				{
+					"id": "37iL71IPLMNS2UH1",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 11
+						}
+					},
+					"variableName": "dca11_level",
+					"isInverted": false
+				},
+				{
+					"id": "Wl-Ww86SoUNk6Axc",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 11
+						}
+					},
+					"variableName": "dca11_on",
+					"isInverted": false
+				},
+				{
+					"id": "PV9n0xok9q6l08UU",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 12
+						}
+					},
+					"variableName": "dca12_level",
+					"isInverted": false
+				},
+				{
+					"id": "pc-9EtKjWa9vISUi",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 12
+						}
+					},
+					"variableName": "dca12_on",
+					"isInverted": false
+				},
+				{
+					"id": "uTkFwJS1nqBUFJt1",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 13
+						}
+					},
+					"variableName": "dca13_level",
+					"isInverted": false
+				},
+				{
+					"id": "kBatHVRpdWQEka6g",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 13
+						}
+					},
+					"variableName": "dca13_on",
+					"isInverted": false
+				},
+				{
+					"id": "XXM5K_9kyLSdMNWL",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 14
+						}
+					},
+					"variableName": "dca14_level",
+					"isInverted": false
+				},
+				{
+					"id": "0yfcqgvi7Tjo1nPm",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 14
+						}
+					},
+					"variableName": "dca14_on",
+					"isInverted": false
+				},
+				{
+					"id": "X_rWbOMN7Vjnhsxl",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 15
+						}
+					},
+					"variableName": "dca15_level",
+					"isInverted": false
+				},
+				{
+					"id": "3bKeBm_32YenvKk9",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 15
+						}
+					},
+					"variableName": "dca15_on",
+					"isInverted": false
+				},
+				{
+					"id": "k7RtPwC8kZxGdGWO",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 16
+						}
+					},
+					"variableName": "dca16_level",
+					"isInverted": false
+				},
+				{
+					"id": "41GxCduA6W4tlfk7",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/DCA/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 16
+						}
+					},
+					"variableName": "dca16_on",
+					"isInverted": false
+				}
+			]
+		}
+	},
+	"instances": {
+		"villageConnection": {
+			"moduleInstanceType": "connection",
+			"moduleId": "companion-village",
+			"label": "village",
+			"config": {},
+			"enabled": true
+		},
+		"deskConnection": {
+			"moduleInstanceType": "connection",
+			"moduleId": "yamaha-rcp",
+			"label": "yamaha",
+			"config": {},
+			"enabled": true
+		}
+	}
+}

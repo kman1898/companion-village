@@ -1,0 +1,1477 @@
+{
+	"type": "trigger_list",
+	"version": 12,
+	"triggers": {
+		"MnHLQ2qG6f4J_60L": {
+			"type": "trigger",
+			"options": {
+				"name": "Village desk: Yamaha DM3",
+				"enabled": true,
+				"sortOrder": 0
+			},
+			"actions": [
+				{
+					"id": "2JoAoElvtcjid5Or",
+					"definitionId": "desk_activity",
+					"connectionId": "villageConnection",
+					"type": "action",
+					"options": {
+						"tribe": {
+							"isExpression": false,
+							"value": "noises"
+						},
+						"desk": {
+							"isExpression": false,
+							"value": "Yamaha DM3"
+						},
+						"mode": {
+							"isExpression": false,
+							"value": "values"
+						},
+						"values": {
+							"isExpression": false,
+							"value": "inch1_level=$(local:inch1_level)\ninch1_on=$(local:inch1_on)\ninch2_level=$(local:inch2_level)\ninch2_on=$(local:inch2_on)\ninch3_level=$(local:inch3_level)\ninch3_on=$(local:inch3_on)\ninch4_level=$(local:inch4_level)\ninch4_on=$(local:inch4_on)\ninch5_level=$(local:inch5_level)\ninch5_on=$(local:inch5_on)\ninch6_level=$(local:inch6_level)\ninch6_on=$(local:inch6_on)\ninch7_level=$(local:inch7_level)\ninch7_on=$(local:inch7_on)\ninch8_level=$(local:inch8_level)\ninch8_on=$(local:inch8_on)\ninch9_level=$(local:inch9_level)\ninch9_on=$(local:inch9_on)\ninch10_level=$(local:inch10_level)\ninch10_on=$(local:inch10_on)\ninch11_level=$(local:inch11_level)\ninch11_on=$(local:inch11_on)\ninch12_level=$(local:inch12_level)\ninch12_on=$(local:inch12_on)\ninch13_level=$(local:inch13_level)\ninch13_on=$(local:inch13_on)\ninch14_level=$(local:inch14_level)\ninch14_on=$(local:inch14_on)\ninch15_level=$(local:inch15_level)\ninch15_on=$(local:inch15_on)\ninch16_level=$(local:inch16_level)\ninch16_on=$(local:inch16_on)\nstinch1_level=$(local:stinch1_level)\nstinch1_on=$(local:stinch1_on)\nstinch2_level=$(local:stinch2_level)\nstinch2_on=$(local:stinch2_on)\nfxrtnch1_level=$(local:fxrtnch1_level)\nfxrtnch1_on=$(local:fxrtnch1_on)\nfxrtnch2_level=$(local:fxrtnch2_level)\nfxrtnch2_on=$(local:fxrtnch2_on)\nfxrtnch3_level=$(local:fxrtnch3_level)\nfxrtnch3_on=$(local:fxrtnch3_on)\nfxrtnch4_level=$(local:fxrtnch4_level)\nfxrtnch4_on=$(local:fxrtnch4_on)\nmix1_level=$(local:mix1_level)\nmix1_on=$(local:mix1_on)\nmix2_level=$(local:mix2_level)\nmix2_on=$(local:mix2_on)\nmix3_level=$(local:mix3_level)\nmix3_on=$(local:mix3_on)\nmix4_level=$(local:mix4_level)\nmix4_on=$(local:mix4_on)\nmix5_level=$(local:mix5_level)\nmix5_on=$(local:mix5_on)\nmix6_level=$(local:mix6_level)\nmix6_on=$(local:mix6_on)\nmtrx1_level=$(local:mtrx1_level)\nmtrx1_on=$(local:mtrx1_on)\nmtrx2_level=$(local:mtrx2_level)\nmtrx2_on=$(local:mtrx2_on)\nst1_level=$(local:st1_level)\nst1_on=$(local:st1_on)\nst2_level=$(local:st2_level)\nst2_on=$(local:st2_on)"
+						},
+						"control": {
+							"isExpression": false,
+							"value": ""
+						},
+						"ignore": {
+							"isExpression": false,
+							"value": ""
+						}
+					}
+				}
+			],
+			"condition": [],
+			"events": [
+				{
+					"id": "qS58d-WtR9TuE1eL",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch1_level"
+					}
+				},
+				{
+					"id": "AHqdbhM-YBjo8LQb",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch1_on"
+					}
+				},
+				{
+					"id": "SCyqBhtccE_BWufY",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch2_level"
+					}
+				},
+				{
+					"id": "vZVBooXyxIZ67jeG",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch2_on"
+					}
+				},
+				{
+					"id": "0KPilYw-LxIhxipn",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch3_level"
+					}
+				},
+				{
+					"id": "C-kK8FxfC_ykirjX",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch3_on"
+					}
+				},
+				{
+					"id": "pKGeF9622zAExwsu",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch4_level"
+					}
+				},
+				{
+					"id": "WxIRh52WIe4gAZx8",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch4_on"
+					}
+				},
+				{
+					"id": "nq699Qnjl3H097Im",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch5_level"
+					}
+				},
+				{
+					"id": "yTm271h627Q8SNeW",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch5_on"
+					}
+				},
+				{
+					"id": "vQpxPTioRULNOTzs",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch6_level"
+					}
+				},
+				{
+					"id": "LQB-YpgK45V4qs8I",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch6_on"
+					}
+				},
+				{
+					"id": "FeBVPo4b_JaA8B5f",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch7_level"
+					}
+				},
+				{
+					"id": "tS60suQ8GItcFev5",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch7_on"
+					}
+				},
+				{
+					"id": "Ujq93g_8T0voMSyQ",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch8_level"
+					}
+				},
+				{
+					"id": "IYOmTqu5gcandU_n",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch8_on"
+					}
+				},
+				{
+					"id": "GiuHa-iQf6vBIzrf",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch9_level"
+					}
+				},
+				{
+					"id": "TGasBsnMOqEZDw-d",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch9_on"
+					}
+				},
+				{
+					"id": "YBukJ_oOl5Mr_ltp",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch10_level"
+					}
+				},
+				{
+					"id": "tEzq85viYcNdkkIy",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch10_on"
+					}
+				},
+				{
+					"id": "R19NKJ53eYIvzE7O",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch11_level"
+					}
+				},
+				{
+					"id": "4jIg8lPUY-mfAIta",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch11_on"
+					}
+				},
+				{
+					"id": "lx-bYDNgTOU0PN6T",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch12_level"
+					}
+				},
+				{
+					"id": "ODl6lUN9-tvDkRfv",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch12_on"
+					}
+				},
+				{
+					"id": "Dk4T7pQZ64lm7K8R",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch13_level"
+					}
+				},
+				{
+					"id": "zkO2vuQy826Wg0oX",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch13_on"
+					}
+				},
+				{
+					"id": "73GUUdGp19hh5NHL",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch14_level"
+					}
+				},
+				{
+					"id": "F7HVw2oY0YDQcGkI",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch14_on"
+					}
+				},
+				{
+					"id": "85o7UEcnWpDYHtR9",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch15_level"
+					}
+				},
+				{
+					"id": "iCyoRBtO-gJPQc3X",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch15_on"
+					}
+				},
+				{
+					"id": "SZUYlqnhZEtJX5LR",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch16_level"
+					}
+				},
+				{
+					"id": "bu7k3pHYdhwMAoGO",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:inch16_on"
+					}
+				},
+				{
+					"id": "_9PRcLCCQeU9VRjS",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch1_level"
+					}
+				},
+				{
+					"id": "PDP4-FZdcgtoBa14",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch1_on"
+					}
+				},
+				{
+					"id": "RXFnXlIFUO-T84Jq",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch2_level"
+					}
+				},
+				{
+					"id": "pnlhMmycIgpI0qlu",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:stinch2_on"
+					}
+				},
+				{
+					"id": "-HagaVefpsZZlfAQ",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:fxrtnch1_level"
+					}
+				},
+				{
+					"id": "iOTPlINfbWkQTsKF",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:fxrtnch1_on"
+					}
+				},
+				{
+					"id": "lmVKNZOI4psCCwU3",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:fxrtnch2_level"
+					}
+				},
+				{
+					"id": "vCNSnR8VSu_YRrQF",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:fxrtnch2_on"
+					}
+				},
+				{
+					"id": "9qLozNs59_YNkJMF",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:fxrtnch3_level"
+					}
+				},
+				{
+					"id": "mvKndLtJWzwgi3y2",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:fxrtnch3_on"
+					}
+				},
+				{
+					"id": "b1t5g8WVNyLh6Cwc",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:fxrtnch4_level"
+					}
+				},
+				{
+					"id": "S-PCQJLMC8xngp6N",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:fxrtnch4_on"
+					}
+				},
+				{
+					"id": "g6APOOKidhNZSX1a",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix1_level"
+					}
+				},
+				{
+					"id": "tO5PZqMLYLLk32uj",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix1_on"
+					}
+				},
+				{
+					"id": "9jrYuhpUVoT9c42a",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix2_level"
+					}
+				},
+				{
+					"id": "vK_zfctRGfy7lFBB",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix2_on"
+					}
+				},
+				{
+					"id": "nISX9bk9Upi_9wnn",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix3_level"
+					}
+				},
+				{
+					"id": "hQe3O24J4P4zYBzo",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix3_on"
+					}
+				},
+				{
+					"id": "HCfSK_SMbhWd4LAG",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix4_level"
+					}
+				},
+				{
+					"id": "7T0Sbisn6Hy3315f",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix4_on"
+					}
+				},
+				{
+					"id": "OTowGuQUvQrO3p4f",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix5_level"
+					}
+				},
+				{
+					"id": "ePMLnzCx8ok-MOgG",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix5_on"
+					}
+				},
+				{
+					"id": "oDAMD5Qg1db32ElM",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix6_level"
+					}
+				},
+				{
+					"id": "OUAXl6B2NPi0KLg_",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mix6_on"
+					}
+				},
+				{
+					"id": "4stBg60znZYx56AS",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mtrx1_level"
+					}
+				},
+				{
+					"id": "oRmuqYA0vUbn7SYr",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mtrx1_on"
+					}
+				},
+				{
+					"id": "lriVvBSlrBqPE8sZ",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mtrx2_level"
+					}
+				},
+				{
+					"id": "8pcqcgq2lzWcq3Fe",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:mtrx2_on"
+					}
+				},
+				{
+					"id": "Mubfiun-_4AxAPL-",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:st1_level"
+					}
+				},
+				{
+					"id": "NwLqUtdShM7LVNZA",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:st1_on"
+					}
+				},
+				{
+					"id": "bCnh-d5l7gzkCsGE",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:st2_level"
+					}
+				},
+				{
+					"id": "WTrbFZW_Fg6ZtBpv",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "local:st2_on"
+					}
+				}
+			],
+			"localVariables": [
+				{
+					"id": "ZYAjaariNY7NuJKe",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 1
+						}
+					},
+					"variableName": "inch1_level",
+					"isInverted": false
+				},
+				{
+					"id": "I0VjPGijt-aju0RK",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 1
+						}
+					},
+					"variableName": "inch1_on",
+					"isInverted": false
+				},
+				{
+					"id": "NeDAn02lz_Dpexrm",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 2
+						}
+					},
+					"variableName": "inch2_level",
+					"isInverted": false
+				},
+				{
+					"id": "au68299Ry9bt9915",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 2
+						}
+					},
+					"variableName": "inch2_on",
+					"isInverted": false
+				},
+				{
+					"id": "lrRpJcI9_k4NhDXP",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 3
+						}
+					},
+					"variableName": "inch3_level",
+					"isInverted": false
+				},
+				{
+					"id": "UaK8Q6ZzloXN2_5O",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 3
+						}
+					},
+					"variableName": "inch3_on",
+					"isInverted": false
+				},
+				{
+					"id": "eJSyQPBnMHZ3-H-r",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 4
+						}
+					},
+					"variableName": "inch4_level",
+					"isInverted": false
+				},
+				{
+					"id": "68H6rZHI-5SWPola",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 4
+						}
+					},
+					"variableName": "inch4_on",
+					"isInverted": false
+				},
+				{
+					"id": "YOL71R1QXQdgajJB",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 5
+						}
+					},
+					"variableName": "inch5_level",
+					"isInverted": false
+				},
+				{
+					"id": "LEQ2PyEXjiC0CHVN",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 5
+						}
+					},
+					"variableName": "inch5_on",
+					"isInverted": false
+				},
+				{
+					"id": "ClQrWvbrFcmigthE",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 6
+						}
+					},
+					"variableName": "inch6_level",
+					"isInverted": false
+				},
+				{
+					"id": "Bkmb3f_T7cAoLZL8",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 6
+						}
+					},
+					"variableName": "inch6_on",
+					"isInverted": false
+				},
+				{
+					"id": "hW9mRORtS1TV2XIn",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 7
+						}
+					},
+					"variableName": "inch7_level",
+					"isInverted": false
+				},
+				{
+					"id": "5w_Qx2I3FRum6DPQ",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 7
+						}
+					},
+					"variableName": "inch7_on",
+					"isInverted": false
+				},
+				{
+					"id": "O8Jke8mSS4i_66KU",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 8
+						}
+					},
+					"variableName": "inch8_level",
+					"isInverted": false
+				},
+				{
+					"id": "b1Bw01YLa8ydyXXT",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 8
+						}
+					},
+					"variableName": "inch8_on",
+					"isInverted": false
+				},
+				{
+					"id": "O1RCn_7ftPADMZ_-",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 9
+						}
+					},
+					"variableName": "inch9_level",
+					"isInverted": false
+				},
+				{
+					"id": "sRICq4q2ylBHvKcR",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 9
+						}
+					},
+					"variableName": "inch9_on",
+					"isInverted": false
+				},
+				{
+					"id": "H43dJM2cOqx3Wsfl",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 10
+						}
+					},
+					"variableName": "inch10_level",
+					"isInverted": false
+				},
+				{
+					"id": "nH8rL6mVdVV0bEoX",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 10
+						}
+					},
+					"variableName": "inch10_on",
+					"isInverted": false
+				},
+				{
+					"id": "exdT6XdcDZy84b72",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 11
+						}
+					},
+					"variableName": "inch11_level",
+					"isInverted": false
+				},
+				{
+					"id": "6kuoRjSUOXwP6aA0",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 11
+						}
+					},
+					"variableName": "inch11_on",
+					"isInverted": false
+				},
+				{
+					"id": "Hcu54leGEJWMtQz3",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 12
+						}
+					},
+					"variableName": "inch12_level",
+					"isInverted": false
+				},
+				{
+					"id": "ZujmW5QbmUh5fC29",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 12
+						}
+					},
+					"variableName": "inch12_on",
+					"isInverted": false
+				},
+				{
+					"id": "mOmv24nEew4UpLFW",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 13
+						}
+					},
+					"variableName": "inch13_level",
+					"isInverted": false
+				},
+				{
+					"id": "OdfsmnJi3rAcEKEO",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 13
+						}
+					},
+					"variableName": "inch13_on",
+					"isInverted": false
+				},
+				{
+					"id": "AHoSGu9OdmBTxgU5",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 14
+						}
+					},
+					"variableName": "inch14_level",
+					"isInverted": false
+				},
+				{
+					"id": "DJKfQhrg35fPZ_L8",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 14
+						}
+					},
+					"variableName": "inch14_on",
+					"isInverted": false
+				},
+				{
+					"id": "pOlAjLO__nXdjE3M",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 15
+						}
+					},
+					"variableName": "inch15_level",
+					"isInverted": false
+				},
+				{
+					"id": "L9fIGqzLZl9oXcUc",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 15
+						}
+					},
+					"variableName": "inch15_on",
+					"isInverted": false
+				},
+				{
+					"id": "VxiU-DaZuMV5-By8",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 16
+						}
+					},
+					"variableName": "inch16_level",
+					"isInverted": false
+				},
+				{
+					"id": "xy7u1fFkuvJ47DSR",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/InCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 16
+						}
+					},
+					"variableName": "inch16_on",
+					"isInverted": false
+				},
+				{
+					"id": "dFFme1l7rRtNDDir",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 1
+						}
+					},
+					"variableName": "stinch1_level",
+					"isInverted": false
+				},
+				{
+					"id": "JrLxVTFcdsjiTz7d",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 1
+						}
+					},
+					"variableName": "stinch1_on",
+					"isInverted": false
+				},
+				{
+					"id": "qJuaW_LEcJOZGq1n",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 2
+						}
+					},
+					"variableName": "stinch2_level",
+					"isInverted": false
+				},
+				{
+					"id": "adSK7S2tyWW4GB4B",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/StInCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 2
+						}
+					},
+					"variableName": "stinch2_on",
+					"isInverted": false
+				},
+				{
+					"id": "KQHe8vasavFnJK_h",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/FxRtnCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 1
+						}
+					},
+					"variableName": "fxrtnch1_level",
+					"isInverted": false
+				},
+				{
+					"id": "s0MbBLgyyv0SA8af",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/FxRtnCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 1
+						}
+					},
+					"variableName": "fxrtnch1_on",
+					"isInverted": false
+				},
+				{
+					"id": "ivhVuE6p9rDEODGL",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/FxRtnCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 2
+						}
+					},
+					"variableName": "fxrtnch2_level",
+					"isInverted": false
+				},
+				{
+					"id": "UQZt0SyzseWBvCZH",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/FxRtnCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 2
+						}
+					},
+					"variableName": "fxrtnch2_on",
+					"isInverted": false
+				},
+				{
+					"id": "WjojdrPR99qpryQ6",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/FxRtnCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 3
+						}
+					},
+					"variableName": "fxrtnch3_level",
+					"isInverted": false
+				},
+				{
+					"id": "M0gtPcfuzFwxoAQZ",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/FxRtnCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 3
+						}
+					},
+					"variableName": "fxrtnch3_on",
+					"isInverted": false
+				},
+				{
+					"id": "ZQI65z28artEv0zM",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/FxRtnCh/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 4
+						}
+					},
+					"variableName": "fxrtnch4_level",
+					"isInverted": false
+				},
+				{
+					"id": "uaZh_FYpc--QFgOl",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/FxRtnCh/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 4
+						}
+					},
+					"variableName": "fxrtnch4_on",
+					"isInverted": false
+				},
+				{
+					"id": "0posbR6u7Fw4BlgS",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 1
+						}
+					},
+					"variableName": "mix1_level",
+					"isInverted": false
+				},
+				{
+					"id": "mCk89EoER8Cr372G",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 1
+						}
+					},
+					"variableName": "mix1_on",
+					"isInverted": false
+				},
+				{
+					"id": "n3cZnXjY0AnKZEL_",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 2
+						}
+					},
+					"variableName": "mix2_level",
+					"isInverted": false
+				},
+				{
+					"id": "frvpaPHvSj9xpmhI",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 2
+						}
+					},
+					"variableName": "mix2_on",
+					"isInverted": false
+				},
+				{
+					"id": "6UwHl0bf5Tw1TRww",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 3
+						}
+					},
+					"variableName": "mix3_level",
+					"isInverted": false
+				},
+				{
+					"id": "vTGa4vhmJxOa93hk",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 3
+						}
+					},
+					"variableName": "mix3_on",
+					"isInverted": false
+				},
+				{
+					"id": "bsepZZZVMe7kRQQa",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 4
+						}
+					},
+					"variableName": "mix4_level",
+					"isInverted": false
+				},
+				{
+					"id": "a6ClDqIZwpz9TbRp",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 4
+						}
+					},
+					"variableName": "mix4_on",
+					"isInverted": false
+				},
+				{
+					"id": "cajFmdbaxZcn5wpH",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 5
+						}
+					},
+					"variableName": "mix5_level",
+					"isInverted": false
+				},
+				{
+					"id": "2jDh59rM9nReCISG",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 5
+						}
+					},
+					"variableName": "mix5_on",
+					"isInverted": false
+				},
+				{
+					"id": "6tsGa1sZYj8bhsF0",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 6
+						}
+					},
+					"variableName": "mix6_level",
+					"isInverted": false
+				},
+				{
+					"id": "jSivFlS6710ETSse",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mix/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 6
+						}
+					},
+					"variableName": "mix6_on",
+					"isInverted": false
+				},
+				{
+					"id": "jtn7w52IKjW4EqaD",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mtrx/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 1
+						}
+					},
+					"variableName": "mtrx1_level",
+					"isInverted": false
+				},
+				{
+					"id": "vo9HPwjMUqgywwnE",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mtrx/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 1
+						}
+					},
+					"variableName": "mtrx1_on",
+					"isInverted": false
+				},
+				{
+					"id": "5ZTLaL28F-GJ2plG",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mtrx/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 2
+						}
+					},
+					"variableName": "mtrx2_level",
+					"isInverted": false
+				},
+				{
+					"id": "I2n5G89H29ThskN8",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/Mtrx/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 2
+						}
+					},
+					"variableName": "mtrx2_on",
+					"isInverted": false
+				},
+				{
+					"id": "u44Gv1X_VLdRlYo1",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/St/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 1
+						}
+					},
+					"variableName": "st1_level",
+					"isInverted": false
+				},
+				{
+					"id": "hvcuiZ_miTua6RUD",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/St/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 1
+						}
+					},
+					"variableName": "st1_on",
+					"isInverted": false
+				},
+				{
+					"id": "NTamy51phq1-WtN4",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/St/Fader/Level_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 2
+						}
+					},
+					"variableName": "st2_level",
+					"isInverted": false
+				},
+				{
+					"id": "409qFKM0GVfBHTlv",
+					"type": "feedback",
+					"definitionId": "MIXER_Current/St/Fader/On_Value",
+					"connectionId": "deskConnection",
+					"options": {
+						"X": {
+							"isExpression": false,
+							"value": 2
+						}
+					},
+					"variableName": "st2_on",
+					"isInverted": false
+				}
+			]
+		}
+	},
+	"instances": {
+		"villageConnection": {
+			"moduleInstanceType": "connection",
+			"moduleId": "companion-village",
+			"label": "village",
+			"config": {},
+			"enabled": true
+		},
+		"deskConnection": {
+			"moduleInstanceType": "connection",
+			"moduleId": "yamaha-rcp",
+			"label": "yamaha",
+			"config": {},
+			"enabled": true
+		}
+	}
+}

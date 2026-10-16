@@ -21,6 +21,13 @@ This module connects your Stream Deck to the game, in both directions:
 **Several departments:** give every operator's Companion this module, each set to its own tribe. Open the village from one of them
 and list the other modules' addresses (comma separated) under *Settings → Companion module*.
 
+**Desk competitions:** sound and lighting desks can score too. A trigger watches your desk module's variables
+(X32, WING, Yamaha RCP, MagicQ, or Generic OSC for grandMA3) and runs **Desk activity (fair count)**. A whole fader move,
+a key press or a scene recall counts as *one* action. The rules are in this connection's config: one gesture until the
+control is still for 800 ms, controls moving within 300 ms count once, the same control scores at most every 2 s, and each
+desk scores at most 30 per minute. The project's `tools/desk-triggers.mjs` builds and installs these triggers, e.g.
+`node tools/desk-triggers.mjs x32 --install --name FOH`.
+
 **Firewall:** if another computer can't open the page, allow incoming connections on port 17890 on the Companion machine.
 
 ### Actions
@@ -39,16 +46,19 @@ and list the other modules' addresses (comma separated) under *Settings → Comp
 | Set the time of day | Dawn, noon, dusk, midnight. |
 | Setting: war / events / AI pace / day length | Change the game rules live. |
 | Screen: show a message banner | Put your own text on the screen (variables allowed). |
+| Desk activity (fair count) | For desk triggers: watches the values (or the latest OSC path) a trigger passes and scores one year per operator action. |
+| Desk activity: scoring on / off · reset | Pause desk scoring (soundcheck, programming) or zero the desk counters. |
 
 ### Variables
 
 `$(village:my_year)`, `$(village:my_pop)`, `$(village:my_era_name)`, `$(village:my_status)` … for this Companion's tribe.
 The same exist per tribe, e.g. `$(village:noises_pop)`, `$(village:lampys_wins)`. There are also relations such as
-`$(village:stance_pixels_noises)`, plus `$(village:url)`, `$(village:clock)`, `$(village:leader_name)`, `$(village:news)`, `$(village:events)` and more.
+`$(village:stance_pixels_noises)`, the desk scores `$(village:desk_actions)`, `$(village:noises_desk_actions)`,
+`$(village:desk_last)`, `$(village:desks)`, `$(village:desk_scoring)`, plus `$(village:url)`, `$(village:clock)`, `$(village:leader_name)`, `$(village:news)`, `$(village:events)` and more.
 
 ### Feedbacks
 
-Village connected · Tribe at war · Tribe being raided · Army on the march · Allies · Relation between tribes · Event happening · Era reached · Tribe in the lead · Screen following tribe · Night · Paused.
+Village connected · Tribe at war · Tribe being raided · Army on the march · Allies · Relation between tribes · Event happening · Era reached · Tribe in the lead · Screen following tribe · Night · Paused · Desk scoring on.
 
 ### Presets
 

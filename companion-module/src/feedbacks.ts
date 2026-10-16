@@ -19,6 +19,7 @@ export type FeedbacksSchema = {
 	night: { type: 'boolean'; options: Record<string, never> }
 	paused: { type: 'boolean'; options: Record<string, never> }
 	tribe_color: { type: 'value'; options: TribeOpt }
+	desk_scoring: { type: 'boolean'; options: Record<string, never> }
 }
 
 const ANY: DropdownChoice<string> = { id: 'any', label: 'Anyone' }
@@ -181,6 +182,13 @@ export function UpdateFeedbacks(self: ModuleInstance): void {
 			type: 'value',
 			options: [tribeField],
 			callback: (f) => TRIBES.find((t) => t.id === self.resolveTribe(f.options.tribe))?.color ?? 0,
+		},
+		desk_scoring: {
+			name: 'Desk scoring is on',
+			type: 'boolean',
+			defaultStyle: { bgcolor: combineRgb(0, 140, 60), color: combineRgb(255, 255, 255) },
+			options: [],
+			callback: () => self.desks.enabled,
 		},
 	})
 }

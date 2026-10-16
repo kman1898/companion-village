@@ -1,0 +1,228 @@
+{
+	"type": "trigger_list",
+	"version": 12,
+	"triggers": {
+		"RkuOKCciNI3YCvvG": {
+			"type": "trigger",
+			"options": {
+				"name": "Village desk: ChamSys MagicQ",
+				"enabled": true,
+				"sortOrder": 0
+			},
+			"actions": [
+				{
+					"id": "krTaM44AC_1iF9ZZ",
+					"definitionId": "desk_activity",
+					"connectionId": "villageConnection",
+					"type": "action",
+					"options": {
+						"tribe": {
+							"isExpression": false,
+							"value": "lampys"
+						},
+						"desk": {
+							"isExpression": false,
+							"value": "ChamSys MagicQ"
+						},
+						"mode": {
+							"isExpression": false,
+							"value": "values"
+						},
+						"values": {
+							"isExpression": false,
+							"value": "pb1=$(magicq:pb1)\npb1_flash=$(magicq:pb1_flash)\npb2=$(magicq:pb2)\npb2_flash=$(magicq:pb2_flash)\npb3=$(magicq:pb3)\npb3_flash=$(magicq:pb3_flash)\npb4=$(magicq:pb4)\npb4_flash=$(magicq:pb4_flash)\npb5=$(magicq:pb5)\npb5_flash=$(magicq:pb5_flash)\npb6=$(magicq:pb6)\npb6_flash=$(magicq:pb6_flash)\npb7=$(magicq:pb7)\npb7_flash=$(magicq:pb7_flash)\npb8=$(magicq:pb8)\npb8_flash=$(magicq:pb8_flash)\npb9=$(magicq:pb9)\npb9_flash=$(magicq:pb9_flash)\npb10=$(magicq:pb10)\npb10_flash=$(magicq:pb10_flash)"
+						},
+						"control": {
+							"isExpression": false,
+							"value": ""
+						},
+						"ignore": {
+							"isExpression": false,
+							"value": ""
+						}
+					}
+				}
+			],
+			"condition": [],
+			"events": [
+				{
+					"id": "O6a01HAXFzl-vhfM",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "magicq:pb1"
+					}
+				},
+				{
+					"id": "SyIa8DILrtSmTRNH",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "magicq:pb1_flash"
+					}
+				},
+				{
+					"id": "7XuBtyVWVztOl7E5",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "magicq:pb2"
+					}
+				},
+				{
+					"id": "rOFEdjzeI3gy7sUR",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "magicq:pb2_flash"
+					}
+				},
+				{
+					"id": "qN3jQ_jxyWqiKo_n",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "magicq:pb3"
+					}
+				},
+				{
+					"id": "TNZbM9zLEQJkjhH6",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "magicq:pb3_flash"
+					}
+				},
+				{
+					"id": "LYH76yKOgzYjMuYE",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "magicq:pb4"
+					}
+				},
+				{
+					"id": "y7PmbeHU-9ZTkNec",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "magicq:pb4_flash"
+					}
+				},
+				{
+					"id": "1MUKU-uxEiaFdBWE",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "magicq:pb5"
+					}
+				},
+				{
+					"id": "XSnoQMI2PP6tGpPC",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "magicq:pb5_flash"
+					}
+				},
+				{
+					"id": "sZvBg07igdSF-Lro",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "magicq:pb6"
+					}
+				},
+				{
+					"id": "UsUJ-Px84_ny3Ogg",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "magicq:pb6_flash"
+					}
+				},
+				{
+					"id": "QLS7oISYRW38Qmji",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "magicq:pb7"
+					}
+				},
+				{
+					"id": "0t6qrNXoO8FcjVRz",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "magicq:pb7_flash"
+					}
+				},
+				{
+					"id": "m_T1q5GchudcoFYv",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "magicq:pb8"
+					}
+				},
+				{
+					"id": "typO3Vpj2KwlCI90",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "magicq:pb8_flash"
+					}
+				},
+				{
+					"id": "LwpMOhVQnDy8dvwZ",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "magicq:pb9"
+					}
+				},
+				{
+					"id": "un415NUgaPk-Zv62",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "magicq:pb9_flash"
+					}
+				},
+				{
+					"id": "EfxsdYfx-3PvLBIq",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "magicq:pb10"
+					}
+				},
+				{
+					"id": "WDiqhhH-48tqntG4",
+					"type": "variable_changed",
+					"enabled": true,
+					"options": {
+						"variableId": "magicq:pb10_flash"
+					}
+				}
+			],
+			"localVariables": []
+		}
+	},
+	"instances": {
+		"villageConnection": {
+			"moduleInstanceType": "connection",
+			"moduleId": "companion-village",
+			"label": "village",
+			"config": {},
+			"enabled": true
+		},
+		"deskConnection": {
+			"moduleInstanceType": "connection",
+			"moduleId": "chamsys-magicq-osc",
+			"label": "magicq",
+			"config": {},
+			"enabled": true
+		}
+	}
+}
