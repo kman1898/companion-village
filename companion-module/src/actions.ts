@@ -22,6 +22,7 @@ export type ActionsSchema = {
 	speed: { options: { value: string } }
 	time_of_day: { options: { time: string } }
 	war_mode: { options: { value: string } }
+	battles_mode: { options: { value: string } }
 	events_mode: { options: { value: string } }
 	ai_pace: { options: { value: string } }
 	day_length: { options: { value: string } }
@@ -226,6 +227,24 @@ export function UpdateActions(self: ModuleInstance): void {
 				},
 			],
 			callback: (e) => self.send({ type: 'setting', key: 'war', value: e.options.value }),
+		},
+		battles_mode: {
+			name: 'Setting: how often tribes battle',
+			options: [
+				{
+					type: 'dropdown',
+					id: 'value',
+					label: 'Battles',
+					default: 'normal',
+					choices: [
+						{ id: 'rare', label: 'Rare' },
+						{ id: 'normal', label: 'Normal' },
+						{ id: 'often', label: 'Often' },
+						{ id: 'constant', label: 'Constant' },
+					],
+				},
+			],
+			callback: (e) => self.send({ type: 'setting', key: 'battles', value: e.options.value }),
 		},
 		events_mode: {
 			name: 'Setting: random events',

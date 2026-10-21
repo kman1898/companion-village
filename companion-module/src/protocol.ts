@@ -119,7 +119,7 @@ export type VillageAction =
 	| { type: 'hud'; mode: 'toggle' | 'show' | 'hide' }
 	| { type: 'speed'; value: number | 'pause' | 'resume' | 'toggle' }
 	| { type: 'time'; t: number }
-	| { type: 'setting'; key: 'war' | 'events' | 'aiPace' | 'dayLength' | 'followAction'; value: string }
+	| { type: 'setting'; key: 'war' | 'battles' | 'events' | 'aiPace' | 'dayLength' | 'followAction'; value: string }
 	| { type: 'player'; tribe: TribeId }
 	| { type: 'message'; text: string; sub: string }
 	| { type: 'resources'; tribe: TribeId; wood: number; stone: number; food: number }

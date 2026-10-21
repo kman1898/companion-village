@@ -1,4 +1,4 @@
-import { saveSettings, settings, type AiPace, type DayLength, type EventsMode, type WarMode } from '../core/settings'
+import { BATTLE_PACE, saveSettings, settings, type AiPace, type Battles, type DayLength, type EventsMode, type WarMode } from '../core/settings'
 import { clamp } from '../core/util'
 import { INV_BY_ID } from '../data/inventions'
 import { TRIBES, TRIBE_IDS, type TribeId } from '../data/tribes'
@@ -26,7 +26,7 @@ export type RemoteAction =
 	| { type: 'hud'; mode: 'toggle' | 'show' | 'hide' }
 	| { type: 'speed'; value: number | 'pause' | 'resume' | 'toggle' }
 	| { type: 'time'; t: number }
-	| { type: 'setting'; key: 'war' | 'events' | 'aiPace' | 'dayLength' | 'followAction'; value: string }
+	| { type: 'setting'; key: 'war' | 'battles' | 'events' | 'aiPace' | 'dayLength' | 'followAction'; value: string }
 	| { type: 'player'; tribe: TribeId }
 	| { type: 'message'; text: string; sub: string }
 	| { type: 'resources'; tribe: TribeId; wood: number; stone: number; food: number }
@@ -88,6 +88,7 @@ export function applyRemote(a: RemoteAction, from: string) {
 			break
 		case 'setting':
 			if (a.key === 'war' && ['on', 'feud', 'off'].includes(a.value)) settings.war = a.value as WarMode
+			if (a.key === 'battles' && a.value in BATTLE_PACE) settings.battles = a.value as Battles
 			if (a.key === 'events' && ['full', 'gentle', 'off'].includes(a.value)) settings.events = a.value as EventsMode
 			if (a.key === 'aiPace' && ['match', 'steady', 'fast', 'slow', 'frozen'].includes(a.value)) settings.aiPace = a.value as AiPace
 			if (a.key === 'dayLength' && ['off', 'short', 'normal', 'long'].includes(a.value)) settings.dayLength = a.value as DayLength

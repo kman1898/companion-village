@@ -1,4 +1,4 @@
-import { settings } from '../core/settings'
+import { BATTLE_PACE, settings } from '../core/settings'
 import { clamp, dist2, fmt, pick, rand, shuffle } from '../core/util'
 import { SIEGE_NAMES, TRIBES, type TribeId } from '../data/tribes'
 import { emit } from '../render/particles'
@@ -31,15 +31,24 @@ export function siegeLevel(T: Tribe) {
 	return -1
 }
 
+/** The Battles setting: how often tribes that may fight actually do */
+export const battlePace = () => BATTLE_PACE[settings.battles] ?? BATTLE_PACE.normal
+
 /** Is this pair allowed to fight under the current setting? */
-function mayFight(a: TribeId, b: TribeId) {
+export function mayFight(a: TribeId, b: TribeId) {
 	if (settings.war === 'off') return false
 	if (settings.war === 'feud' && (a === G.S.player || b === G.S.player)) return false
 	return true
 }
 
 const raids = () => G.S.events.filter((e) => e.type === 'raid')
-const inRaid = (id: TribeId) => raids().some((e) => e.d.att === id || e.d.def === id)
+const raidsOf = (id: TribeId) => raids().filter((e) => e.d.att === id || e.d.def === id).length
+const raidBetween = (a: TribeId, b: TribeId) => raids().some((e) => (e.d.att === a && e.d.def === b) || (e.d.att === b && e.d.def === a))
+/** May T start a battle with O? Each tribe fights on as many fronts as the Battles setting allows. */
+const freeToRaid = (T: Tribe, O: Tribe, pace: ReturnType<typeof battlePace>, defenderToo = true) =>
+	raids().length < pace.raids && raidsOf(T.id) < pace.fronts && (!defenderToo || raidsOf(O.id) < pace.fronts) && !raidBetween(T.id, O.id)
+/** Can T send an army against O on orders (a Stream Deck / Companion button)? */
+export const canOpenFront = (T: Tribe, O: Tribe) => raidsOf(T.id) < battlePace().fronts && !raidBetween(T.id, O.id)
 
 export function declareWar(A: Tribe, D: Tribe, reason?: string) {
 	const rel = relation(A.id, D.id)
@@ -90,25 +99,27 @@ export function makePeace(A: Tribe, D: Tribe, why = '') {
 /** Called once per tribe-year. Returns true if a raid started. */
 export function maybeWar(T: Tribe): boolean {
 	if (T.year < 10 || popOf(T) < 6) return false
+	const pace = battlePace()
+	const chance = (p: number) => Math.random() < Math.min(0.9, p * pace.odds)
 	for (const O of G.S.tribes) {
 		if (O === T || !mayFight(T.id, O.id)) continue
 		const rel = relation(T.id, O.id)
 		if (rel.war) {
 			// war weariness: tempers cool over time
-			rel.value = Math.min(100, rel.value + 0.8)
+			rel.value = Math.min(100, rel.value + 0.8 * pace.weariness)
 			const long = G.S.time - rel.since > 900
 			if (rel.value > -20 || (long && Math.random() < 0.05)) {
 				makePeace(T, O)
 				continue
 			}
-			if (!inRaid(T.id) && !inRaid(O.id) && raids().length < 2 && Math.random() < 0.08 + 0.12 * T.personality.aggression) {
+			if (freeToRaid(T, O, pace) && chance(0.08 + 0.12 * T.personality.aggression)) {
 				startRaid(T, O)
 				return true
 			}
-		} else if (rel.value < -50 && Math.random() < 0.15 * T.personality.aggression) {
+		} else if (rel.value < -50 && chance(0.15 * T.personality.aggression)) {
 			declareWar(T, O)
 			return false
-		} else if (rel.value < -30 && !inRaid(T.id) && raids().length < 2 && Math.random() < 0.02 * T.personality.aggression) {
+		} else if (rel.value < -30 && freeToRaid(T, O, pace, false) && chance(0.02 * T.personality.aggression)) {
 			// border skirmish without a formal war
 			startRaid(T, O)
 			return true

@@ -7,9 +7,22 @@ export type Quality = 'auto' | 'high' | 'low'
 export type DayLength = 'off' | 'short' | 'normal' | 'long'
 /** on: tribes may go to war with anyone · feud: the AI tribes only fight each other · off: peace */
 export type WarMode = 'off' | 'feud' | 'on'
+/** How often tribes that may fight actually do */
+export type Battles = 'rare' | 'normal' | 'often' | 'constant'
 /** match: AI tribes keep pace with the Companion-driven ones · steady: on their own clock · fast / slow variants */
 export type AiPace = 'match' | 'steady' | 'fast' | 'slow' | 'frozen'
 export const DAY_SECONDS: Record<DayLength, number> = { off: 0, short: 120, normal: 240, long: 600 }
+
+/**
+ * odds: war declarations, raids and skirmishes · temper: yearly relation drift (negative = tempers fray)
+ * raids: battles at the same time · fronts: battles one tribe can be in at once · weariness: how fast a war cools down
+ */
+export const BATTLE_PACE: Record<Battles, { odds: number; temper: number; raids: number; fronts: number; weariness: number }> = {
+	rare: { odds: 0.35, temper: 0.15, raids: 1, fronts: 1, weariness: 1.6 },
+	normal: { odds: 1, temper: 0, raids: 2, fronts: 1, weariness: 1 },
+	often: { odds: 2.5, temper: -0.7, raids: 3, fronts: 2, weariness: 0.6 },
+	constant: { odds: 5, temper: -1.4, raids: 3, fronts: 2, weariness: 0.35 },
+}
 
 export interface Settings {
 	poll: number
@@ -19,6 +32,7 @@ export interface Settings {
 	dayLength: DayLength
 	inventionYears: number
 	war: WarMode
+	battles: Battles
 	aiPace: AiPace
 	/** camera swings to events in any tribe, not just yours */
 	followAction: boolean
@@ -50,7 +64,7 @@ function defaults(): Settings {
 	const companionHost = old.host || (servedBy ? `${servedBy.host.replace(/:\d+$/, '')}:8888` : 'localhost:8888')
 	for (const id of TRIBE_IDS) tribes[id] = { control: 'ai', host: companionHost, variable: TRIBES[id].defaultVar, cmd: '' }
 	const d: Settings = {
-		poll: 300, speed: 1, events: 'full', quality: 'auto', dayLength: 'normal', inventionYears: 10, war: 'on', aiPace: 'match',
+		poll: 300, speed: 1, events: 'full', quality: 'auto', dayLength: 'normal', inventionYears: 10, war: 'on', battles: 'normal', aiPace: 'match',
 		followAction: true, player: 'pixels', chosen: false, tribes, modules: '',
 	}
 	// first visit from the module: play as the module's tribe, driven by the module
@@ -83,6 +97,7 @@ if (qs.get('events')) settings.events = qs.get('events') as EventsMode
 if (qs.get('quality')) settings.quality = qs.get('quality') as Quality
 if (qs.get('day')) settings.dayLength = qs.get('day') as DayLength
 if (qs.get('war')) settings.war = qs.get('war') as WarMode
+if (qs.get('battles') && qs.get('battles')! in BATTLE_PACE) settings.battles = qs.get('battles') as Battles
 if (qs.get('ai')) settings.aiPace = qs.get('ai') as AiPace
 if (qs.get('inventEvery')) settings.inventionYears = Math.max(1, Number(qs.get('inventEvery')) || 10)
 

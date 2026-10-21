@@ -38,6 +38,8 @@ Old houses get renovated into the new style as each tribe advances.
   - Watchtowers, keeps and barracks shoot back.
   - Pixels' holograms act as decoys, and force fields stop the attack completely.
   - Winners loot and wreck buildings. Peace treaties come with tribute.
+  - **Battles** (Settings, or a Companion button) sets how often it happens: *rare*, *normal*, *often* or *constant*.
+    On *often* and *constant* a tribe can fight on two fronts at once, so all three tribes can be at each other's throats.
 
 ### Random encounters
 Weather and wonders hit the whole map; everything else hits one tribe. The camera swings over to the action.
@@ -68,7 +70,7 @@ Buttons then control the whole game, and the village sends live variables and fe
 
 | | |
 |---|---|
-| **Actions** | add years · attack · make peace · send gift · send caravan · offer friendship · festival · make any of 30 events happen · instant invention · give resources · camera (follow / map / tribe / zoom) · show/hide overlay · view as tribe · pause / speed · time of day · war, events, AI pace and day length settings · on-screen message banner |
+| **Actions** | add years · attack · make peace · send gift · send caravan · offer friendship · festival · make any of 30 events happen · instant invention · give resources · camera (follow / map / tribe / zoom) · show/hide overlay · view as tribe · pause / speed · time of day · war, battles, events, AI pace and day length settings · on-screen message banner |
 | **Feedbacks** | connected · at war · under attack · army on the march · allied · stance between two tribes · event happening · era reached · tribe in the lead · screen viewing tribe · night · paused · tribe colour |
 | **Variables** | `my_*` for this Companion's tribe and `pixels_*` / `noises_*` / `lampys_*` for each tribe: year, pop, era, era_name, inventions, last/next invention, wood, stone, food, buildings, construction, wins, losses, prestige, status, event, raid. Plus `url`, `rel_a_b`, `stance_a_b`, `clock`, `phase`, `leader_name`, `news`, `events`, `paused`, `speed`, `camera`, `connected` |
 | **Presets** | years, live tribe tiles, war & diplomacy against each rival, every event, screen control, time of day, info |
@@ -218,7 +220,7 @@ works without internet, and is the best choice for a show machine.
 Hover a villager or building to see who or what it is.
 
 URL options: `?tribe=pixels|noises|lampys`, `?host=192.168.1.20:8000`, `?var=my_counter`, `?cmd=my_command_var`, `?module=localhost:17890`, `?hud=0`, `?speed=2`,
-`?events=gentle`, `?quality=low`, `?day=off|short|normal|long`, `?war=on|feud|off`, `?ai=match|steady|fast|slow|frozen`, `?inventEvery=5`,
+`?events=gentle`, `?quality=low`, `?day=off|short|normal|long`, `?war=on|feud|off`, `?battles=rare|normal|often|constant`, `?ai=match|steady|fast|slow|frozen`, `?inventEvery=5`,
 `?demo=10` (no Companion: every tribe starts with 10 settlers and runs on AI; nothing is saved).
 
 ## Notes

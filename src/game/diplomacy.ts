@@ -8,7 +8,7 @@ import { isPlayer } from './buildings'
 import { startEvent } from './events'
 import { availableInventions, eraOf, learn } from './history'
 import { G, has, relation, tribeOf, type Relation, type Tribe } from './state'
-import { declareWar, makePeace, startRaid } from './war'
+import { battlePace, canOpenFront, declareWar, makePeace, mayFight, startRaid } from './war'
 
 const name = (t: TribeId) => TRIBES[t].name
 
@@ -53,6 +53,8 @@ export function yearlyDiplomacy(T: Tribe) {
 		let drift = (0.45 - T.personality.aggression) * 0.8
 		if (has(T, 'diplomats')) drift += 0.6
 		if (has(T, 'television') || has(T, 'movingHeads')) drift += 0.4
+		// the Battles setting: tempers fray faster (or cool) between tribes that may fight
+		if (mayFight(T.id, O.id)) drift += battlePace().temper
 		adjust(T.id, O.id, drift)
 		if (Math.random() < 0.05) {
 			const good = Math.random() > T.personality.aggression * 0.9
@@ -178,7 +180,7 @@ export function command(T: Tribe, raw: string): string {
 		case 'war':
 			if (!O) return 'no target'
 			if (!relation(T.id, O.id).war) declareWar(T, O, `${name(T.id)} declare war on ${name(O.id)} — orders from the Stream Deck!`)
-			if (!G.S.events.some((e) => e.type === 'raid' && (e.d.att === T.id || e.d.def === T.id))) startRaid(T, O)
+			if (canOpenFront(T, O)) startRaid(T, O)
 			return 'attacking'
 		case 'peace':
 			if (!O) return 'no target'

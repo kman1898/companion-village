@@ -1,4 +1,4 @@
-import { params, SAVE_KEY, saveSettings, servedBy, settings, type AiPace, type DayLength, type EventsMode, type Quality, type WarMode } from '../core/settings'
+import { params, SAVE_KEY, saveSettings, servedBy, settings, type AiPace, type Battles, type DayLength, type EventsMode, type Quality, type WarMode } from '../core/settings'
 import { store } from '../core/util'
 import { TRIBES, TRIBE_IDS, type TribeId } from '../data/tribes'
 import { EVENTS, startEvent } from '../game/events'
@@ -71,6 +71,7 @@ function saveFromForm() {
 		dayLength: $<HTMLSelectElement>('s-day').value as DayLength,
 		inventionYears: Number($<HTMLSelectElement>('s-pace').value) || 10,
 		war: $<HTMLSelectElement>('s-war').value as WarMode,
+		battles: $<HTMLSelectElement>('s-battles').value as Battles,
 		aiPace: $<HTMLSelectElement>('s-ai').value as AiPace,
 		followAction: $<HTMLInputElement>('s-follow').checked,
 		modules: $<HTMLInputElement>('s-modules').value.trim(),
@@ -99,6 +100,7 @@ export function openSettings() {
 	$<HTMLSelectElement>('s-day').value = settings.dayLength
 	$<HTMLSelectElement>('s-pace').value = String(settings.inventionYears)
 	$<HTMLSelectElement>('s-war').value = settings.war
+	$<HTMLSelectElement>('s-battles').value = settings.battles
 	$<HTMLSelectElement>('s-ai').value = settings.aiPace
 	$<HTMLInputElement>('s-follow').checked = settings.followAction
 	$<HTMLInputElement>('s-modules').value = settings.modules
