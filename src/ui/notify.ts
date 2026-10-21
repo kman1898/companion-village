@@ -1,9 +1,10 @@
 // DOM-only notifications so game modules can announce things without importing the HUD
+import { settings } from '../core/settings'
 
 let tickerEl: HTMLElement | null = null
 let bannerEl: HTMLElement | null = null
 let bannerTimer = 0
-const bannerQueue: { t: string; s: string; cls: string }[] = []
+const bannerQueue: { t: string; s: string; cls: string; at: number }[] = []
 let muted = false
 
 /** Silence banners (used while fast-forwarding) */
@@ -40,13 +41,18 @@ export function clearTicker() {
 /** Big centred announcement. Queued so a burst of news is shown one after another. */
 export function banner(t: string, s = '', cls = '') {
 	if (muted) return
-	bannerQueue.push({ t, s, cls })
+	bannerQueue.push({ t, s, cls, at: performance.now() })
 	// during a burst (catch-up after the page was closed) only keep the latest few
 	while (bannerQueue.length > 4) bannerQueue.shift()
 	if (!bannerTimer) showNextBanner()
 }
 
+/** Banners keep up with the game: at 2× they're shown for half as long, and news that waited too long is skipped */
+const pace = () => Math.max(1, settings.speed)
+
 function showNextBanner() {
+	const maxWait = 12000 / pace()
+	while (bannerQueue.length > 1 && performance.now() - bannerQueue[0].at > maxWait) bannerQueue.shift()
 	const next = bannerQueue.shift()
 	if (!bannerEl || !next) {
 		bannerTimer = 0
@@ -59,5 +65,5 @@ function showNextBanner() {
 	bannerTimer = window.setTimeout(() => {
 		bannerEl!.classList.remove('show')
 		bannerTimer = window.setTimeout(showNextBanner, 500)
-	}, bannerQueue.length > 2 ? 2600 : 4600)
+	}, Math.max(1600, (bannerQueue.length > 2 ? 2600 : 4600) / pace()))
 }

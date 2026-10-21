@@ -99,6 +99,8 @@ export const params = {
 if (params.demo >= 0) settings.chosen = true
 
 export function saveSettings() {
+	// a demo runs on its own settings (every tribe on AI, its own speed): they last until the page closes
+	if (params.demo >= 0) return
 	store.set(SETTINGS_KEY, settings)
 }
 
