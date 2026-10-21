@@ -3,6 +3,8 @@ import type { Connection } from '../game/state'
 import { store } from './util'
 
 export type EventsMode = 'off' | 'gentle' | 'full'
+/** everyday illness spreading between villagers (follows the events setting: gentle = nobody dies) */
+export type DiseaseMode = 'on' | 'off'
 export type Quality = 'auto' | 'high' | 'low'
 export type DayLength = 'off' | 'short' | 'normal' | 'long'
 /** on: tribes may go to war with anyone · feud: the AI tribes only fight each other · off: peace */
@@ -15,6 +17,7 @@ export interface Settings {
 	poll: number
 	speed: number
 	events: EventsMode
+	disease: DiseaseMode
 	quality: Quality
 	dayLength: DayLength
 	inventionYears: number
@@ -50,7 +53,7 @@ function defaults(): Settings {
 	const companionHost = old.host || (servedBy ? `${servedBy.host.replace(/:\d+$/, '')}:8888` : 'localhost:8888')
 	for (const id of TRIBE_IDS) tribes[id] = { control: 'ai', host: companionHost, variable: TRIBES[id].defaultVar, cmd: '' }
 	const d: Settings = {
-		poll: 300, speed: 1, events: 'full', quality: 'auto', dayLength: 'normal', inventionYears: 10, war: 'on', aiPace: 'match',
+		poll: 300, speed: 1, events: 'full', disease: 'on', quality: 'auto', dayLength: 'normal', inventionYears: 10, war: 'on', aiPace: 'match',
 		followAction: true, player: 'pixels', chosen: false, tribes, modules: '',
 	}
 	// first visit from the module: play as the module's tribe, driven by the module
@@ -83,6 +86,7 @@ if (qs.get('events')) settings.events = qs.get('events') as EventsMode
 if (qs.get('quality')) settings.quality = qs.get('quality') as Quality
 if (qs.get('day')) settings.dayLength = qs.get('day') as DayLength
 if (qs.get('war')) settings.war = qs.get('war') as WarMode
+if (qs.get('disease') === 'on' || qs.get('disease') === 'off') settings.disease = qs.get('disease') as DiseaseMode
 if (qs.get('ai')) settings.aiPace = qs.get('ai') as AiPace
 if (qs.get('inventEvery')) settings.inventionYears = Math.max(1, Number(qs.get('inventEvery')) || 10)
 

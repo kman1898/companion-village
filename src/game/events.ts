@@ -400,7 +400,8 @@ export const EVENTS: Record<string, EventDef> = {
 		},
 		end(e, T) {
 			for (const v of T.villagers) {
-				v.sick = undefined
+				// villagers who also caught an everyday illness stay sick with it
+				if (v.sick === 1) v.sick = v.ill ? 2 : undefined
 				v.dieAt = undefined
 			}
 			news(T, e.d.dead ? `the plague has passed — ${e.d.dead} villagers were lost` : `the plague has passed. Everyone recovered.`, '☠️', '#8fc24a')

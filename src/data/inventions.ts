@@ -47,10 +47,10 @@ export const INVENTIONS: Invention[] = [
 	{ era: 0, id: 'clockmaking', name: 'Clockmaking', icon: '🕰️', desc: 'Unlocks the Clock Tower.', req: ['smelting', 'masonry'] },
 	{ era: 0, id: 'fortification', name: 'Fortification', icon: '🛡️', desc: 'Unlocks the Watchtower. Raiders face stiffer defence.', req: ['masonry'] },
 	{ era: 0, id: 'castleBuilding', name: 'Castle Building', icon: '👑', desc: 'Unlocks the Castle Keep.', req: ['fortification', 'carpentry'] },
-	{ era: 0, id: 'plumbing', name: 'Plumbing', icon: '⛲', desc: 'Unlocks the Fountain.', req: ['masonry'] },
+	{ era: 0, id: 'plumbing', name: 'Plumbing', icon: '⛲', desc: 'Unlocks the Fountain. Clean water keeps dysentery and cholera away.', req: ['masonry'] },
 	{ era: 0, id: 'pavedRoads', name: 'Paved Roads', icon: '🛣️', desc: 'Cobbled streets — villagers walk 20% faster.', req: ['masonry'] },
 	{ era: 0, id: 'cartography', name: 'Forestry', icon: '🌲', desc: 'Felled forests regrow twice as fast.' },
-	{ era: 0, id: 'medicine', name: 'Herbal Medicine', icon: '🌿', desc: 'The plague is half as deadly.' },
+	{ era: 0, id: 'medicine', name: 'Herbal Medicine', icon: '🌿', desc: 'Plague and everyday sickness are less deadly.' },
 	{ era: 0, id: 'lightningRods', name: 'Lightning Rods', icon: '⚡', desc: 'Lightning rarely sets buildings alight.', req: ['smelting'] },
 	{ era: 0, id: 'stormCellars', name: 'Storm Cellars', icon: '🕳️', desc: 'Nobody dies in tornadoes any more.' },
 	{ era: 0, id: 'astronomy', name: 'Astronomy', icon: '🔭', desc: 'Meteors are spotted early and villagers flee.', req: ['printing'] },
@@ -82,7 +82,7 @@ export const INVENTIONS: Invention[] = [
 	{ era: 1, id: 'steamEngine', name: 'Steam Engine', icon: '♨️', desc: 'Unlocks the Factory. Gatherers work 25% faster.' },
 	{ era: 1, id: 'gasLighting', name: 'Gas Lighting', icon: '🏮', desc: 'Gas street lamps light the village at night.' },
 	{ era: 1, id: 'railway', name: 'Railway', icon: '🚂', desc: 'A steam train runs between the three villages.', req: ['steamEngine'] },
-	{ era: 1, id: 'vaccination', name: 'Vaccination', icon: '💉', desc: 'The plague barely takes anyone.' },
+	{ era: 1, id: 'vaccination', name: 'Vaccination', icon: '💉', desc: 'The plague barely takes anyone, and the pox is beaten.' },
 	{ era: 1, id: 'telegraph', name: 'Telegraph', icon: '📠', desc: 'Raids are reported early — the militia is ready.' },
 	{ era: 1, id: 'canning', name: 'Canning', icon: '🥫', desc: 'Harvests keep longer: +1 food per harvest.' },
 	// ---------------- Modern ----------------
@@ -93,6 +93,7 @@ export const INVENTIONS: Invention[] = [
 	{ era: 2, id: 'skyscrapers', name: 'Skyscrapers', icon: '🏙️', desc: 'Unlocks glass towers that house many villagers.', req: ['electricity'] },
 	{ era: 2, id: 'airplanes', name: 'Aviation', icon: '✈️', desc: 'Aeroplanes cross the sky.' },
 	{ era: 2, id: 'computers', name: 'Computers', icon: '💻', desc: 'Everyone works 15% faster.', req: ['electricity'] },
+	{ era: 2, id: 'antibiotics', name: 'Antibiotics', icon: '💊', desc: 'Fever, dysentery and cholera pass quickly and rarely kill.', req: ['vaccination'] },
 	{ era: 2, id: 'windTurbines', name: 'Wind Turbines', icon: '🌀', desc: 'Unlocks the Wind Farm.', req: ['electricity'] },
 	// ---------------- Space Age ----------------
 	{ era: 3, id: 'rocketry', name: 'Rocketry', icon: '🚀', desc: 'Unlocks the Launch Pad.' },
@@ -108,6 +109,7 @@ export const INVENTIONS: Invention[] = [
 	{ era: 4, id: 'teleporters', name: 'Teleporters', icon: '🌀', desc: 'Villagers teleport across town.' },
 	{ era: 4, id: 'androids', name: 'Androids', icon: '🤖', desc: 'Some new arrivals are androids. They never sleep.' },
 	{ era: 4, id: 'weatherControl', name: 'Weather Control', icon: '🌤️', desc: 'No more storms, tornadoes or blizzards.', req: ['forceFields'] },
+	{ era: 4, id: 'nanomedicine', name: 'Nanomedicine', icon: '🧫', desc: 'Nanobots stop almost any illness from spreading or killing.' },
 	{ era: 4, id: 'replicators', name: 'Replicators', icon: '✨', desc: 'Materials and food appear out of thin air.' },
 	{ era: 4, id: 'starship', name: 'Colony Starship', icon: '🌌', desc: 'Build a starship and send settlers to the stars.', req: ['antigravity'] },
 ]

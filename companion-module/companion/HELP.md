@@ -45,7 +45,7 @@ controls changing within 300 ms is a scene recall, the same control scores at mo
 | Screen: camera / overlay / view as tribe | Follow, whole map, look at a tribe, zoom, hide the overlay. |
 | Game speed / pause | Pause, resume, 1–8×. |
 | Set the time of day | Dawn, noon, dusk, midnight. |
-| Setting: war / events / AI pace / day length | Change the game rules live. |
+| Setting: war / events / disease / AI pace / day length | Change the game rules live. |
 | Screen: show a message banner | Put your own text on the screen (variables allowed). |
 | Desk activity (fair count) | For desk triggers: watches the values (or the latest OSC path) a trigger passes and scores one year per operator action. |
 | Desk activity: scoring on / off · reset | Pause desk scoring (soundcheck, programming) or zero the desk counters. |

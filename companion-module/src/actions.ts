@@ -23,6 +23,7 @@ export type ActionsSchema = {
 	time_of_day: { options: { time: string } }
 	war_mode: { options: { value: string } }
 	events_mode: { options: { value: string } }
+	disease_mode: { options: { value: string } }
 	ai_pace: { options: { value: string } }
 	day_length: { options: { value: string } }
 	view_as: { options: TribeOpt }
@@ -243,6 +244,22 @@ export function UpdateActions(self: ModuleInstance): void {
 				},
 			],
 			callback: (e) => self.send({ type: 'setting', key: 'events', value: e.options.value }),
+		},
+		disease_mode: {
+			name: 'Setting: disease',
+			options: [
+				{
+					type: 'dropdown',
+					id: 'value',
+					label: 'Disease',
+					default: 'on',
+					choices: [
+						{ id: 'on', label: 'On (sickness spreads between villagers)' },
+						{ id: 'off', label: 'Off' },
+					],
+				},
+			],
+			callback: (e) => self.send({ type: 'setting', key: 'disease', value: e.options.value }),
 		},
 		ai_pace: {
 			name: 'Setting: how AI tribes grow',

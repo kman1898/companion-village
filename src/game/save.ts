@@ -5,6 +5,7 @@ import { TRIBE_IDS, type TribeId } from '../data/tribes'
 import { agents } from './agents'
 import { attachField, rebuildRoads, useCell } from './buildings'
 import { initRelations, resetDiplomacy } from './diplomacy'
+import { resetDisease } from './disease'
 import { G, type Building, type Crater, type HistoryEntry, type Rec, type Relation, type State, type Tribe } from './state'
 import { resetTraffic } from './traffic'
 import { createTribe, placeLandmark } from './tribes'
@@ -101,6 +102,7 @@ function resetTransient() {
 	agents.length = 0
 	resetTraffic()
 	resetDiplomacy()
+	resetDisease()
 }
 
 export function newGame() {

@@ -4,6 +4,7 @@ import { updateAgents, updateShots } from './agents'
 import { planner, updateFires } from './buildings'
 import { updateDay } from './daynight'
 import { updateDiplomacy } from './diplomacy'
+import { updateDisease } from './disease'
 import { updateEvents } from './events'
 import { advanceYear } from './history'
 import { save } from './save'
@@ -114,6 +115,7 @@ function slowTick(st: number) {
 		}
 	}
 	if (sheepFoodTimer >= 30) sheepFoodTimer = 0
+	updateDisease(st)
 	if (replicatorTimer >= 5) replicatorTimer = 0
 }
 

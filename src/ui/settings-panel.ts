@@ -1,4 +1,4 @@
-import { params, SAVE_KEY, saveSettings, servedBy, settings, type AiPace, type DayLength, type EventsMode, type Quality, type WarMode } from '../core/settings'
+import { params, SAVE_KEY, saveSettings, servedBy, settings, type AiPace, type DayLength, type DiseaseMode, type EventsMode, type Quality, type WarMode } from '../core/settings'
 import { store } from '../core/util'
 import { TRIBES, TRIBE_IDS, type TribeId } from '../data/tribes'
 import { EVENTS, startEvent } from '../game/events'
@@ -68,6 +68,7 @@ function saveFromForm() {
 		quality,
 		speed: Number($<HTMLSelectElement>('s-speed').value) || 1,
 		events: $<HTMLSelectElement>('s-events').value as EventsMode,
+		disease: $<HTMLSelectElement>('s-disease').value as DiseaseMode,
 		dayLength: $<HTMLSelectElement>('s-day').value as DayLength,
 		inventionYears: Number($<HTMLSelectElement>('s-pace').value) || 10,
 		war: $<HTMLSelectElement>('s-war').value as WarMode,
@@ -95,6 +96,7 @@ export function openSettings() {
 	$<HTMLSelectElement>('s-player').value = settings.player
 	$<HTMLSelectElement>('s-speed').value = String(settings.speed)
 	$<HTMLSelectElement>('s-events').value = settings.events
+	$<HTMLSelectElement>('s-disease').value = settings.disease
 	$<HTMLSelectElement>('s-quality').value = settings.quality
 	$<HTMLSelectElement>('s-day').value = settings.dayLength
 	$<HTMLSelectElement>('s-pace').value = String(settings.inventionYears)

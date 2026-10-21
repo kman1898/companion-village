@@ -68,8 +68,14 @@ export interface Villager {
 	res: { res: number } | null
 	claim: { site: number; r: Res; n: number } | null
 	hammer: number
+	/** 1 = Plague event, 2 = everyday illness (disease.ts) */
 	sick?: number
 	dieAt?: number
+	/** everyday illness: which one, when it passes, when it kills (if it does), immune until */
+	ill?: string
+	illUntil?: number
+	illDie?: number
+	immune?: number
 	fly?: { vx: number; vy: number; vz: number; z: number }
 	doomed?: boolean
 	inside?: boolean

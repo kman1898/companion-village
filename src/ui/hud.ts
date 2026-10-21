@@ -7,6 +7,7 @@ import { roleCounts } from '../game/buildings'
 import { clockText } from '../game/daynight'
 import { stance, STANCE_ICON } from '../game/diplomacy'
 import { EVENTS, eventsOf } from '../game/events'
+import { outbreakOf } from '../game/disease'
 import { eraName, eraOf, inventionsFor } from '../game/history'
 import { G, player, popOf, relation } from '../game/state'
 import { inventionPace, isAI } from '../game/tribes'
@@ -83,6 +84,8 @@ export function updateHud() {
 			? `⚔️ ${TRIBES[ev.d.att as keyof typeof TRIBES].name} vs ${TRIBES[ev.d.def as keyof typeof TRIBES].name} · ${ev.d.phase}`
 			: `${def.icon} ${def.name}${ev.dur > 3 ? ` · ${Math.ceil(ev.dur - ev.t)}s` : ''}`
 	}
+	const ill = outbreakOf(T.id)
+	if (!evText && ill?.sickNow) evText = `${ill.icon} ${ill.name} · ${ill.sickNow} sick${ill.dead ? ` · ${ill.dead} died` : ''}`
 	set('event-line', evText)
 	$('event-line').classList.toggle('good', !!def?.good)
 	set('inv-count', T.inventions.length)

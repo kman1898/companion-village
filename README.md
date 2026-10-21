@@ -14,7 +14,7 @@ Pick your tribe when you first open the page. Each tribe is driven by **its own 
 variables, or completely different Companion machines (say video, sound and lighting each have their own). A tribe that isn't
 connected runs on **AI**, growing and inventing at its own random pace.
 
-Every press for a tribe brings **one settler and one year**. Every ~10 years that tribe **invents something**. 57 shared inventions plus
+Every press for a tribe brings **one settler and one year**. Every ~10 years that tribe **invents something**. 63 shared inventions plus
 5 signature inventions per tribe carry it from the Middle Ages through the Industrial, Modern and Space ages into a **sci-fi future**:
 - brick townhouses, factories and steam trains
 - cars on tarmac, skyscrapers and aeroplanes
@@ -38,6 +38,15 @@ Old houses get renovated into the new style as each tribe advances.
   - Watchtowers, keeps and barracks shoot back.
   - Pixels' holograms act as decoys, and force fields stop the attack completely.
   - Winners loot and wreck buildings. Peace treaties come with tribute.
+
+### Disease
+Everyday illness spreads from villager to villager, on top of the big ☠️ Plague. Sick villagers turn green, walk slowly and
+can't be sent to war; survivors are immune for a while.
+- **Each era has its own:** 🤒 fever, 🤢 dysentery and 🔴 pox in the Middle Ages, 💧 cholera when the factories come, 🤧 influenza,
+  then 🪐 space flu and a 🦠 nanovirus that even androids catch.
+- **Crowded towns** get sick more often, and **dirty water** brings dysentery and cholera. Wells and fountains keep them away.
+- **Medicine** fights back: Herbal Medicine, Vaccination (the end of the pox), Antibiotics and Nanomedicine.
+- Turn it off under Settings → *Disease*. With random events on *Gentle*, people fall ill but nobody dies.
 
 ### Random encounters
 Weather and wonders hit the whole map; everything else hits one tribe. The camera swings over to the action.
@@ -68,7 +77,7 @@ Buttons then control the whole game, and the village sends live variables and fe
 
 | | |
 |---|---|
-| **Actions** | add years · attack · make peace · send gift · send caravan · offer friendship · festival · make any of 30 events happen · instant invention · give resources · camera (follow / map / tribe / zoom) · show/hide overlay · view as tribe · pause / speed · time of day · war, events, AI pace and day length settings · on-screen message banner |
+| **Actions** | add years · attack · make peace · send gift · send caravan · offer friendship · festival · make any of 30 events happen · instant invention · give resources · camera (follow / map / tribe / zoom) · show/hide overlay · view as tribe · pause / speed · time of day · war, events, disease, AI pace and day length settings · on-screen message banner |
 | **Feedbacks** | connected · at war · under attack · army on the march · allied · stance between two tribes · event happening · era reached · tribe in the lead · screen viewing tribe · night · paused · tribe colour |
 | **Variables** | `my_*` for this Companion's tribe and `pixels_*` / `noises_*` / `lampys_*` for each tribe: year, pop, era, era_name, inventions, last/next invention, wood, stone, food, buildings, construction, wins, losses, prestige, status, event, raid. Plus `url`, `rel_a_b`, `stance_a_b`, `clock`, `phase`, `leader_name`, `news`, `events`, `paused`, `speed`, `camera`, `connected` |
 | **Presets** | years, live tribe tiles, war & diplomacy against each rival, every event, screen control, time of day, info |
@@ -218,7 +227,7 @@ works without internet, and is the best choice for a show machine.
 Hover a villager or building to see who or what it is.
 
 URL options: `?tribe=pixels|noises|lampys`, `?host=192.168.1.20:8000`, `?var=my_counter`, `?cmd=my_command_var`, `?module=localhost:17890`, `?hud=0`, `?speed=2`,
-`?events=gentle`, `?quality=low`, `?day=off|short|normal|long`, `?war=on|feud|off`, `?ai=match|steady|fast|slow|frozen`, `?inventEvery=5`,
+`?events=gentle`, `?quality=low`, `?day=off|short|normal|long`, `?war=on|feud|off`, `?disease=on|off`, `?ai=match|steady|fast|slow|frozen`, `?inventEvery=5`,
 `?demo=10` (no Companion: every tribe starts with 10 settlers and runs on AI; nothing is saved).
 
 ## Notes
