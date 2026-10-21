@@ -54,10 +54,31 @@ export function learn(T: Tribe, inv: Invention, how: string) {
 		G.S.history.push({ year: T.year, icon: '⏳', text: `${TRIBES[T.id].name} enter the ${e.name}`, tribe: T.id })
 		if (isPlayer(T)) banner(`⏳ The ${e.name} begins`, e.banner, 'invention')
 		else news(T, `entered the ${e.name}`, '⏳', '#9fd3ff')
+		catchUp(T)
 	}
 }
 
+/**
+ * Inventions two or more eras old are common knowledge: a tribe in the Modern Age doesn't invent the wheelbarrow.
+ * Whatever is left of those eras is learned quietly, in one chronicle line.
+ */
+function catchUp(T: Tribe) {
+	const era = eraOf(T)
+	const old = inventionsFor(T).filter((i) => i.era <= era - 2 && !has(T, i.id))
+	if (!old.length) return
+	for (const inv of old) {
+		T.inventions.push(inv.id)
+		if (inv.id === 'husbandry') addSheep(T, 6)
+	}
+	const names = old.map((i) => i.name)
+	const list = names.length > 4 ? `${names.slice(0, 4).join(', ')} and ${names.length - 4} more` : names.join(', ')
+	G.S.history.push({ year: T.year, icon: '📚', text: `${TRIBES[T.id].name} take up the old ways: ${list}`, tribe: T.id })
+	if (isPlayer(T)) ticker(`Old know-how is common knowledge now: ${list}`, '📚', '#9fd3ff')
+}
+
 export function invent(T: Tribe, silent = false) {
+	// saves from before eras caught up: settle the backlog first
+	catchUp(T)
 	const pool = availableInventions(T)
 	const era = eraOf(T)
 	const inv = weightedPick(pool, (i) => {

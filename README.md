@@ -21,7 +21,8 @@ Every press for a tribe brings **one settler and one year**. Every ~10 years tha
 - rockets, fusion reactors and robots
 - hovercars, sky pods, force fields, androids and a colony starship
 
-Old houses get renovated into the new style as each tribe advances.
+Old houses get renovated into the new style as each tribe advances. Anything left over from two eras back becomes
+common knowledge, so nobody invents the wheelbarrow in the Space Age.
 
 ### The world
 - **A big, varied map:** forests, snowy tundra, desert with palms and cacti, swamps, mountain ranges with snowy peaks, lakes and rivers.
