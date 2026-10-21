@@ -118,6 +118,13 @@ Ready-made files for the default connection labels (`x32`, `wing`, `yamaha`, `ma
 - Turn scoring off for soundcheck or programming with **Desk activity: scoring on / off**. Watch `$(village:desk_last)`,
   `$(village:noises_desk_actions)` and `$(village:desks)` to see it work.
 
+## Desktop launcher
+
+No Companion module? The **[launcher](launcher/)** is a small desktop app for macOS, Windows and Linux, like Companion's own
+launcher. It serves the village over http on your network, sits in the tray / menu bar, and opens the village in your
+browser with one click. It shows the village's address for every network, so other computers can open it too.
+Download it from the [releases](../../releases).
+
 ## Without the module: plain Companion variables
 
 The village can also just count presses through Companion's HTTP API, with no module installed. It's simpler, but one-way.
@@ -254,6 +261,7 @@ src/
   net/       Companion HTTP API (per-tribe counters, command variables) and the Companion module sync
 companion-module/  the Companion Village module (from bitfocus/companion-module-template-ts)
 tools/       installers for the Companion trigger and the module, trigger import file
+launcher/    the desktop launcher (Electron): serves the village, tray icon, opens the browser
 ```
 
 Pushing to `main` deploys to GitHub Pages via `.github/workflows/pages.yml`, which also builds the module package.

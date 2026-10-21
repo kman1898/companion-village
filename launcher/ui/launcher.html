@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'" />
+	<title>Companion Village</title>
+	<link rel="stylesheet" href="launcher.css" />
+</head>
+<body>
+	<header>
+		<img src="../assets/icon.png" alt="" class="logo" />
+		<div class="title">
+			<h1>Companion Village</h1>
+			<div class="sub"><span id="pill" class="pill">Starting…</span><span id="version"></span></div>
+		</div>
+	</header>
+
+	<main>
+		<section class="launch">
+			<button id="open-village" class="primary big">▶ Launch Village</button>
+			<div class="row2">
+				<button id="open-clean" title="Just the village, with no overlay">🖥 Clean output</button>
+				<button id="open-demo" title="Every tribe on AI. Nothing is saved.">✨ Demo</button>
+			</div>
+			<div id="error" class="error" hidden>
+				<span id="error-text"></span>
+				<button id="retry" class="small">Try again</button>
+			</div>
+			<div id="missing" class="error" hidden>This build has no village page in it. In the repo root run <code>npm run build</code>.</div>
+		</section>
+
+		<section>
+			<h2>Open on any screen</h2>
+			<p class="hint">Any computer on the same network can open the village at these addresses.</p>
+			<ul id="urls" class="urls"></ul>
+		</section>
+
+		<section>
+			<h2>Server</h2>
+			<label class="field">
+				<span>Interface</span>
+				<select id="bind"></select>
+			</label>
+			<label class="field">
+				<span>Port</span>
+				<input id="port" type="number" min="1024" max="65535" step="1" />
+			</label>
+			<p class="hint">Saved villages belong to the address they were opened at. Changing the port starts a fresh village on that address.</p>
+		</section>
+
+		<section>
+			<h2>Startup</h2>
+			<label class="field">
+				<span>Browser</span>
+				<select id="browser"></select>
+			</label>
+			<label class="check"><input id="openOnLaunch" type="checkbox" /><span>Open the village when the launcher starts</span></label>
+			<label class="check"><input id="startMinimized" type="checkbox" /><span>Start hidden in the <span id="tray-word">tray</span></span></label>
+			<label class="check"><input id="runAtLogin" type="checkbox" /><span>Start when I log in</span></label>
+			<details>
+				<summary>URL options</summary>
+				<label class="field">
+					<span>Add to the address</span>
+					<input id="query" type="text" placeholder="e.g. tribe=pixels&amp;host=192.168.1.20:8000" spellcheck="false" />
+				</label>
+				<p class="hint">
+					Any of the village's URL options, joined with <code>&amp;</code>: <code>tribe=pixels</code> · <code>host=192.168.1.20:8000</code> ·
+					<code>quality=low</code> · <code>speed=2</code> · <code>events=gentle</code> · <code>war=off</code> · <code>day=long</code>
+				</p>
+			</details>
+		</section>
+	</main>
+
+	<footer>
+		<button id="hide">Hide</button>
+		<span class="grow"></span>
+		<button id="quit" class="danger">Quit</button>
+	</footer>
+
+	<script src="launcher.js"></script>
+</body>
+</html>

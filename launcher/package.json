@@ -1,0 +1,26 @@
+{
+	"name": "companion-village-launcher",
+	"productName": "Companion Village",
+	"version": "1.0.0",
+	"description": "Desktop launcher that serves Companion Village on your network and opens it in a browser",
+	"main": "out/main.js",
+	"private": true,
+	"license": "MIT",
+	"author": "Companion Village contributors",
+	"scripts": {
+		"village": "node scripts/copy-village.mjs",
+		"build": "tsc -p .",
+		"start": "npm run build && electron .",
+		"dev": "npm --prefix .. run build && npm run village && npm start",
+		"icons": "node scripts/make-icons.mjs",
+		"dist": "npm --prefix .. run build && npm run village && npm run build && electron-builder",
+		"dist:mac": "npm run dist -- --mac",
+		"dist:win": "npm run dist -- --win",
+		"dist:linux": "npm run dist -- --linux"
+	},
+	"devDependencies": {
+		"electron": "^45.0.0",
+		"electron-builder": "^26.0.0",
+		"typescript": "^5.9.3"
+	}
+}

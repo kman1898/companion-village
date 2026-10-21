@@ -1,0 +1,43 @@
+appId: io.github.companion-village.launcher
+productName: Companion Village
+copyright: Companion Village contributors
+directories:
+  output: release
+  buildResources: build
+files:
+  - out/**
+  - ui/**
+  - assets/**
+  - app/village.html
+  - package.json
+asar: true
+artifactName: companion-village-${version}-${os}-${arch}.${ext}
+mac:
+  category: public.app-category.games
+  target:
+    - target: dmg
+      arch: [universal]
+    - target: zip
+      arch: [universal]
+  # ad-hoc signed: runs on Apple Silicon without a paid Apple Developer ID (see launcher/README.md)
+  identity: '-'
+  hardenedRuntime: false
+  extendInfo:
+    LSUIElement: false
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+    - target: portable
+      arch: [x64]
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  artifactName: companion-village-${version}-win-setup.${ext}
+portable:
+  artifactName: companion-village-${version}-win-portable.${ext}
+linux:
+  target:
+    - target: AppImage
+      arch: [x64, arm64]
+  category: Game

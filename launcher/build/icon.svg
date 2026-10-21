@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1b2347"/>
+      <stop offset="0.55" stop-color="#5a3a5e"/>
+      <stop offset="1" stop-color="#e8955a"/>
+    </linearGradient>
+    <linearGradient id="hill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4f7a2e"/>
+      <stop offset="1" stop-color="#24391b"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffe07a" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#ffe07a" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="crescent"><rect width="1024" height="1024" fill="#fff"/><circle cx="842" cy="208" r="50" fill="#000"/></mask>
+    <clipPath id="sq"><rect x="100" y="100" width="824" height="824" rx="185"/></clipPath>
+  </defs>
+  <g clip-path="url(#sq)">
+    <rect x="100" y="100" width="824" height="824" fill="url(#sky)"/>
+    <!-- stars -->
+    <g fill="#f6ead2" opacity="0.85">
+      <circle cx="230" cy="230" r="7"/><circle cx="380" cy="175" r="5"/><circle cx="640" cy="250" r="6"/>
+      <circle cx="820" cy="300" r="5"/><circle cx="560" cy="160" r="4"/><circle cx="180" cy="370" r="4"/>
+    </g>
+    <!-- moon -->
+    <circle cx="820" cy="225" r="54" fill="#f6ead2" mask="url(#crescent)"/>
+    <!-- light beams: video, sound, lights -->
+    <g opacity="0.55">
+      <polygon points="300,640 255,300 335,300" fill="#3ad1ff"/>
+      <polygon points="512,600 470,270 556,270" fill="#c6b8ff"/>
+      <polygon points="724,640 680,320 760,320" fill="#ffb43a"/>
+    </g>
+    <!-- hill -->
+    <path d="M100 700 Q 300 600 512 640 T 924 660 V 924 H 100 Z" fill="url(#hill)"/>
+    <!-- houses -->
+    <g>
+      <!-- pixels -->
+      <rect x="215" y="640" width="170" height="150" fill="#e9d8b4"/>
+      <polygon points="195,650 300,555 405,650" fill="#3ad1ff"/>
+      <rect x="250" y="680" width="40" height="40" fill="#ffe07a"/>
+      <rect x="315" y="720" width="40" height="70" fill="#5a3c22"/>
+      <!-- noises (tallest, middle) -->
+      <rect x="420" y="590" width="184" height="210" fill="#f2e3c2"/>
+      <polygon points="398,600 512,488 626,600" fill="#8f7cff"/>
+      <rect x="452" y="630" width="44" height="44" fill="#ffe07a"/>
+      <rect x="528" y="630" width="44" height="44" fill="#ffe07a"/>
+      <rect x="490" y="720" width="46" height="80" fill="#5a3c22"/>
+      <!-- lampys -->
+      <rect x="639" y="650" width="170" height="145" fill="#e9d8b4"/>
+      <polygon points="619,660 724,565 829,660" fill="#ffb43a"/>
+      <rect x="735" y="690" width="40" height="40" fill="#ffe07a"/>
+      <rect x="670" y="725" width="40" height="70" fill="#5a3c22"/>
+    </g>
+    <circle cx="512" cy="652" r="120" fill="url(#glow)" opacity="0.35"/>
+    <!-- foreground ground -->
+    <path d="M100 790 Q 512 750 924 790 V 924 H 100 Z" fill="#2c4620"/>
+    <path d="M440 924 Q 500 840 512 790 Q 524 840 584 924 Z" fill="#a8875a" opacity="0.8"/>
+  </g>
+  <rect x="100" y="100" width="824" height="824" rx="185" fill="none" stroke="#f2c75c" stroke-opacity="0.35" stroke-width="10"/>
+</svg>
